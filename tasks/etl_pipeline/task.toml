@@ -1,0 +1,49 @@
+# A task is pure data: specs, hidden tests, and how to run the program.
+# Hidden tests talk to the program only through `entrypoint`, never by importing it,
+# so the policy is free to choose any architecture.
+
+id = "etl_pipeline"
+program = "a CLI ETL tool that reads a JSON request on stdin and writes a JSON response to stdout"
+language = "python"
+# {python} = the environment's interpreter, {workspace} = the agent's working directory.
+entrypoint = "{python} {workspace}/etl_pipeline.py"
+reference = "reference"   # optional: known-good solution, used by `craftbench validate`
+mutants = "mutants"       # optional: known-worse copies of the reference, same behaviour
+
+# ---- build phase: the policy implements these in order ------------------------------------
+[[milestones]]
+id = "m1_parse"
+spec = "specs/m1_parse.md"
+tests = ["test_checkpoint_1.py"]
+
+[[milestones]]
+id = "m2_execute"
+spec = "specs/m2_execute.md"
+tests = ["test_checkpoint_2.py"]
+
+[[milestones]]
+id = "m3_branch"
+spec = "specs/m3_branch.md"
+tests = ["test_checkpoint_3.py"]
+
+# ---- maintain phase: hidden future changes, implemented by the frozen extender ------------
+[[changes]]
+id = "subpipelines"            # new capability
+spec = "specs/subpipelines.md"
+tests = ["test_checkpoint_4.py"]
+
+[[changes]]
+id = "limits"                  # rule that applies everywhere
+spec = "specs/limits.md"
+tests = ["test_limits.py"]
+
+[[changes]]
+id = "trace"                   # cross-cutting concern
+spec = "specs/trace.md"
+tests = ["test_trace.py"]
+
+[[changes]]
+id = "libraries"               # new capability, builds on subpipelines
+spec = "specs/libraries.md"
+tests = ["test_checkpoint_5.py"]
+requires = ["subpipelines"]   # chained only: never sampled as an independent change

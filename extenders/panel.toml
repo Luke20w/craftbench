@@ -1,0 +1,89 @@
+# Extender panel. Each [[extender]] is one frozen agent that implements hidden change requests on the
+# policy's codebase; its reading cost (nodes_read_per_test) is one judge's opinion of how cheap the code
+# is to change. The panel average is the reward signal.
+#
+# Why this mix (see README.md): every reader is blind to something. Haiku reading whole files rewards
+# modular files but ignores names; a 200-line-window reader rewards names but not file structure
+# (in a scale test on a larger task). Different capability tiers and vendors have different habits, so a panel cancels
+# single-judge bias; that matters more than repeating one judge (seed-to-seed noise is ~6% median CV).
+#
+# Only claude_code is enabled: the other harnesses need credentials and their transcript parsers are
+# unverified (codex) or unwritten (antigravity, opencode). Flip `enabled` once that's done.
+
+[panel]
+total_budget_usd = 20.0     # hard cap per run_group() call
+max_parallel = 4
+fail_charge = "ceiling"     # never-passing tests cost 2x the group median reading (giving up never pays)
+stable_regression = 0.98
+prompt_template = """You are maintaining the existing codebase in the current directory. {run_hint}
+
+A new requirement has arrived. Implement it in this codebase. Everything that already works must keep \
+working exactly as before. When the requirement is fully implemented, stop.
+
+{spec}
+"""
+
+[defaults]
+seeds = 1
+max_turns = 80
+timeout_s = 1800
+budget_usd = 0.8
+
+# ---- enabled: Claude Code ---------------------------------------------------------------------------
+
+[[extender]]
+id = "haiku-free"
+harness = "claude_code"
+model = "claude-haiku-4-5-20251001"
+reader = "free"
+notes = "Validated anchor (see docs/EVIDENCE.md). Cheap. Reads whole files: sees file organisation, blind to names."
+
+[[extender]]
+id = "haiku-window200"
+harness = "claude_code"
+model = "claude-haiku-4-5-20251001"
+reader = "window:200"
+notes = "Must navigate by search and names (limited working memory). Sees names; 6 runs of evidence so far."
+
+[[extender]]
+id = "sonnet-free"
+harness = "claude_code"
+model = "claude-sonnet-5-5"
+reader = "free"
+budget_usd = 2.0
+notes = "Stronger reader: separates 'hard code' from 'Haiku got lost'. Not yet validated on the anchors."
+
+[[extender]]
+id = "opus-free"
+harness = "claude_code"
+model = "claude-opus-5-5"
+reader = "free"
+budget_usd = 4.0
+sample_rate = 0.25
+notes = "Strongest reader, closest to an expert maintainer. Auditor: scores 1 in 4 groups to keep cost down. Not yet validated."
+
+# ---- ready to switch on once credentials exist (enabled = false) -----------------------------------
+
+[[extender]]
+id = "codex-free"
+harness = "codex"
+model = "gpt-5-codex"          # set to the current Codex model
+enabled = false
+price_in_per_mtok = 1.25        # Codex reports tokens, not dollars; update to current pricing
+price_out_per_mtok = 10.0
+notes = "Different vendor and habits (reads via sed/rg in the shell). No per-run $ cap: timeout_s is the backstop. Parser follows the documented schema but is unverified."
+
+[[extender]]
+id = "antigravity-gemini"
+harness = "antigravity"
+model = "gemini-3.8-flash-medium"
+enabled = false
+env = { GEMINI_API_KEY = "" }   # fill in, or authenticate agy interactively
+notes = "Google model family. Parser not written yet: capture one stream-json run first."
+
+[[extender]]
+id = "opencode-open-weights"
+harness = "opencode"
+model = "openrouter/qwen/qwen3-coder"   # any provider/model opencode supports
+enabled = false
+notes = "Small open-weights reader as a stand-in for limited working memory. Parser not written yet."
