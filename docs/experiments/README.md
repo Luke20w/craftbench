@@ -11,3 +11,4 @@ Paths inside refer to the original scratch workspace (`.context/exp*`), which is
 * `pattern_check.md`: static design-pattern indicators vs change outcomes on 6 codebases
 * `change_mix.md`: three kinds of change request (new capability, rule everywhere, cross-cutting) on 6 codebases
 * `opus_and_size.md`: Opus as the extender, and a size-matched check (bigger-but-cleaner vs smaller-but-golfed)
+* `opus_reliability.md`: is the extender's signal consistent? Opus, 3 runs per cell, vs recorded Haiku runs
