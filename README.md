@@ -19,13 +19,11 @@ F = share of hidden milestone tests passing     (does it work?)
 E = reading until each change's tests passed    (how hard was it to change?)
 ```
 
-Reading counts code in syntax nodes, so deleting comments doesn't make it cheaper (code-golf is only partly covered, see #5 and #10). The reward is per rollout, so it plugs into normal group-based RL training.
+Reading counts code in syntax nodes, so things like code-golf are mostly mitigated. The reward is per rollout, so it plugs into normal group-based RL training.
 
 The ideal state is a panel of extenders from different model families (Claude Code, Codex, Gemini, open models) to reduce noise from a single extender. `extenders/` is a start on that - only Claude Code is wired up so far.
 
 ## Evidence
-
-Everything here is on one task (a multi-stage CLI data-pipeline tool) with Claude Haiku as the extender (sorry, I'm paying for my own tokens here :) - Opus would be a much better test of an extender). In the order we ran them:
 
 | # | What we tested | Result | Finding | Details |
 |---|---|---|---|---|
@@ -38,14 +36,15 @@ Everything here is on one task (a multi-stage CLI data-pipeline tool) with Claud
 | 7 | Design patterns vs effort across 6 codebases (400–2,000 lines) | Compact direct code was cheapest to change; lines of code alone predicted outcomes (ρ = −0.99) | On small code, "good design" mostly means less code. Patterns are overhead until there's enough to organize | [pattern check](docs/experiments/pattern_check.md) |
 | 8 | Good modeling (a few composable concepts) vs if/elif at the same size, one file of 400–850 lines | Reading tracked file length, not design. Limiting reads to 200 lines at a time only partly helped: the extender paged through the whole file anyway | Below ~7k tokens an LLM reads the whole codebase and keeps it in context, so structure inside it is invisible | [modeling vs scale](docs/experiments/modeling_scale.md) |
 | 9 | The same two designs grown to 52 operations across files (~12k vs ~16k tokens) | The if/elif version needed about **2×** the reading (+102%; +111% and +193% on two of three changes, +33% on the third; the size gap is +34%). The extender read the composable code selectively | Good modeling pays off once code is too big to hold in context at once, so training tasks need codebases that grow that big | [modeling vs scale](docs/experiments/modeling_scale.md) |
-| 10 | The reference vs its flawed copies again, with Opus as the extender | Reference rated easier than dead code, duplication, indirection and junk names (11/15 per change). The golfed copy came out about 2× *easier* | A stronger reader confirms most of the signal, but isn't slowed by compressed code at all, so golf is still an open exploit | [opus + size](docs/experiments/opus_and_size.md) |
+| 10 | The reference vs its flawed copies again, with Opus as the extender | Reference rated easier than dead code, duplication, indirection and junk names (11/15 per change). The golfed copy came out about 2× *easier* | A stronger reader confirms most of the signal, but isn't slowed by compressed code at all, so golf is still a partially open exploit | [opus + size](docs/experiments/opus_and_size.md) |
 | 11 | Size-matched: the reference vs a longer but cleaner refactor (+10% nodes) and a shorter golfed copy (−19%), same behavior | The longer, cleaner version was rated harder on all 3 changes; golfed came out about equal | On this task the reward still mostly tracks size, not quality. This is the biggest open problem | [opus + size](docs/experiments/opus_and_size.md) |
 
 ## What's next
 
 - **More tasks.** Only the ETL task exists. Add more domains, with changes covering every kind of change.
 - **Bigger codebases.** The reward only sees structure past ~12k tokens, so tasks need longer milestone runs.
-- **More and stronger extenders.** Only Haiku is verified. A panel of models keeps the policy from writing for one reader's quirks.
+- **More and stronger extenders.** Only Claude models were used. A panel of models keeps the policy from writing for one reader's quirks.
+- **Solve for code-golf.** Counting syntax nodes is better than raw LOC/tokens read but Opus still found golfed code about 2× easier, so dense code needs a penalty (or a separate density check) - also worth thinking about if this is even something worth incentivising (does golfed code actually matter for LLMs).
 - **Train with it.** See whether a policy trained on this starts writing composable code on its own.
 
 ## Beyond this benchmark
