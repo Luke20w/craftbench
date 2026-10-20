@@ -9,6 +9,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 import statistics as st
@@ -22,8 +23,8 @@ from .agents import Agent, AgentRun, ClaudeCodeAgent
 from .analysis import ANALYZERS, code_metrics
 from .effort import change_effort
 from .grading import grade_snapshots, run_suites
-from .reward import reward
-from .sandbox import LocalSandbox
+from .reward import geomean, reward
+from .sandbox import LocalSandbox, tree_digest
 from .task import Suite, Task
 
 POLICY_PROMPT = """You are building {program} in the current directory. It is run as `{run}`.
@@ -46,6 +47,12 @@ keep working exactly as before. When the requirement is fully implemented, stop.
 """
 
 
+def run_key(code: Path, extender: str, change: Suite) -> str:
+    """Identifies an extender run by everything that decides its outcome, minus machine-specific
+    details (the prompt's interpreter path), so results carry over to other checkouts."""
+    return hashlib.md5(f"{tree_digest(code)}|{extender}|{change.spec}|{EXTENDER_PROMPT}".encode()).hexdigest()
+
+
 @dataclass
 class Episode:
     dir: Path              # where this episode's logs and grade go
@@ -58,7 +65,8 @@ class Grade:
     reward: float
     milestone_pass_fraction: float           # F
     milestones: dict[str, list[int]]         # milestone id -> [passed, total]
-    efforts: dict[str, float]                # change id -> effort (tokens read)
+    efforts: dict[str, float]                # change id -> effort (tokens read), across the panel
+    efforts_by_extender: dict[str, dict[str, float]]  # change id -> extender -> its mean effort
     extender_runs: dict[str, list[dict]]     # change id -> per-run details
     metrics: dict                            # logged only, never rewarded
 
@@ -66,8 +74,9 @@ class Grade:
 @dataclass
 class Environment:
     task: Task
-    extender: Agent = field(default_factory=ClaudeCodeAgent)
-    extender_runs: int = 1          # runs per change; their efforts are averaged
+    extenders: list[Agent] = field(default_factory=lambda: [ClaudeCodeAgent()])  # the panel
+    extender_runs: int = 1          # runs per extender per change; their efforts are averaged
+    max_parallel: int = 4           # extender runs at once
     lam: float = 0.5
     runs_dir: Path = Path("runs")
     sandbox: LocalSandbox = field(default_factory=LocalSandbox)
@@ -76,54 +85,74 @@ class Environment:
     def run_hint(self) -> str:
         return self.task.run_hint.format(python=sys.executable)
 
-    def reset(self) -> Episode:
+    def reset(self, name: str | None = None) -> Episode:
         """A new episode: an empty workspace and the milestone prompts, in order."""
-        d = self.runs_dir / self.task.id / uuid.uuid4().hex[:8]
+        d = self.runs_dir / self.task.id / (name or uuid.uuid4().hex[:8])
+        shutil.rmtree(d, ignore_errors=True)  # a rerun starts clean
         n = len(self.task.milestones)
         prompts = [POLICY_PROMPT.format(program=self.task.program, run=self.run_hint, i=i, n=n, spec=m.spec)
                    for i, m in enumerate(self.task.milestones, 1)]
         return Episode(d, self.sandbox.create(d / "build" / "code"), prompts)
 
-    def run_episode(self, policy: Agent) -> Grade:
+    def run_episode(self, policy: Agent, name: str | None = None) -> Grade:
         """Let an Agent do the build phase, then grade."""
-        ep = self.reset()
+        ep = self.reset(name)
         for i, prompt in enumerate(ep.prompts, 1):
             policy.run(ep.workspace, prompt, ep.dir / "build" / f"milestone_{i}")
+        (ep.dir / "build" / "done").touch()  # the build is final; grading it again reuses finished work
         return self.grade(ep.workspace, ep.dir)
 
     def grade(self, code: Path, out: Path) -> Grade:
-        """Milestone tests → F; the extender makes each hidden change → efforts; then the reward."""
+        """Milestone tests → F; each extender makes each hidden change → efforts; then the reward.
+
+        A change's effort is each extender's mean over its runs, then the geometric mean across the
+        panel, so an extender that reads less across the board (a stronger model) scales every
+        rollout's reward equally instead of outweighing the others."""
         milestones = run_suites(self.task, code, list(self.task.milestones))
         passed = sum(len(r.passed) for r in milestones.values())
         F = passed / sum(len(r.tests) for r in milestones.values())
 
-        jobs = [(c, k) for c in self.task.episode_changes() for k in range(self.extender_runs)]
-        with ThreadPoolExecutor(max(1, len(jobs))) as ex:
-            runs = list(ex.map(lambda j: self.maintain(code, j[0], out / "maintain" / j[0].id / f"run_{j[1]}", passed), jobs))
-        by_change = {c.id: [r for (cc, _), r in zip(jobs, runs) if cc.id == c.id] for c in self.task.episode_changes()}
-        efforts = {c: st.mean(r["effort"] for r in rs) for c, rs in by_change.items()}
+        changes = self.task.episode_changes()
+        jobs = [(c, e, k) for c in changes for e in self.extenders for k in range(self.extender_runs)]
+        with ThreadPoolExecutor(max(1, min(self.max_parallel, len(jobs)))) as ex:
+            runs = list(ex.map(lambda j: self.maintain(
+                j[1], code, j[0], out / "maintain" / j[0].id / j[1].name / f"run_{j[2]}", passed), jobs))
+        by_change = {c.id: [r for (cc, _, _), r in zip(jobs, runs) if cc.id == c.id] for c in changes}
+        by_extender = {c: {e.name: st.mean(r["effort"] for r in rs if r["extender"] == e.name) for e in self.extenders}
+                       for c, rs in by_change.items()}
+        efforts = {c: geomean(by_ext.values()) for c, by_ext in by_extender.items()}
 
         grade = Grade(reward(F, list(efforts.values()), self.lam), F,
                       {k: [len(r.passed), len(r.tests)] for k, r in milestones.items()},
-                      efforts, by_change, code_metrics(code, ANALYZERS[self.task.language]))
+                      efforts, by_extender, by_change, code_metrics(code, ANALYZERS[self.task.language]))
         out.mkdir(parents=True, exist_ok=True)
         (out / "grade.json").write_text(json.dumps(asdict(grade), indent=2))
         return grade
 
-    def maintain(self, code: Path, change: Suite, d: Path, regression_base: int) -> dict:
-        """One extender run on a private copy of the code, then its effort."""
-        workspace = self.sandbox.create(d / "code", code)
+    def maintain(self, extender: Agent, code: Path, change: Suite, d: Path, regression_base: int) -> dict:
+        """One extender run on a private copy of the code, then its effort. A finished run of the same
+        extender on the same code and prompt is reused, so grading again (e.g. with more extenders or
+        runs) only does the new work."""
         prompt = EXTENDER_PROMPT.format(program=self.task.program, run=self.run_hint, spec=change.spec)
-        run = self.extender.run(workspace, prompt, d, snapshot_dir=d / "snaps")
+        key = run_key(code, extender.name, change)
+        done = d / "result.json"
+        if done.exists() and json.loads(done.read_text()).get("key") == key:
+            return json.loads(done.read_text())
+        shutil.rmtree(d, ignore_errors=True)  # a partial or outdated run: start clean
+        workspace = self.sandbox.create(d / "code", code)
+        run = extender.run(workspace, prompt, d, snapshot_dir=d / "snaps")
         # Hooks don't fire for failed tool calls, so always snapshot the final state too.
         final = sum(not c.is_error for c in run.calls) + 1
         shutil.copytree(workspace, d / "snaps" / f"{final:04d}", ignore=shutil.ignore_patterns(".git", "__pycache__"))
-        return self.score(run, d, code, change, regression_base)
+        result = {"extender": extender.name, "key": key, **self.score(run, d, code, change, regression_base)}
+        done.write_text(json.dumps(result))
+        return result
 
     def score(self, run: AgentRun, d: Path, base: Path, change: Suite, regression_base: int) -> dict:
         """Effort for a finished extender run whose snapshots are in d/snaps (also used to re-grade)."""
         curve = grade_snapshots(self.task, change, d / "snaps")
         effort = change_effort(run.calls, curve, base, ANALYZERS[self.task.language], regression_base)
-        return {"effort": effort, "cost_usd": run.cost_usd, "stop": run.stop, "tool_calls": len(run.calls),
+        return {"effort": effort, "cost_usd": run.cost_usd, "usage": run.usage, "stop": run.stop,
+                "tool_calls": len(run.calls),
                 "new_tests_passed": len(curve.points[-1].new_passed) if curve.points else 0,
                 "new_tests_total": len(curve.tests)}

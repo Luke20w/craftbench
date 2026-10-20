@@ -12,7 +12,7 @@
   * Tests that never get there are charged max(all reading in the run, 40k tokens), so failing or
     giving up early is always expensive.
   * Instruction files the extender's harness loads into its context by itself (CLAUDE.md,
-    AGENTS.md) are charged as read before the first tool call; otherwise the policy could hand the
+    AGENTS.md, GEMINI.md) are charged as read before the first tool call; otherwise the policy could hand the
     extender free reading.
   * Effort = the average over the change's tests.
 """
@@ -29,7 +29,7 @@ from .grading import Curve
 
 REGRESSION_KEEP = 0.98
 FAILURE_TOKENS = 40_000
-PRELOADED = ("CLAUDE.md", "CLAUDE.local.md", "AGENTS.md")
+PRELOADED = ("CLAUDE.md", "CLAUDE.local.md", "AGENTS.md", "GEMINI.md")
 _READS_CODE = re.compile(r"^\s*(cat|head|tail|sed\s+-n|grep|rg|awk|nl|less|more)\b[^|]*\.py\b")
 
 

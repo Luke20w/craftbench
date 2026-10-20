@@ -12,3 +12,4 @@ Paths inside refer to the original scratch workspace (`.context/exp*`), which is
 * `change_mix.md`: three kinds of change request (new capability, rule everywhere, cross-cutting) on 6 codebases
 * `opus_and_size.md`: Opus as the extender, and a size-matched check (bigger-but-cleaner vs smaller-but-golfed)
 * `opus_reliability.md`: is the extender's signal consistent? Opus, 3 runs per cell, vs recorded Haiku runs
+* `claude_builders.md`: benchmark of Claude Opus 5.5, Sonnet 5.5 and Fable 5.1 as builders (3 builds each, Opus extender)

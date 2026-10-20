@@ -14,8 +14,12 @@ can't swamp a small one.
 import math
 
 
+def geomean(efforts) -> float:
+    efforts = list(efforts)
+    return math.exp(sum(math.log(max(e, 1.0)) for e in efforts) / len(efforts))
+
+
 def reward(milestone_pass_fraction: float, efforts: list[float], lam: float = 0.5) -> float:
     if not efforts:
         return milestone_pass_fraction
-    log_geomean = sum(math.log(max(e, 1.0)) for e in efforts) / len(efforts)
-    return milestone_pass_fraction * math.exp(-lam * log_geomean)
+    return milestone_pass_fraction * geomean(efforts) ** -lam

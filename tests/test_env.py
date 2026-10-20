@@ -12,6 +12,8 @@ from craftbench.reward import reward
 
 
 class NoOpAgent:
+    name = "noop"
+
     def __init__(self):
         self.prompts = []
 
@@ -23,13 +25,17 @@ class NoOpAgent:
 def test_grade_with_an_extender_that_does_nothing(tmp_path):
     task = load_task("etl_pipeline")
     agent = NoOpAgent()
-    g = Environment(task, extender=agent, runs_dir=tmp_path).grade(task.reference, tmp_path / "out")
+    stale = tmp_path / "out" / "maintain" / "limits" / "noop" / "run_0" / "snaps" / "0099"
+    stale.mkdir(parents=True)  # left over from an earlier run: must not leak into this one
+    g = Environment(task, extenders=[agent], runs_dir=tmp_path).grade(task.reference, tmp_path / "out")
+    assert not stale.exists()
     assert g.milestone_pass_fraction == pytest.approx(115 / 117)
     assert set(g.efforts) == {"subpipelines", "limits", "trace"}
     # nothing changed: new tests are failures, except the few that already passed on the untouched code
-    assert g.efforts["subpipelines"] == FAILURE_TOKENS                          # 0/17 pass before the change
+    assert g.efforts["subpipelines"] == pytest.approx(FAILURE_TOKENS)  # 0/17 pass before the change
     assert g.efforts["limits"] == pytest.approx(FAILURE_TOKENS * 17 / 20, rel=0.01)  # 3/20 already pass
     assert g.reward == pytest.approx(reward(g.milestone_pass_fraction, list(g.efforts.values())))
+    assert g.efforts_by_extender["limits"] == {"noop": pytest.approx(g.efforts["limits"])}
     assert "stop" in agent.prompts[0]
     assert json.loads((tmp_path / "out" / "grade.json").read_text())["reward"] == pytest.approx(g.reward)
 

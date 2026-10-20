@@ -7,8 +7,8 @@ code against a description of good code; measure what a real change costs.
 
 1. **Build**: the policy gets milestone specs one at a time and builds in a fresh workspace.
 2. **Correctness**: hidden milestone tests → `F`.
-3. **Maintain**: for each hidden change, a frozen extender (Haiku) works on its own copy of the code.
-   The workspace is snapshotted after every tool call.
+3. **Maintain**: for each hidden change, each frozen extender in the panel (default: Haiku) works on its
+   own copy of the code. The workspace is snapshotted after every tool call.
 4. **Effort**: hidden tests run on every snapshot afterwards (no model calls).
 5. **Reward**: `R = F × geomean(E)^(−λ)`, λ = 0.5.
 
@@ -22,8 +22,10 @@ code against a description of good code; measure what a real change costs.
   make it cheaper to read.
 - **Snapshots map to successful calls.** The hook doesn't fire for failed tool calls; effort maps snapshot
   numbers back to transcript positions.
-- **No free context.** CLAUDE.md / AGENTS.md, which the harness loads unasked, are charged as read.
+- **No free context.** CLAUDE.md / AGENTS.md / GEMINI.md, which the harness loads unasked, are charged as read.
 - **Failure is expensive.** Never-passing tests cost max(all reading, 40k tokens).
+- **A panel, combined by ratio.** Each extender's mean over its runs, then the geometric mean across
+  extenders, so a stronger reader's lower reading scales every rollout equally.
 
 ## Reward
 
@@ -35,11 +37,12 @@ code against a description of good code; measure what a real change costs.
 
 ## Pluggable
 
-Tasks (folders), policy and extender (`Agent`), sandbox, and code analyzer (per language).
+Tasks (folders), policy and extenders (`Agent`: Claude Code, Codex, Gemini CLI), sandbox, and code analyzer
+(per language). See [benchmarking](BENCHMARK.md) for running other model families.
 
 ## Not done
 
-- Chained changes (debt compounding) · more extender models
+- Chained changes (debt compounding) · Codex and Gemini extenders checked against live runs
 - Tasks must reach ~12k+ tokens across files before reading rewards modeling (see EVIDENCE #9)
 - Golf only partly closed on small changes
 - Change pool is fixed per task: a policy could learn to pre-build the changes (needs a large rotating pool)

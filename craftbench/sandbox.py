@@ -3,6 +3,7 @@ LocalSandbox (e.g. a container per workspace for untrusted policies)."""
 
 from __future__ import annotations
 
+import hashlib
 import shutil
 import subprocess
 from pathlib import Path
@@ -23,3 +24,13 @@ class LocalSandbox:
         subprocess.run("git init -q && git add -A && git -c user.name=env -c user.email=env@local "
                        "commit -q --allow-empty -m base", shell=True, cwd=dest, check=True)
         return dest
+
+
+def tree_digest(root: Path) -> str:
+    """Fingerprint of a workspace's files (tool directories excluded)."""
+    h = hashlib.md5()
+    for p in sorted(root.rglob("*")):
+        if p.is_file() and not set(p.relative_to(root).parts) & IGNORE:
+            h.update(str(p.relative_to(root)).encode())
+            h.update(p.read_bytes())
+    return h.hexdigest()

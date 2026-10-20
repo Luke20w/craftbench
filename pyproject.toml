@@ -11,8 +11,5 @@ craftbench = "craftbench.cli:main"
 [tool.setuptools.packages.find]
 include = ["craftbench*"]
 
-[tool.setuptools.package-data]
-craftbench = ["hooks/*.py"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]

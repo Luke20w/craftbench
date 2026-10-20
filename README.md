@@ -21,7 +21,7 @@ E = reading until each change's tests passed    (how hard was it to change?)
 
 Reading counts code in syntax nodes, so things like code-golf are mostly mitigated. The reward is per rollout, so it plugs into normal group-based RL training.
 
-The ideal state is a panel of extenders from different model families (Claude Code, Codex, Gemini, open models) to reduce noise from a single extender. `extenders/` is a start on that - only Claude Code is wired up so far.
+The ideal state is a panel of extenders from different model families (Claude Code, Codex, Gemini) to reduce noise from a single extender. The panel is wired up (`--extenders`), but only Claude Code has been checked against live runs so far. The same setup benchmarks models as builders: see [benchmarking](docs/BENCHMARK.md).
 
 ## Evidence
 
@@ -39,12 +39,13 @@ The ideal state is a panel of extenders from different model families (Claude Co
 | 10 | The reference vs its flawed copies again, with Opus as the extender | Reference rated easier than dead code, duplication, indirection and junk names (11/15 per change). The golfed copy came out about 2× *easier* | A stronger reader confirms most of the signal, but isn't slowed by compressed code at all, so golf is still a partially open exploit | [opus + size](docs/experiments/opus_and_size.md) |
 | 11 | Size-matched: the reference vs a longer but cleaner refactor (+10% nodes) and a shorter golfed copy (−19%), same behavior | The longer, cleaner version was rated harder on all 3 changes; golfed came out about equal | On this task the reward still mostly tracks size, not quality. This is the biggest open problem | [opus + size](docs/experiments/opus_and_size.md) |
 | 12 | Is the signal consistent? The reference and its 6 copies again with Opus, 3 independent runs each | 96–98% of the variation in effort on the two bigger changes comes from the code, not run-to-run noise (66% on the small one). Independent runs rank all 7 codebases at ρ ≈ 0.8 (Haiku: 0.61). Dead code and duplication were caught by every run on the bigger changes; junk names barely registered and golf was rated easier every time | The signal is repeatable, but what it rewards depends on the reader. We could probably get this even better with a panel of extenders from different model families, so one model's blind spots (names, dense code) get averaged out | [reliability](docs/experiments/opus_reliability.md) |
+| 13 | Benchmark: Opus 5.5, Sonnet 5.5 and Fable 5.1 each build the task 3 times; Opus makes the changes | All 9 builds pass 97–99% of milestone tests. Fable's code was hardest to change on every build (reward 1.29–1.48 vs 1.53–1.86 Opus, 1.58–1.62 Sonnet) and was the largest (about 2× Sonnet's lines). Opus and Sonnet tie | Stronger models don't automatically write code that's easier to change, but on this small task the order mostly follows size, and a Claude-only panel can't rule out self-preference | [Claude builders](docs/experiments/claude_builders.md) |
 
 ## What's next
 
 - **More tasks.** Only the ETL task exists. Add more domains, with changes covering every kind of change.
 - **Bigger codebases.** The reward only sees structure past ~12k tokens, so tasks need longer milestone runs.
-- **More and stronger extenders.** Only Claude models were used. A panel of models keeps the policy from writing for one reader's quirks.
+- **More and stronger extenders.** Only Claude models have been used so far. Codex and Gemini extenders are wired up but need a live check. A panel of models keeps the policy from writing for one reader's quirks.
 - **Solve for code-golf.** Counting syntax nodes is better than raw LOC/tokens read but Opus still found golfed code about 2× easier, so dense code needs a penalty (or a separate density check) - also worth thinking about if this is even something worth incentivising (does golfed code actually matter for LLMs).
 - **Train with it.** See whether a policy trained on this starts writing composable code on its own.
 
@@ -58,4 +59,5 @@ The maintenance phase can wrap most coding tasks whose output lives on: greenfie
 pip install -e .
 craftbench validate --recorded data/recorded/etl_pipeline   # re-grades recorded runs, no model calls
 craftbench grade --code path/to/code                        # live grading (needs the `claude` CLI)
+craftbench bench --builders opus,gpt-6-astra --extenders opus,gemini-4-argon   # benchmark models
 ```
