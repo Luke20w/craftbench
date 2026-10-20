@@ -1,5 +1,5 @@
 {
-  "reward": 0.01618234189851569,
+  "reward": 0.016125426887319785,
   "milestone_pass_fraction": 0.9743589743589743,
   "milestones": {
     "m1_parse": [
@@ -16,27 +16,27 @@
     ]
   },
   "efforts": {
-    "subpipelines": 5580.499999999995,
+    "subpipelines": 5639.78044914233,
     "limits": 1860.253022704019,
-    "trace": 4590.083333333333
+    "trace": 4638.872092912181
   },
   "efforts_by_extender": {
     "subpipelines": {
-      "claude-opus-5-5": 5580.5
+      "claude-opus-5-5": 5639.78044914233
     },
     "limits": {
       "claude-opus-5-5": 1860.2530227040193
     },
     "trace": {
-      "claude-opus-5-5": 4590.083333333333
+      "claude-opus-5-5": 4638.872092912177
     }
   },
   "extender_runs": {
     "subpipelines": [
       {
         "extender": "claude-opus-5-5",
-        "key": "136dcd1b9e0996b5ce4c8bc5db5b3792",
-        "effort": 5580.5,
+        "key": "b3d9e6742bc6d52e32e74da8b58735ff",
+        "effort": 5639.78044914233,
         "cost_usd": 0.34351960000000004,
         "usage": {
           "input_tokens": 8,
@@ -81,7 +81,7 @@
     "limits": [
       {
         "extender": "claude-opus-5-5",
-        "key": "d5292c6ade3f7de2d66ef83c699d1ad9",
+        "key": "cdb5ad87241bb5f639720b1819835281",
         "effort": 1860.2530227040193,
         "cost_usd": 0.19700059999999997,
         "usage": {
@@ -127,8 +127,8 @@
     "trace": [
       {
         "extender": "claude-opus-5-5",
-        "key": "df8a3d8ef3cb7755d0491dcebaf826e1",
-        "effort": 4590.083333333333,
+        "key": "debf84442a95fcd55325fd5e5cbc6360",
+        "effort": 4638.872092912177,
         "cost_usd": 0.2020772,
         "usage": {
           "input_tokens": 6,

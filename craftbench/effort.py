@@ -30,7 +30,8 @@ from .grading import Curve
 REGRESSION_KEEP = 0.98
 FAILURE_TOKENS = 40_000
 PRELOADED = ("CLAUDE.md", "CLAUDE.local.md", "AGENTS.md", "GEMINI.md")
-_READS_CODE = re.compile(r"^\s*(cat|head|tail|sed\s+-n|grep|rg|awk|nl|less|more)\b[^|]*\.py\b")
+# A shell command reads code when any of its parts (e.g. after `cd <dir> &&`) prints a source file.
+_READS_CODE = re.compile(r"(?:^|[;&|\n])\s*(cat|head|tail|sed\s+-n|grep|rg|awk|nl|less|more)\b[^;&|\n]*\.py\b")
 
 
 def read_weight(call: ToolCall, base: Path, analyzer: PythonAnalyzer) -> float:

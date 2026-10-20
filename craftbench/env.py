@@ -19,7 +19,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
-from .agents import Agent, AgentRun, ClaudeCodeAgent
+from .agents import Agent, AgentRun, ClaudeCodeAgent, load_calls, save_calls
 from .analysis import ANALYZERS, code_metrics
 from .effort import change_effort
 from .grading import grade_snapshots, run_suites
@@ -131,16 +131,21 @@ class Environment:
 
     def maintain(self, extender: Agent, code: Path, change: Suite, d: Path, regression_base: int) -> dict:
         """One extender run on a private copy of the code, then its effort. A finished run of the same
-        extender on the same code and prompt is reused, so grading again (e.g. with more extenders or
-        runs) only does the new work."""
+        extender on the same code and change is reused (its tool calls and graded snapshots are kept), so
+        grading again only does new work, and its effort is recomputed with the current rules."""
         prompt = EXTENDER_PROMPT.format(program=self.task.program, run=self.run_hint, spec=change.spec)
         key = run_key(code, extender.name, change)
         done = d / "result.json"
-        if done.exists() and json.loads(done.read_text()).get("key") == key:
-            return json.loads(done.read_text())
+        if (done.exists() and json.loads(done.read_text()).get("key") == key
+                and (d / "calls.json").exists() and (d / f"curve_{change.id}.json").exists()):
+            meta = json.loads((d / "run.json").read_text()) if (d / "run.json").exists() else {}
+            run = AgentRun(load_calls(d / "calls.json"), meta.get("cost_usd", 0.0), meta.get("stop", ""),
+                           meta.get("usage", {}))
+            return {"extender": extender.name, "key": key, **self.score(run, d, code, change, regression_base)}
         shutil.rmtree(d, ignore_errors=True)  # a partial or outdated run: start clean
         workspace = self.sandbox.create(d / "code", code)
         run = extender.run(workspace, prompt, d, snapshot_dir=d / "snaps")
+        save_calls(run.calls, d / "calls.json")  # what scoring (and later re-scoring) needs
         # Hooks don't fire for failed tool calls, so always snapshot the final state too.
         final = sum(not c.is_error for c in run.calls) + 1
         shutil.copytree(workspace, d / "snaps" / f"{final:04d}", ignore=shutil.ignore_patterns(".git", "__pycache__"))
