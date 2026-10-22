@@ -18,6 +18,9 @@ class PythonAnalyzer:
     suffixes: tuple[str, ...] = (".py",)
     # Nodes per character of clean, documented code: the ETL reference (3291 nodes / 17353 chars).
     reference_density: float = 0.1897
+    # Nodes per word-or-symbol token, which barely changes with style (0.69 clean, 0.70 golfed): how much
+    # syntax a file holds when it can't be parsed.
+    nodes_per_token: float = 0.694
 
     def nodes(self, source: str) -> int:
         """Syntax nodes, ignoring docstrings. String literals count per word, so hiding code in a
@@ -58,16 +61,20 @@ def size(root: Path, analyzer: PythonAnalyzer) -> tuple[int, int, int]:
         chars += len(src)
         try:
             nodes += analyzer.nodes(src)
-        except SyntaxError:
-            pass
+        except SyntaxError:  # unparseable (e.g. stripped by an import hook): estimate, never count it as nothing
+            nodes += round(len(re.findall(r"\w+|[^\w\s]", src)) * analyzer.nodes_per_token)
     return loc, nodes, chars
 
 
 @cache
-def density_weight(target: Path, analyzer: PythonAnalyzer) -> float:
-    """Syntax nodes per token of `target`, relative to clean code: converts tokens of code read into
-    clean-code-equivalent nodes, so code is measured by its syntax rather than its characters."""
-    _, nodes, chars = size(target, analyzer)
+def density_weight(target: Path | tuple[Path, ...], analyzer: PythonAnalyzer) -> float:
+    """Syntax nodes per token of `target` (a file, a directory, or several files), relative to clean code:
+    converts tokens of code read into clean-code-equivalent nodes, so code is measured by its syntax rather
+    than its characters."""
+    nodes = chars = 0
+    for t in (target if isinstance(target, tuple) else (target,)):
+        _, n, c = size(t, analyzer)
+        nodes, chars = nodes + n, chars + c
     return nodes / chars / analyzer.reference_density if chars else 1.0
 
 

@@ -74,7 +74,26 @@ def report(results: dict[str, list[dict]]) -> str:
     rows += ["", "Effort by extender, relative to its typical builder (lower = easier to change):", "",
              "| builder | " + " | ".join(extenders) + " |", "|---|" + "---|" * len(extenders)]
     rows += [f"| {b} | " + " | ".join(f"{raw[b][e] / typical[e]:.2f}" for e in extenders) + " |" for b in raw]
+    # How much the readers agree on which builds are easy to change. Low agreement means the ranking is
+    # partly about who reads, so trust the panel average, not any one column.
+    builds = [(g["efforts_by_extender"], b) for b, gs in graded.items() for g in gs]
+    if len(extenders) > 1 and len(builds) > 2:
+        rows += ["", "Extender agreement across builds (Spearman):", ""]
+        for i, e1 in enumerate(extenders):
+            for e2 in extenders[i + 1:]:
+                x = [geomean(ebe[c][e1] for c in changes) for ebe, _ in builds]
+                y = [geomean(ebe[c][e2] for c in changes) for ebe, _ in builds]
+                rows.append(f"- {e1} vs {e2}: {_spearman(x, y):+.2f}")
     return "\n".join(rows)
+
+
+def _spearman(x: list[float], y: list[float]) -> float:
+    rank = lambda v: [sorted(v).index(a) + (v.count(a) - 1) / 2 for a in v]  # noqa: E731
+    rx, ry = rank(x), rank(y)
+    mx, my = sum(rx) / len(rx), sum(ry) / len(ry)
+    sx = sum((a - mx) ** 2 for a in rx) ** 0.5
+    sy = sum((b - my) ** 2 for b in ry) ** 0.5
+    return sum((a - mx) * (b - my) for a, b in zip(rx, ry)) / (sx * sy) if sx and sy else float("nan")
 
 
 SMOKE_PROMPT = "Read {file}, then add the comment `# smoke test` as its first line. Then stop."

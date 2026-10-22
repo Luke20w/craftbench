@@ -22,7 +22,9 @@ def main(argv=None):
     p.add_argument("--code", help="grade: the codebase to grade")
     p.add_argument("--recorded", help="validate: re-grade recorded runs instead of running the extender")
     p.add_argument("--builders", default="", help="bench, smoke: comma-separated models that build the code")
-    p.add_argument("--extenders", default="haiku", help="comma-separated models in the extender panel")
+    p.add_argument("--extenders", default="claude-sonnet-5-5,claude-opus-5-5",
+                   help="comma-separated models in the extender panel; mix model families where you can "
+                        "(e.g. add gpt-6-astra): what's easy to change depends on the reader")
     p.add_argument("--builder-budget", type=float, default=3.0, help="max USD per milestone (Claude Code only)")
     p.add_argument("--extender-budget", type=float, default=1.0, help="max USD per extender run (Claude Code only)")
     p.add_argument("--extender-runs", type=int, default=1, help="runs per extender per change")

@@ -1,0 +1,1901 @@
+[
+ {
+  "id": "group_count-norm",
+  "steps": [
+   {
+    "op": " Group_Count ",
+    "by": [
+     "city"
+    ],
+    "as": " n "
+   }
+  ],
+  "dataset": null,
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "group_count",
+      "as": "n",
+      "by": [
+       "city"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "group_count-run",
+  "steps": [
+   {
+    "op": "group_count",
+    "by": [
+     "city"
+    ],
+    "as": "n"
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "city": "Oslo",
+    "amount": 12.5,
+    "qty": 3,
+    "day": "2024-03-15",
+    "tags": [
+     "a",
+     "b"
+    ],
+    "meta": {
+     "x": 1
+    }
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "city": "Rome",
+    "amount": null,
+    "qty": 1,
+    "day": "2023-12-01",
+    "tags": [],
+    "meta": null
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "city": "Oslo",
+    "amount": 40,
+    "qty": 2,
+    "day": "bad",
+    "tags": "x",
+    "meta": {
+     "y": "z"
+    }
+   },
+   {
+    "id": 4,
+    "name": "dee-dee",
+    "city": "Lima",
+    "amount": 7,
+    "qty": 5,
+    "day": "2024-01-31",
+    "tags": [
+     1
+    ],
+    "meta": {}
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "city": "Oslo",
+     "n": 2
+    },
+    {
+     "city": "Rome",
+     "n": 1
+    },
+    {
+     "city": "Lima",
+     "n": 1
+    }
+   ],
+   "metrics": {
+    "rows_in": 4,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "group_count-by_empty",
+  "steps": [
+   {
+    "op": "group_count",
+    "by": [],
+    "as": "n"
+   }
+  ],
+  "dataset": null,
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].by"
+  }
+ },
+ {
+  "id": "group_count-as_missing",
+  "steps": [
+   {
+    "op": "group_count",
+    "by": [
+     "a"
+    ]
+   }
+  ],
+  "dataset": null,
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].as"
+  }
+ },
+ {
+  "id": "summarize-norm",
+  "steps": [
+   {
+    "op": "summarize",
+    "metrics": [
+     {
+      "as": " total ",
+      "fn": " SUM ",
+      "column": "amount",
+      "x": 1
+     }
+    ]
+   }
+  ],
+  "dataset": null,
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "summarize",
+      "by": [],
+      "metrics": [
+       {
+        "as": "total",
+        "fn": "sum",
+        "column": "amount"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "summarize-run",
+  "steps": [
+   {
+    "op": "summarize",
+    "by": [
+     "city"
+    ],
+    "metrics": [
+     {
+      "as": "total",
+      "fn": "sum",
+      "column": "amount"
+     },
+     {
+      "as": "n",
+      "fn": "count"
+     },
+     {
+      "as": "avg_qty",
+      "fn": "avg",
+      "column": "qty"
+     },
+     {
+      "as": "hi",
+      "fn": "max",
+      "column": "qty"
+     }
+    ]
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "city": "Oslo",
+    "amount": 12.5,
+    "qty": 3,
+    "day": "2024-03-15",
+    "tags": [
+     "a",
+     "b"
+    ],
+    "meta": {
+     "x": 1
+    }
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "city": "Rome",
+    "amount": null,
+    "qty": 1,
+    "day": "2023-12-01",
+    "tags": [],
+    "meta": null
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "city": "Oslo",
+    "amount": 40,
+    "qty": 2,
+    "day": "bad",
+    "tags": "x",
+    "meta": {
+     "y": "z"
+    }
+   },
+   {
+    "id": 4,
+    "name": "dee-dee",
+    "city": "Lima",
+    "amount": 7,
+    "qty": 5,
+    "day": "2024-01-31",
+    "tags": [
+     1
+    ],
+    "meta": {}
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "city": "Oslo",
+     "total": 52.5,
+     "n": 2,
+     "avg_qty": 2.5,
+     "hi": 3
+    },
+    {
+     "city": "Rome",
+     "total": null,
+     "n": 1,
+     "avg_qty": 1,
+     "hi": 1
+    },
+    {
+     "city": "Lima",
+     "total": 7,
+     "n": 1,
+     "avg_qty": 5,
+     "hi": 5
+    }
+   ],
+   "metrics": {
+    "rows_in": 4,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "summarize-bad_fn",
+  "steps": [
+   {
+    "op": "summarize",
+    "metrics": [
+     {
+      "as": "t",
+      "fn": "median"
+     }
+    ]
+   }
+  ],
+  "dataset": null,
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].metrics[0].fn"
+  }
+ },
+ {
+  "id": "summarize-metric_not_object",
+  "steps": [
+   {
+    "op": "summarize",
+    "metrics": [
+     {
+      "as": "t",
+      "fn": "sum"
+     },
+     3
+    ]
+   }
+  ],
+  "dataset": null,
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].metrics[1]"
+  }
+ },
+ {
+  "id": "summarize-metrics_empty",
+  "steps": [
+   {
+    "op": "summarize",
+    "metrics": []
+   }
+  ],
+  "dataset": null,
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].metrics"
+  }
+ },
+ {
+  "id": "summarize-runtime_not_number",
+  "steps": [
+   {
+    "op": "summarize",
+    "metrics": [
+     {
+      "as": "t",
+      "fn": "sum",
+      "column": "name"
+     }
+    ]
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "city": "Oslo",
+    "amount": 12.5,
+    "qty": 3,
+    "day": "2024-03-15",
+    "tags": [
+     "a",
+     "b"
+    ],
+    "meta": {
+     "x": 1
+    }
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "city": "Rome",
+    "amount": null,
+    "qty": 1,
+    "day": "2023-12-01",
+    "tags": [],
+    "meta": null
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "city": "Oslo",
+    "amount": 40,
+    "qty": 2,
+    "day": "bad",
+    "tags": "x",
+    "meta": {
+     "y": "z"
+    }
+   },
+   {
+    "id": 4,
+    "name": "dee-dee",
+    "city": "Lima",
+    "amount": 7,
+    "qty": 5,
+    "day": "2024-01-31",
+    "tags": [
+     1
+    ],
+    "meta": {}
+   }
+  ],
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].metrics[0].column"
+  }
+ },
+ {
+  "id": "clip-norm",
+  "steps": [
+   {
+    "op": "clip",
+    "column": "c",
+    "max": 10
+   }
+  ],
+  "dataset": null,
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "clip",
+      "column": "c",
+      "max": 10
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "clip-run",
+  "steps": [
+   {
+    "op": "clip",
+    "column": "amount",
+    "min": 10,
+    "max": 20.5
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "city": "Oslo",
+    "amount": 12.5,
+    "qty": 3,
+    "day": "2024-03-15",
+    "tags": [
+     "a",
+     "b"
+    ],
+    "meta": {
+     "x": 1
+    }
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "city": "Rome",
+    "amount": null,
+    "qty": 1,
+    "day": "2023-12-01",
+    "tags": [],
+    "meta": null
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "city": "Oslo",
+    "amount": 40,
+    "qty": 2,
+    "day": "bad",
+    "tags": "x",
+    "meta": {
+     "y": "z"
+    }
+   },
+   {
+    "id": 4,
+    "name": "dee-dee",
+    "city": "Lima",
+    "amount": 7,
+    "qty": 5,
+    "day": "2024-01-31",
+    "tags": [
+     1
+    ],
+    "meta": {}
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "name": " Ann ",
+     "city": "Oslo",
+     "amount": 12.5,
+     "qty": 3,
+     "day": "2024-03-15",
+     "tags": [
+      "a",
+      "b"
+     ],
+     "meta": {
+      "x": 1
+     }
+    },
+    {
+     "id": 2,
+     "name": "bob",
+     "city": "Rome",
+     "amount": null,
+     "qty": 1,
+     "day": "2023-12-01",
+     "tags": [],
+     "meta": null
+    },
+    {
+     "id": 3,
+     "name": "Cy",
+     "city": "Oslo",
+     "amount": 20.5,
+     "qty": 2,
+     "day": "bad",
+     "tags": "x",
+     "meta": {
+      "y": "z"
+     }
+    },
+    {
+     "id": 4,
+     "name": "dee-dee",
+     "city": "Lima",
+     "amount": 10,
+     "qty": 5,
+     "day": "2024-01-31",
+     "tags": [
+      1
+     ],
+     "meta": {}
+    }
+   ],
+   "metrics": {
+    "rows_in": 4,
+    "rows_out": 4
+   }
+  }
+ },
+ {
+  "id": "clip-min_string",
+  "steps": [
+   {
+    "op": "clip",
+    "column": "c",
+    "min": "1"
+   }
+  ],
+  "dataset": null,
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].min"
+  }
+ },
+ {
+  "id": "clip-runtime",
+  "steps": [
+   {
+    "op": "clip",
+    "column": "city",
+    "min": 1
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "city": "Oslo",
+    "amount": 12.5,
+    "qty": 3,
+    "day": "2024-03-15",
+    "tags": [
+     "a",
+     "b"
+    ],
+    "meta": {
+     "x": 1
+    }
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "city": "Rome",
+    "amount": null,
+    "qty": 1,
+    "day": "2023-12-01",
+    "tags": [],
+    "meta": null
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "city": "Oslo",
+    "amount": 40,
+    "qty": 2,
+    "day": "bad",
+    "tags": "x",
+    "meta": {
+     "y": "z"
+    }
+   },
+   {
+    "id": 4,
+    "name": "dee-dee",
+    "city": "Lima",
+    "amount": 7,
+    "qty": 5,
+    "day": "2024-01-31",
+    "tags": [
+     1
+    ],
+    "meta": {}
+   }
+  ],
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "scale-norm",
+  "steps": [
+   {
+    "op": "scale",
+    "column": "c",
+    "factor": 2
+   }
+  ],
+  "dataset": null,
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "scale",
+      "column": "c",
+      "factor": 2,
+      "offset": 0
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "scale-run",
+  "steps": [
+   {
+    "op": "scale",
+    "column": "qty",
+    "factor": 1.5,
+    "offset": -1
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "city": "Oslo",
+    "amount": 12.5,
+    "qty": 3,
+    "day": "2024-03-15",
+    "tags": [
+     "a",
+     "b"
+    ],
+    "meta": {
+     "x": 1
+    }
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "city": "Rome",
+    "amount": null,
+    "qty": 1,
+    "day": "2023-12-01",
+    "tags": [],
+    "meta": null
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "city": "Oslo",
+    "amount": 40,
+    "qty": 2,
+    "day": "bad",
+    "tags": "x",
+    "meta": {
+     "y": "z"
+    }
+   },
+   {
+    "id": 4,
+    "name": "dee-dee",
+    "city": "Lima",
+    "amount": 7,
+    "qty": 5,
+    "day": "2024-01-31",
+    "tags": [
+     1
+    ],
+    "meta": {}
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "name": " Ann ",
+     "city": "Oslo",
+     "amount": 12.5,
+     "qty": 3.5,
+     "day": "2024-03-15",
+     "tags": [
+      "a",
+      "b"
+     ],
+     "meta": {
+      "x": 1
+     }
+    },
+    {
+     "id": 2,
+     "name": "bob",
+     "city": "Rome",
+     "amount": null,
+     "qty": 0.5,
+     "day": "2023-12-01",
+     "tags": [],
+     "meta": null
+    },
+    {
+     "id": 3,
+     "name": "Cy",
+     "city": "Oslo",
+     "amount": 40,
+     "qty": 2,
+     "day": "bad",
+     "tags": "x",
+     "meta": {
+      "y": "z"
+     }
+    },
+    {
+     "id": 4,
+     "name": "dee-dee",
+     "city": "Lima",
+     "amount": 7,
+     "qty": 6.5,
+     "day": "2024-01-31",
+     "tags": [
+      1
+     ],
+     "meta": {}
+    }
+   ],
+   "metrics": {
+    "rows_in": 4,
+    "rows_out": 4
+   }
+  }
+ },
+ {
+  "id": "scale-factor_bool",
+  "steps": [
+   {
+    "op": "scale",
+    "column": "c",
+    "factor": true
+   }
+  ],
+  "dataset": null,
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].factor"
+  }
+ },
+ {
+  "id": "bucket-norm",
+  "steps": [
+   {
+    "op": "bucket",
+    "column": "c",
+    "as": "b",
+    "edges": [
+     0,
+     10
+    ]
+   }
+  ],
+  "dataset": null,
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "bucket",
+      "as": "b",
+      "column": "c",
+      "edges": [
+       0,
+       10
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "bucket-run",
+  "steps": [
+   {
+    "op": "bucket",
+    "column": "amount",
+    "as": "band",
+    "edges": [
+     10,
+     20,
+     30
+    ]
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "city": "Oslo",
+    "amount": 12.5,
+    "qty": 3,
+    "day": "2024-03-15",
+    "tags": [
+     "a",
+     "b"
+    ],
+    "meta": {
+     "x": 1
+    }
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "city": "Rome",
+    "amount": null,
+    "qty": 1,
+    "day": "2023-12-01",
+    "tags": [],
+    "meta": null
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "city": "Oslo",
+    "amount": 40,
+    "qty": 2,
+    "day": "bad",
+    "tags": "x",
+    "meta": {
+     "y": "z"
+    }
+   },
+   {
+    "id": 4,
+    "name": "dee-dee",
+    "city": "Lima",
+    "amount": 7,
+    "qty": 5,
+    "day": "2024-01-31",
+    "tags": [
+     1
+    ],
+    "meta": {}
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "name": " Ann ",
+     "city": "Oslo",
+     "amount": 12.5,
+     "qty": 3,
+     "day": "2024-03-15",
+     "tags": [
+      "a",
+      "b"
+     ],
+     "meta": {
+      "x": 1
+     },
+     "band": 1
+    },
+    {
+     "id": 2,
+     "name": "bob",
+     "city": "Rome",
+     "amount": null,
+     "qty": 1,
+     "day": "2023-12-01",
+     "tags": [],
+     "meta": null,
+     "band": null
+    },
+    {
+     "id": 3,
+     "name": "Cy",
+     "city": "Oslo",
+     "amount": 40,
+     "qty": 2,
+     "day": "bad",
+     "tags": "x",
+     "meta": {
+      "y": "z"
+     },
+     "band": 3
+    },
+    {
+     "id": 4,
+     "name": "dee-dee",
+     "city": "Lima",
+     "amount": 7,
+     "qty": 5,
+     "day": "2024-01-31",
+     "tags": [
+      1
+     ],
+     "meta": {},
+     "band": 0
+    }
+   ],
+   "metrics": {
+    "rows_in": 4,
+    "rows_out": 4
+   }
+  }
+ },
+ {
+  "id": "bucket-edge_string",
+  "steps": [
+   {
+    "op": "bucket",
+    "column": "c",
+    "as": "b",
+    "edges": [
+     1,
+     "2"
+    ]
+   }
+  ],
+  "dataset": null,
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].edges[1]"
+  }
+ },
+ {
+  "id": "math-norm",
+  "steps": [
+   {
+    "op": "math",
+    "column": "c",
+    "fn": " CEIL "
+   }
+  ],
+  "dataset": null,
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "math",
+      "column": "c",
+      "fn": "ceil"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "math-run",
+  "steps": [
+   {
+    "op": "math",
+    "column": "amount",
+    "fn": "sqrt"
+   },
+   {
+    "op": "math",
+    "column": "qty",
+    "fn": "neg"
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "city": "Oslo",
+    "amount": 12.5,
+    "qty": 3,
+    "day": "2024-03-15",
+    "tags": [
+     "a",
+     "b"
+    ],
+    "meta": {
+     "x": 1
+    }
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "city": "Rome",
+    "amount": null,
+    "qty": 1,
+    "day": "2023-12-01",
+    "tags": [],
+    "meta": null
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "city": "Oslo",
+    "amount": 40,
+    "qty": 2,
+    "day": "bad",
+    "tags": "x",
+    "meta": {
+     "y": "z"
+    }
+   },
+   {
+    "id": 4,
+    "name": "dee-dee",
+    "city": "Lima",
+    "amount": 7,
+    "qty": 5,
+    "day": "2024-01-31",
+    "tags": [
+     1
+    ],
+    "meta": {}
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "name": " Ann ",
+     "city": "Oslo",
+     "amount": 3.5355339059327378,
+     "qty": -3,
+     "day": "2024-03-15",
+     "tags": [
+      "a",
+      "b"
+     ],
+     "meta": {
+      "x": 1
+     }
+    },
+    {
+     "id": 2,
+     "name": "bob",
+     "city": "Rome",
+     "amount": null,
+     "qty": -1,
+     "day": "2023-12-01",
+     "tags": [],
+     "meta": null
+    },
+    {
+     "id": 3,
+     "name": "Cy",
+     "city": "Oslo",
+     "amount": 6.324555320336759,
+     "qty": -2,
+     "day": "bad",
+     "tags": "x",
+     "meta": {
+      "y": "z"
+     }
+    },
+    {
+     "id": 4,
+     "name": "dee-dee",
+     "city": "Lima",
+     "amount": 2.6457513110645907,
+     "qty": -5,
+     "day": "2024-01-31",
+     "tags": [
+      1
+     ],
+     "meta": {}
+    }
+   ],
+   "metrics": {
+    "rows_in": 4,
+    "rows_out": 4
+   }
+  }
+ },
+ {
+  "id": "math-bad_fn",
+  "steps": [
+   {
+    "op": "math",
+    "column": "c",
+    "fn": "log"
+   }
+  ],
+  "dataset": null,
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].fn"
+  }
+ },
+ {
+  "id": "math-runtime",
+  "steps": [
+   {
+    "op": "math",
+    "column": "city",
+    "fn": "abs"
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "city": "Oslo",
+    "amount": 12.5,
+    "qty": 3,
+    "day": "2024-03-15",
+    "tags": [
+     "a",
+     "b"
+    ],
+    "meta": {
+     "x": 1
+    }
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "city": "Rome",
+    "amount": null,
+    "qty": 1,
+    "day": "2023-12-01",
+    "tags": [],
+    "meta": null
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "city": "Oslo",
+    "amount": 40,
+    "qty": 2,
+    "day": "bad",
+    "tags": "x",
+    "meta": {
+     "y": "z"
+    }
+   },
+   {
+    "id": 4,
+    "name": "dee-dee",
+    "city": "Lima",
+    "amount": 7,
+    "qty": 5,
+    "day": "2024-01-31",
+    "tags": [
+     1
+    ],
+    "meta": {}
+   }
+  ],
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "between-run",
+  "steps": [
+   {
+    "op": "between",
+    "column": "amount",
+    "low": 5,
+    "high": 15,
+    "as": "mid"
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "city": "Oslo",
+    "amount": 12.5,
+    "qty": 3,
+    "day": "2024-03-15",
+    "tags": [
+     "a",
+     "b"
+    ],
+    "meta": {
+     "x": 1
+    }
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "city": "Rome",
+    "amount": null,
+    "qty": 1,
+    "day": "2023-12-01",
+    "tags": [],
+    "meta": null
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "city": "Oslo",
+    "amount": 40,
+    "qty": 2,
+    "day": "bad",
+    "tags": "x",
+    "meta": {
+     "y": "z"
+    }
+   },
+   {
+    "id": 4,
+    "name": "dee-dee",
+    "city": "Lima",
+    "amount": 7,
+    "qty": 5,
+    "day": "2024-01-31",
+    "tags": [
+     1
+    ],
+    "meta": {}
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "name": " Ann ",
+     "city": "Oslo",
+     "amount": 12.5,
+     "qty": 3,
+     "day": "2024-03-15",
+     "tags": [
+      "a",
+      "b"
+     ],
+     "meta": {
+      "x": 1
+     },
+     "mid": true
+    },
+    {
+     "id": 2,
+     "name": "bob",
+     "city": "Rome",
+     "amount": null,
+     "qty": 1,
+     "day": "2023-12-01",
+     "tags": [],
+     "meta": null,
+     "mid": false
+    },
+    {
+     "id": 3,
+     "name": "Cy",
+     "city": "Oslo",
+     "amount": 40,
+     "qty": 2,
+     "day": "bad",
+     "tags": "x",
+     "meta": {
+      "y": "z"
+     },
+     "mid": false
+    },
+    {
+     "id": 4,
+     "name": "dee-dee",
+     "city": "Lima",
+     "amount": 7,
+     "qty": 5,
+     "day": "2024-01-31",
+     "tags": [
+      1
+     ],
+     "meta": {},
+     "mid": true
+    }
+   ],
+   "metrics": {
+    "rows_in": 4,
+    "rows_out": 4
+   }
+  }
+ },
+ {
+  "id": "between-high_missing",
+  "steps": [
+   {
+    "op": "between",
+    "column": "c",
+    "low": 1,
+    "as": "x"
+   }
+  ],
+  "dataset": null,
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].high"
+  }
+ },
+ {
+  "id": "between-runtime",
+  "steps": [
+   {
+    "op": "between",
+    "column": "name",
+    "low": 1,
+    "high": 2,
+    "as": "x"
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "city": "Oslo",
+    "amount": 12.5,
+    "qty": 3,
+    "day": "2024-03-15",
+    "tags": [
+     "a",
+     "b"
+    ],
+    "meta": {
+     "x": 1
+    }
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "city": "Rome",
+    "amount": null,
+    "qty": 1,
+    "day": "2023-12-01",
+    "tags": [],
+    "meta": null
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "city": "Oslo",
+    "amount": 40,
+    "qty": 2,
+    "day": "bad",
+    "tags": "x",
+    "meta": {
+     "y": "z"
+    }
+   },
+   {
+    "id": 4,
+    "name": "dee-dee",
+    "city": "Lima",
+    "amount": 7,
+    "qty": 5,
+    "day": "2024-01-31",
+    "tags": [
+     1
+    ],
+    "meta": {}
+   }
+  ],
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "round-norm",
+  "steps": [
+   {
+    "op": "round",
+    "column": " score "
+   }
+  ],
+  "dataset": null,
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "round",
+      "column": "score",
+      "digits": 0
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "round-run",
+  "steps": [
+   {
+    "op": "round",
+    "column": "score",
+    "digits": 2
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "score": 2.567,
+    "tags": [
+     "a",
+     "b"
+    ],
+    "city": "Oslo"
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "score": null,
+    "tags": [],
+    "city": "Rome"
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "score": 1,
+    "tags": "x",
+    "city": "Oslo"
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "name": " Ann ",
+     "score": 2.57,
+     "tags": [
+      "a",
+      "b"
+     ],
+     "city": "Oslo"
+    },
+    {
+     "id": 2,
+     "name": "bob",
+     "score": null,
+     "tags": [],
+     "city": "Rome"
+    },
+    {
+     "id": 3,
+     "name": "Cy",
+     "score": 1,
+     "tags": "x",
+     "city": "Oslo"
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "round-halves_to_even",
+  "steps": [
+   {
+    "op": "round",
+    "column": "v"
+   }
+  ],
+  "dataset": [
+   {
+    "v": 2.5
+   },
+   {
+    "v": 3.5
+   },
+   {
+    "v": -0.5
+   },
+   {
+    "v": 7
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "v": 2
+    },
+    {
+     "v": 4
+    },
+    {
+     "v": 0
+    },
+    {
+     "v": 7
+    }
+   ],
+   "metrics": {
+    "rows_in": 4,
+    "rows_out": 4
+   }
+  }
+ },
+ {
+  "id": "round-not_number",
+  "steps": [
+   {
+    "op": "round",
+    "column": "name"
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "score": 2.567,
+    "tags": [
+     "a",
+     "b"
+    ],
+    "city": "Oslo"
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "score": null,
+    "tags": [],
+    "city": "Rome"
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "score": 1,
+    "tags": "x",
+    "city": "Oslo"
+   }
+  ],
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "round-digits_negative",
+  "steps": [
+   {
+    "op": "round",
+    "column": "score",
+    "digits": -1
+   }
+  ],
+  "dataset": null,
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].digits"
+  }
+ },
+ {
+  "id": "math-whole_numbers",
+  "steps": [
+   {
+    "op": "math",
+    "column": "v",
+    "fn": "sqrt"
+   }
+  ],
+  "dataset": [
+   {
+    "v": 16
+   },
+   {
+    "v": 2
+   },
+   {
+    "v": null
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "v": 4
+    },
+    {
+     "v": 1.4142135623730951
+    },
+    {
+     "v": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "summarize-no_by",
+  "steps": [
+   {
+    "op": "summarize",
+    "metrics": [
+     {
+      "as": "n",
+      "fn": "count"
+     },
+     {
+      "as": "hi",
+      "fn": "max",
+      "column": "score"
+     }
+    ]
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "score": 2.567,
+    "tags": [
+     "a",
+     "b"
+    ],
+    "city": "Oslo"
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "score": null,
+    "tags": [],
+    "city": "Rome"
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "score": 1,
+    "tags": "x",
+    "city": "Oslo"
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "n": 3,
+     "hi": 2.567
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 1
+   }
+  }
+ },
+ {
+  "id": "summarize-empty_input",
+  "steps": [
+   {
+    "op": "summarize",
+    "metrics": [
+     {
+      "as": "n",
+      "fn": "count"
+     }
+    ]
+   }
+  ],
+  "dataset": [],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [],
+   "metrics": {
+    "rows_in": 0,
+    "rows_out": 0
+   }
+  }
+ },
+ {
+  "id": "group_count-json_values",
+  "steps": [
+   {
+    "op": "group_count",
+    "by": [
+     "v"
+    ],
+    "as": "n"
+   }
+  ],
+  "dataset": [
+   {
+    "v": 1
+   },
+   {
+    "v": "1"
+   },
+   {
+    "v": 1
+   },
+   {}
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "v": 1,
+     "n": 2
+    },
+    {
+     "v": "1",
+     "n": 1
+    },
+    {
+     "v": null,
+     "n": 1
+    }
+   ],
+   "metrics": {
+    "rows_in": 4,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "new_ops_in_branch",
+  "steps": [
+   {
+    "op": "branch",
+    "branches": [
+     {
+      "when": "id > 1",
+      "steps": [
+       {
+        "op": "scale",
+        "column": "id",
+        "factor": 2,
+        "offset": 0.5
+       }
+      ]
+     },
+     {
+      "when": "otherwise",
+      "steps": []
+     }
+    ]
+   }
+  ],
+  "dataset": [
+   {
+    "id": 1,
+    "name": " Ann ",
+    "score": 2.567,
+    "tags": [
+     "a",
+     "b"
+    ],
+    "city": "Oslo"
+   },
+   {
+    "id": 2,
+    "name": "bob",
+    "score": null,
+    "tags": [],
+    "city": "Rome"
+   },
+   {
+    "id": 3,
+    "name": "Cy",
+    "score": 1,
+    "tags": "x",
+    "city": "Oslo"
+   }
+  ],
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 4.5,
+     "name": "bob",
+     "score": null,
+     "tags": [],
+     "city": "Rome"
+    },
+    {
+     "id": 6.5,
+     "name": "Cy",
+     "score": 1,
+     "tags": "x",
+     "city": "Oslo"
+    },
+    {
+     "id": 1,
+     "name": " Ann ",
+     "score": 2.567,
+     "tags": [
+      "a",
+      "b"
+     ],
+     "city": "Oslo"
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 3
+   }
+  }
+ }
+]

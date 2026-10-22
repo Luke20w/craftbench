@@ -31,9 +31,11 @@ def test_grade_with_an_extender_that_does_nothing(tmp_path):
     assert not stale.exists()
     assert g.milestone_pass_fraction == pytest.approx(115 / 117)
     assert set(g.efforts) == {"subpipelines", "limits", "trace"}
-    # nothing changed: new tests are failures, except the few that already passed on the untouched code
-    assert g.efforts["subpipelines"] == pytest.approx(FAILURE_TOKENS)  # 0/17 pass before the change
-    assert g.efforts["limits"] == pytest.approx(FAILURE_TOKENS * 17 / 20, rel=0.01)  # 3/20 already pass
+    # nothing changed: every new test is a failure. Tests that already passed on the untouched code
+    # (3/20 for limits) aren't charged either way: the extender didn't make them pass.
+    assert g.efforts["subpipelines"] == pytest.approx(FAILURE_TOKENS)
+    assert g.efforts["limits"] == pytest.approx(FAILURE_TOKENS)
+    assert g.extender_runs["limits"][0]["already_passing"] == 3
     assert g.reward == pytest.approx(reward(g.milestone_pass_fraction, list(g.efforts.values())))
     assert g.efforts_by_extender["limits"] == {"noop": pytest.approx(g.efforts["limits"])}
     assert "stop" in agent.prompts[0]

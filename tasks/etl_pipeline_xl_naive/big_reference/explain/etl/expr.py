@@ -1,0 +1,201 @@
+"""The pipeline expression language: tokenizer, parser and evaluator."""
+
+import re
+
+from etl.errors import EtlError
+
+TOKEN_RE = re.compile('\\s*(?:\n        (?P<bad>\\*{2,}|\\^+|%|&{3,}|\\|{3,}|&(?!&)|\\|(?!\\|)|=(?!=))\n      | (?P<num>\\d+\\.\\d*|\\.\\d+|\\d+)\n      | (?P<id>[A-Za-z_][A-Za-z0-9_]*)\n      | (?P<str>"[^"]*"|\'[^\']*\')\n      | (?P<op>>=|<=|==|!=|&&|\\|\\||[-+*/<>()!])\n    )', re.VERBOSE)
+
+KEYWORDS = {'and': '&&', 'or': '||', 'not': '!'}
+
+LITERALS = {'true': True, 'false': False, 'null': None}
+
+def tokenize(text):
+    tokens = []
+    pos = 0
+    while pos < len(text):
+        if text[pos:].strip() == '':
+            break
+        m = TOKEN_RE.match(text, pos)
+        if not m:
+            raise ValueError('unexpected character %r' % text[pos:].lstrip()[0])
+        pos = m.end()
+        kind = m.lastgroup
+        val = m.group(kind)
+        if kind == 'bad':
+            raise ValueError("unsupported operator '%s'" % val)
+        if kind == 'id' and val in KEYWORDS:
+            kind, val = ('op', KEYWORDS[val])
+        tokens.append((kind, val))
+    return tokens
+
+class Parser:
+    """Recursive-descent parser producing a tuple-based AST."""
+    COMPARE = {'>', '>=', '<', '<=', '==', '!='}
+
+    def __init__(self, tokens):
+        self.t = tokens
+        self.i = 0
+
+    def peek(self):
+        return self.t[self.i] if self.i < len(self.t) else (None, None)
+
+    def take(self):
+        tok = self.peek()
+        self.i += 1
+        return tok
+
+    def at(self, ops):
+        kind, val = self.peek()
+        return kind == 'op' and val in ops
+
+    def parse(self):
+        node = self.or_expr()
+        if self.i != len(self.t):
+            raise ValueError('unexpected token %r' % (self.peek()[1],))
+        return node
+
+    def binary(self, ops, sub):
+        node = sub()
+        while self.at(ops):
+            op = self.take()[1]
+            node = ('bin', op, node, sub())
+        return node
+
+    def or_expr(self):
+        return self.binary(('||',), self.and_expr)
+
+    def and_expr(self):
+        return self.binary(('&&',), self.not_expr)
+
+    def not_expr(self):
+        if self.at(('!',)):
+            self.take()
+            return ('un', '!', self.not_expr())
+        return self.compare()
+
+    def compare(self):
+        return self.binary(self.COMPARE, self.additive)
+
+    def additive(self):
+        return self.binary(('+', '-'), self.term)
+
+    def term(self):
+        return self.binary(('*', '/'), self.unary)
+
+    def unary(self):
+        if self.at(('+', '-')):
+            op = self.take()[1]
+            return ('un', op, self.unary())
+        if self.at(('!',)):
+            self.take()
+            return ('un', '!', self.unary())
+        return self.primary()
+
+    def primary(self):
+        kind, val = self.take()
+        if kind == 'num':
+            return ('lit', float(val) if '.' in val else int(val))
+        if kind == 'str':
+            return ('lit', val[1:-1])
+        if kind == 'id':
+            if val in LITERALS:
+                return ('lit', LITERALS[val])
+            return ('id', val)
+        if kind == 'op' and val == '(':
+            node = self.or_expr()
+            if self.take() != ('op', ')'):
+                raise ValueError('missing closing parenthesis')
+            return node
+        if kind is None:
+            raise ValueError('unexpected end of expression')
+        raise ValueError('unexpected token %r' % val)
+
+def parse_expr(text, path):
+    try:
+        return Parser(tokenize(text)).parse()
+    except ValueError as e:
+        msg = str(e)
+        if not msg.startswith('unsupported operator'):
+            msg = 'invalid expression: ' + msg
+        raise EtlError('BAD_EXPR', 'ETL_ERROR: ' + msg, path)
+
+def is_num(v):
+    return isinstance(v, (int, float)) and (not isinstance(v, bool))
+
+def truthy(v):
+    return v is not None and bool(v)
+
+def num_result(v):
+    if isinstance(v, float) and v.is_integer() and (abs(v) < 1000000000000000.0):
+        return int(v)
+    return v
+
+def evaluate(node, row):
+    kind = node[0]
+    if kind == 'lit':
+        return node[1]
+    if kind == 'id':
+        return row.get(node[1])
+    if kind == 'un':
+        op, v = (node[1], evaluate(node[2], row))
+        if op == '!':
+            return not truthy(v)
+        if v is None:
+            return None
+        if not is_num(v):
+            raise TypeError("unary '%s' requires a number" % op)
+        return v if op == '+' else num_result(-v)
+    op = node[1]
+    if op == '&&':
+        return truthy(evaluate(node[2], row)) and truthy(evaluate(node[3], row))
+    if op == '||':
+        return truthy(evaluate(node[2], row)) or truthy(evaluate(node[3], row))
+    l, r = (evaluate(node[2], row), evaluate(node[3], row))
+    if op in ('+', '-', '*', '/'):
+        if l is None or r is None:
+            return None
+        if op == '+' and isinstance(l, str) and isinstance(r, str):
+            return l + r
+        if not (is_num(l) and is_num(r)):
+            raise TypeError("operator '%s' requires numeric operands" % op)
+        if op == '+':
+            return num_result(l + r)
+        if op == '-':
+            return num_result(l - r)
+        if op == '*':
+            return num_result(l * r)
+        return None if r == 0 else num_result(l / r)
+    if l is None or r is None:
+        return False
+    if is_num(l) and is_num(r):
+        pass
+    elif type(l) is not type(r):
+        return False
+    if op == '==':
+        return l == r
+    if op == '!=':
+        return l != r
+    if isinstance(l, (bool, list, dict)):
+        return False
+    return {'<': l < r, '<=': l <= r, '>': l > r, '>=': l >= r}[op]
+
+def eval_at(node, row, path):
+    try:
+        return evaluate(node, row)
+    except (TypeError, OverflowError, ValueError) as e:
+        raise EtlError('EXECUTION_FAILED', 'ETL_ERROR: %s' % e, path)
+
+
+def identifiers(text):
+    """Column names an expression reads, in order of appearance."""
+    out = []
+
+    def walk(node):
+        if node[0] == 'id':
+            out.append(node[1])
+        for child in node[1:]:
+            if isinstance(child, tuple):
+                walk(child)
+    walk(parse_expr(text, ''))
+    return out
