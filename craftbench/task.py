@@ -36,6 +36,9 @@ class Task:
     changes: tuple[Suite, ...]
     reference: Path | None       # optional known-good solution
     mutants: Path | None         # optional known-worse copies of the reference
+    held_out: tuple[Suite, ...] = ()  # optional: changes never graded in episodes, applied in sequence as
+                                      # the ground truth for how much a codebase costs to own
+    big_changes: tuple[Suite, ...] = ()  # optional: larger probe changes that touch most of the design
 
     @property
     def tests_dir(self) -> Path:
@@ -47,7 +50,7 @@ class Task:
         return self.entrypoint.replace("{workspace}/", "")
 
     def change(self, change_id: str) -> Suite:
-        return next(c for c in self.changes if c.id == change_id)
+        return next(c for c in self.changes + self.held_out + self.big_changes if c.id == change_id)
 
     def episode_changes(self) -> list[Suite]:
         """The changes graded in every episode: all independent ones, so every rollout in a training
@@ -70,6 +73,8 @@ def load_task(task: str | Path) -> Task:
         changes=tuple(suite(c) for c in raw.get("changes", [])),
         reference=root / raw["reference"] if "reference" in raw else None,
         mutants=root / raw["mutants"] if "mutants" in raw else None,
+        held_out=tuple(suite(c) for c in raw.get("held_out", [])),
+        big_changes=tuple(suite(c) for c in raw.get("big_changes", [])),
     )
 
 

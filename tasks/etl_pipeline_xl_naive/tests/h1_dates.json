@@ -1,0 +1,1410 @@
+[
+ {
+  "id": "norm-to_date-defaults",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": " To_Date ",
+      "column": " d "
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d",
+      "format": "iso"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "norm-to_date-full",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d",
+      "format": " EU ",
+      "as": " out ",
+      "note": 1
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "to_date",
+      "as": "out",
+      "column": "d",
+      "format": "eu"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "norm-date_diff",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "DATE_DIFF",
+      "start": " a ",
+      "end": "b ",
+      "as": " n"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "date_diff",
+      "as": "n",
+      "end": "b",
+      "start": "a"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "norm-date_add",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_add",
+      "column": "d",
+      "days": -3,
+      "as": "e"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "date_add",
+      "as": "e",
+      "column": "d",
+      "days": -3
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "to_date-missing-column",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "format": "us"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "to_date-bad-format",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "to_date",
+      "column": "d",
+      "format": "jp"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].format"
+  }
+ },
+ {
+  "id": "to_date-format-not-string",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d",
+      "format": 1
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].format"
+  }
+ },
+ {
+  "id": "to_date-empty-as",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d",
+      "as": "  "
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].as"
+  }
+ },
+ {
+  "id": "to_date-field-order",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "format": "jp",
+      "as": ""
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "date_diff-missing-end",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_diff",
+      "start": "a",
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].end"
+  }
+ },
+ {
+  "id": "date_diff-start-not-string",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_diff",
+      "start": 5,
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].start"
+  }
+ },
+ {
+  "id": "date_add-days-float",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_add",
+      "column": "d",
+      "days": 1.5,
+      "as": "e"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].days"
+  }
+ },
+ {
+  "id": "date_add-days-bool",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_add",
+      "column": "d",
+      "days": true,
+      "as": "e"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].days"
+  }
+ },
+ {
+  "id": "date_add-days-string",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_add",
+      "column": "d",
+      "days": "3",
+      "as": "e"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].days"
+  }
+ },
+ {
+  "id": "date_add-missing-as",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_add",
+      "column": "d",
+      "days": 1
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].as"
+  }
+ },
+ {
+  "id": "to_date-iso",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "2024-02-29"
+    },
+    {
+     "d": null
+    },
+    {
+     "d": "0001-01-01"
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "d": "2024-02-29"
+    },
+    {
+     "d": null
+    },
+    {
+     "d": "0001-01-01"
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "to_date-iso-not-a-real-day",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "2024-01-31"
+    },
+    {
+     "d": "2023-02-29"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "to_date-us-as",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d",
+      "format": "us",
+      "as": "iso"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "12/31/1999"
+    },
+    {
+     "d": "02/29/2000"
+    },
+    {
+     "d": null
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "d": "12/31/1999",
+     "iso": "1999-12-31"
+    },
+    {
+     "d": "02/29/2000",
+     "iso": "2000-02-29"
+    },
+    {
+     "d": null,
+     "iso": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "to_date-eu",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d",
+      "format": "eu"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "31/12/1999"
+    },
+    {
+     "d": "01/02/2024"
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "d": "1999-12-31"
+    },
+    {
+     "d": "2024-02-01"
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "to_date-us-rejects-eu-order",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d",
+      "format": "us"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "31/12/1999"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "to_date-iso-rejects-us",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "01/05/2024"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "to_date-non-string",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": 20240101
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "to_date-short-month",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "2024-1-05"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "to_date-trailing-time",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "2024-01-05T10:00"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "to_date-missing-column-row",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "2024-01-01"
+    },
+    {
+     "x": 1
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "MISSING_COLUMN",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "date_diff-values",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_diff",
+      "start": "a",
+      "end": "b",
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": "2024-01-01",
+     "b": "2024-03-01"
+    },
+    {
+     "a": "2024-03-01",
+     "b": "2024-01-01"
+    },
+    {
+     "a": "2023-12-31",
+     "b": "2024-12-31"
+    },
+    {
+     "a": null,
+     "b": "2024-01-01"
+    },
+    {
+     "a": "2024-01-01",
+     "b": null
+    },
+    {
+     "a": "2000-01-01",
+     "b": "2000-01-01",
+     "n": "old"
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "a": "2024-01-01",
+     "b": "2024-03-01",
+     "n": 60
+    },
+    {
+     "a": "2024-03-01",
+     "b": "2024-01-01",
+     "n": -60
+    },
+    {
+     "a": "2023-12-31",
+     "b": "2024-12-31",
+     "n": 366
+    },
+    {
+     "a": null,
+     "b": "2024-01-01",
+     "n": null
+    },
+    {
+     "a": "2024-01-01",
+     "b": null,
+     "n": null
+    },
+    {
+     "a": "2000-01-01",
+     "b": "2000-01-01",
+     "n": 0
+    }
+   ],
+   "metrics": {
+    "rows_in": 6,
+    "rows_out": 6
+   }
+  }
+ },
+ {
+  "id": "date_diff-missing-start",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_diff",
+      "start": "a",
+      "end": "b",
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "b": "2024-01-01"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "MISSING_COLUMN",
+   "path": "pipeline.steps[0].start"
+  }
+ },
+ {
+  "id": "date_diff-missing-both",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_diff",
+      "start": "a",
+      "end": "b",
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "x": 1
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "MISSING_COLUMN",
+   "path": "pipeline.steps[0].start"
+  }
+ },
+ {
+  "id": "date_diff-missing-end-second-row",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_diff",
+      "start": "a",
+      "end": "b",
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": "2024-01-01",
+     "b": "2024-01-02"
+    },
+    {
+     "a": "2024-01-01"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "MISSING_COLUMN",
+   "path": "pipeline.steps[0].end"
+  }
+ },
+ {
+  "id": "date_diff-bad-end",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_diff",
+      "start": "a",
+      "end": "b",
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": "2024-01-01",
+     "b": "2024/01/05"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].end"
+  }
+ },
+ {
+  "id": "date_diff-null-start-bad-end",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_diff",
+      "start": "a",
+      "end": "b",
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": null,
+     "b": "tomorrow"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].end"
+  }
+ },
+ {
+  "id": "date_diff-both-bad",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_diff",
+      "start": "a",
+      "end": "b",
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": "x",
+     "b": 7
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].start"
+  }
+ },
+ {
+  "id": "date_add-forward",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_add",
+      "column": "d",
+      "days": 30,
+      "as": "due"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "2024-01-31"
+    },
+    {
+     "d": null
+    },
+    {
+     "d": "2023-12-15"
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "d": "2024-01-31",
+     "due": "2024-03-01"
+    },
+    {
+     "d": null,
+     "due": null
+    },
+    {
+     "d": "2023-12-15",
+     "due": "2024-01-14"
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "date_add-backward-in-place",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_add",
+      "column": "d",
+      "days": -1,
+      "as": "d"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "2024-03-01"
+    },
+    {
+     "d": "2023-03-01"
+    },
+    {
+     "d": "2000-01-01"
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "d": "2024-02-29"
+    },
+    {
+     "d": "2023-02-28"
+    },
+    {
+     "d": "1999-12-31"
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "date_add-overflow",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_add",
+      "column": "d",
+      "days": 1,
+      "as": "e"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "9999-12-31"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].days"
+  }
+ },
+ {
+  "id": "date_add-underflow",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_add",
+      "column": "d",
+      "days": -1,
+      "as": "e"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "0001-01-01"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].days"
+  }
+ },
+ {
+  "id": "date_add-bad-value",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_add",
+      "column": "d",
+      "days": 1,
+      "as": "e"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "03/01/2024"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "date_add-missing-column",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_add",
+      "column": "d",
+      "days": 1,
+      "as": "e"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "x": 1
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "MISSING_COLUMN",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "in-branch",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "kind == \"us\"",
+        "steps": [
+         {
+          "op": "to_date",
+          "column": "d",
+          "format": "us"
+         }
+        ]
+       },
+       {
+        "when": "otherwise",
+        "steps": [
+         {
+          "op": "to_date",
+          "column": "d",
+          "format": "eu"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "op": "date_diff",
+      "start": "d",
+      "end": "ship",
+      "as": "wait"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "kind": "eu",
+     "d": "03/04/2024",
+     "ship": "2024-04-10"
+    },
+    {
+     "kind": "us",
+     "d": "03/04/2024",
+     "ship": "2024-03-10"
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "kind": "us",
+     "d": "2024-03-04",
+     "ship": "2024-03-10",
+     "wait": 6
+    },
+    {
+     "kind": "eu",
+     "d": "2024-04-03",
+     "ship": "2024-04-10",
+     "wait": 7
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "in-branch-execution-error",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "true",
+        "steps": [
+         {
+          "op": "limit",
+          "n": 5
+         },
+         {
+          "op": "date_add",
+          "column": "d",
+          "days": 1,
+          "as": "e"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "bad"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].branches[0].steps[1].column"
+  }
+ },
+ {
+  "id": "nested-branch-validation",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "x > 1",
+        "steps": [
+         {
+          "op": "branch",
+          "branches": [
+           {
+            "when": "otherwise",
+            "steps": [
+             {
+              "op": "to_date",
+              "column": "d",
+              "format": "ymd"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].branches[0].steps[0].branches[0].steps[0].format"
+  }
+ },
+ {
+  "id": "spec-example",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "ordered",
+      "format": "us"
+     },
+     {
+      "op": "date_add",
+      "column": "ordered",
+      "days": 30,
+      "as": "due"
+     },
+     {
+      "op": "date_diff",
+      "start": "ordered",
+      "end": "shipped",
+      "as": "wait"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "ordered": "02/14/2024",
+     "shipped": "2024-03-01"
+    },
+    {
+     "ordered": null,
+     "shipped": "2024-03-02"
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "ordered": "2024-02-14",
+     "shipped": "2024-03-01",
+     "due": "2024-03-15",
+     "wait": 16
+    },
+    {
+     "ordered": null,
+     "shipped": "2024-03-02",
+     "due": null,
+     "wait": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ }
+]

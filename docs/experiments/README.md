@@ -14,3 +14,4 @@ Paths inside refer to the original scratch workspace (`.context/exp*`), which is
 * `opus_reliability.md`: is the extender's signal consistent? Opus, 3 runs per cell, vs recorded Haiku runs
 * `claude_builders.md`: benchmark of Claude Opus 5.5, Sonnet 5.5 and Fable 5.1 as builders (3 builds each, Opus extender)
 * `xl_calibration.md`: the 52-operation task's calibration check, composable reference vs if/elif mutant
+* `v_measures.md`: which way of computing change cost (probe models, panel, plan-only, judge, static metrics) predicts the real cost of owning code, measured by chains of held-out changes on the plain-language XL task

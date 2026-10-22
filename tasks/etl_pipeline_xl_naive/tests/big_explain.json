@@ -1,0 +1,2574 @@
+[
+ {
+  "id": "spec-example",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "filter",
+      "where": "qty > 0"
+     },
+     {
+      "op": "map",
+      "as": "total",
+      "expr": "price * qty"
+     },
+     {
+      "op": "rename",
+      "from": "total",
+      "to": "amount"
+     },
+     {
+      "op": "group_count",
+      "by": [
+       "city"
+      ],
+      "as": "orders"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "filter",
+     "reads": [
+      "qty"
+     ],
+     "writes": [],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[1]",
+     "op": "map",
+     "reads": [
+      "price",
+      "qty"
+     ],
+     "writes": [
+      "total"
+     ],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[2]",
+     "op": "rename",
+     "reads": [
+      "total"
+     ],
+     "writes": [
+      "amount"
+     ],
+     "removes": [
+      "total"
+     ]
+    },
+    {
+     "path": "pipeline.steps[3]",
+     "op": "group_count",
+     "reads": [
+      "city"
+     ],
+     "writes": [
+      "orders"
+     ],
+     "removes": [
+      "*"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "select",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "select",
+      "columns": [
+       "b",
+       "a",
+       "b"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "select",
+     "reads": [
+      "a",
+      "b"
+     ],
+     "writes": [],
+     "removes": [
+      "*"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "filter",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "filter",
+      "where": "price > 10 and name != \"x y\""
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "filter",
+     "reads": [
+      "name",
+      "price"
+     ],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "filter-literals-and-keywords",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "filter",
+      "where": "not done or (count == null && flag != true)"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "filter",
+     "reads": [
+      "count",
+      "done",
+      "flag"
+     ],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "map",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "map",
+      "as": "total",
+      "expr": "price * qty"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "map",
+     "reads": [
+      "price",
+      "qty"
+     ],
+     "writes": [
+      "total"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "map-reads-own-column",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "map",
+      "as": "n",
+      "expr": "n + 1"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "map",
+     "reads": [
+      "n"
+     ],
+     "writes": [
+      "n"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "map-constant",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "map",
+      "as": "tag",
+      "expr": "\"cheap\""
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "map",
+     "reads": [],
+     "writes": [
+      "tag"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "rename-from-to",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "rename",
+      "from": "a",
+      "to": "b"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "rename",
+     "reads": [
+      "a"
+     ],
+     "writes": [
+      "b"
+     ],
+     "removes": [
+      "a"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "rename-mapping",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "rename",
+      "mapping": {
+       "x": "y",
+       "p": "q"
+      }
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "rename",
+     "reads": [
+      "p",
+      "x"
+     ],
+     "writes": [
+      "q",
+      "y"
+     ],
+     "removes": [
+      "p",
+      "x"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "drop",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "drop",
+      "columns": [
+       "c",
+       "a"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "drop",
+     "reads": [
+      "a",
+      "c"
+     ],
+     "writes": [],
+     "removes": [
+      "a",
+      "c"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "fill",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "fill",
+      "column": "x",
+      "value": "y * 2"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "fill",
+     "reads": [
+      "x",
+      "y"
+     ],
+     "writes": [
+      "x"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "cast",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "cast",
+      "column": "x",
+      "to": "int"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "cast",
+     "reads": [
+      "x"
+     ],
+     "writes": [
+      "x"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "coalesce",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "coalesce",
+      "as": "c",
+      "exprs": [
+       "a",
+       "b + 1",
+       "0"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "coalesce",
+     "reads": [
+      "a",
+      "b"
+     ],
+     "writes": [
+      "c"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "explode",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "explode",
+      "column": "tags"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "explode",
+     "reads": [
+      "tags"
+     ],
+     "writes": [
+      "tags"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "lookup",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "lookup",
+      "column": "cc",
+      "as": "country",
+      "table": {
+       "NO": "Norway"
+      },
+      "default": "?"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "lookup",
+     "reads": [
+      "cc"
+     ],
+     "writes": [
+      "country"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "set",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "set",
+      "column": "flag",
+      "value": 1
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "set",
+     "reads": [],
+     "writes": [
+      "flag"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "ensure",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "ensure",
+      "columns": [
+       "b",
+       "a"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "ensure",
+     "reads": [
+      "a",
+      "b"
+     ],
+     "writes": [
+      "a",
+      "b"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "reorder",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "reorder",
+      "columns": [
+       "b",
+       "a"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "reorder",
+     "reads": [
+      "a",
+      "b"
+     ],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "prefix-listed",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "prefix",
+      "prefix": "p_",
+      "columns": [
+       "b",
+       "a"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "prefix",
+     "reads": [
+      "a",
+      "b"
+     ],
+     "writes": [
+      "p_a",
+      "p_b"
+     ],
+     "removes": [
+      "a",
+      "b"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "prefix-all",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "prefix",
+      "prefix": "p_"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "prefix",
+     "reads": [
+      "*"
+     ],
+     "writes": [
+      "*"
+     ],
+     "removes": [
+      "*"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "nest",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "nest",
+      "columns": [
+       "b",
+       "a"
+      ],
+      "as": "ab"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "nest",
+     "reads": [
+      "a",
+      "b"
+     ],
+     "writes": [
+      "ab"
+     ],
+     "removes": [
+      "a",
+      "b"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "unnest",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "unnest",
+      "column": "meta",
+      "prefix": "m_"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "unnest",
+     "reads": [
+      "meta"
+     ],
+     "writes": [
+      "*"
+     ],
+     "removes": [
+      "meta"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "concat",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "concat",
+      "as": "full",
+      "columns": [
+       "last",
+       "first"
+      ],
+      "sep": " "
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "concat",
+     "reads": [
+      "first",
+      "last"
+     ],
+     "writes": [
+      "full"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "split",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "split",
+      "column": "name",
+      "sep": " ",
+      "into": [
+       "l",
+       "f"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "split",
+     "reads": [
+      "name"
+     ],
+     "writes": [
+      "f",
+      "l"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "text",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "text",
+      "columns": [
+       "b",
+       "a"
+      ],
+      "fn": "upper"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "text",
+     "reads": [
+      "a",
+      "b"
+     ],
+     "writes": [
+      "a",
+      "b"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "replace",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "replace",
+      "column": "s",
+      "find": "-",
+      "with": ""
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "replace",
+     "reads": [
+      "s"
+     ],
+     "writes": [
+      "s"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "regex_extract",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "regex_extract",
+      "column": "s",
+      "pattern": "(\\d+)",
+      "as": "n",
+      "group": 1
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "regex_extract",
+     "reads": [
+      "s"
+     ],
+     "writes": [
+      "n"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "regex_filter",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "regex_filter",
+      "column": "s",
+      "pattern": "x",
+      "invert": true
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "regex_filter",
+     "reads": [
+      "s"
+     ],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "substr",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "substr",
+      "column": "s",
+      "as": "p",
+      "start": 0,
+      "length": 2
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "substr",
+     "reads": [
+      "s"
+     ],
+     "writes": [
+      "p"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "pad",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "pad",
+      "column": "id",
+      "width": 3
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "pad",
+     "reads": [
+      "id"
+     ],
+     "writes": [
+      "id"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "length",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "length",
+      "column": "tags",
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "length",
+     "reads": [
+      "tags"
+     ],
+     "writes": [
+      "n"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "json_parse",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "json_parse",
+      "column": "j"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "json_parse",
+     "reads": [
+      "j"
+     ],
+     "writes": [
+      "j"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "json_dump",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "json_dump",
+      "column": "j"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "json_dump",
+     "reads": [
+      "j"
+     ],
+     "writes": [
+      "j"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "date_part",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_part",
+      "column": "d",
+      "part": "year",
+      "as": "y"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "date_part",
+     "reads": [
+      "d"
+     ],
+     "writes": [
+      "y"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "round",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "round",
+      "column": "x",
+      "digits": 2
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "round",
+     "reads": [
+      "x"
+     ],
+     "writes": [
+      "x"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "clip",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "clip",
+      "column": "x",
+      "min": 0
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "clip",
+     "reads": [
+      "x"
+     ],
+     "writes": [
+      "x"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "scale",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "scale",
+      "column": "x",
+      "factor": 2
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "scale",
+     "reads": [
+      "x"
+     ],
+     "writes": [
+      "x"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "math",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "math",
+      "column": "x",
+      "fn": "sqrt"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "math",
+     "reads": [
+      "x"
+     ],
+     "writes": [
+      "x"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "bucket",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "bucket",
+      "column": "x",
+      "as": "b",
+      "edges": [
+       1,
+       5
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "bucket",
+     "reads": [
+      "x"
+     ],
+     "writes": [
+      "b"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "between",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "between",
+      "column": "x",
+      "low": 0,
+      "high": 9,
+      "as": "ok"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "between",
+     "reads": [
+      "x"
+     ],
+     "writes": [
+      "ok"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "group_count",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "group_count",
+      "by": [
+       "h",
+       "g"
+      ],
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "group_count",
+     "reads": [
+      "g",
+      "h"
+     ],
+     "writes": [
+      "n"
+     ],
+     "removes": [
+      "*"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "summarize",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "summarize",
+      "by": [
+       "g"
+      ],
+      "metrics": [
+       {
+        "as": "n",
+        "fn": "count"
+       },
+       {
+        "as": "t",
+        "fn": "sum",
+        "column": "v"
+       },
+       {
+        "as": "m",
+        "fn": "max",
+        "column": "w"
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "summarize",
+     "reads": [
+      "g",
+      "v",
+      "w"
+     ],
+     "writes": [
+      "m",
+      "n",
+      "t"
+     ],
+     "removes": [
+      "*"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "summarize-no-by",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "summarize",
+      "metrics": [
+       {
+        "as": "n",
+        "fn": "count"
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "summarize",
+     "reads": [],
+     "writes": [
+      "n"
+     ],
+     "removes": [
+      "*"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "distinct-listed",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "distinct",
+      "columns": [
+       "b",
+       "a"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "distinct",
+     "reads": [
+      "a",
+      "b"
+     ],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "distinct-whole-row",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "distinct"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "distinct",
+     "reads": [
+      "*"
+     ],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "sort",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "sort",
+      "by": "k",
+      "desc": true
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "sort",
+     "reads": [
+      "k"
+     ],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "assert",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "assert",
+      "where": "qty > min_qty",
+      "message": "too few"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "assert",
+     "reads": [
+      "min_qty",
+      "qty"
+     ],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "take_while",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "take_while",
+      "where": "a < 3"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "take_while",
+     "reads": [
+      "a"
+     ],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "skip_while",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "skip_while",
+      "where": "!b"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "skip_while",
+     "reads": [
+      "b"
+     ],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "require",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "require",
+      "columns": [
+       "b",
+       "a"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "require",
+     "reads": [
+      "a",
+      "b"
+     ],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "row_number",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "row_number",
+      "as": "r",
+      "start": 0
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "row_number",
+     "reads": [],
+     "writes": [
+      "r"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "rank",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "rank",
+      "by": "score",
+      "as": "place"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "rank",
+     "reads": [
+      "score"
+     ],
+     "writes": [
+      "place"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "cumsum",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "cumsum",
+      "column": "v",
+      "as": "run"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "cumsum",
+     "reads": [
+      "v"
+     ],
+     "writes": [
+      "run"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "lag",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "lag",
+      "column": "v",
+      "as": "prev",
+      "n": 2,
+      "default": 0
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "lag",
+     "reads": [
+      "v"
+     ],
+     "writes": [
+      "prev"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "row-only-ops",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "offset",
+      "n": 1
+     },
+     {
+      "op": "tail",
+      "n": 1
+     },
+     {
+      "op": "sample_every",
+      "n": 2
+     },
+     {
+      "op": "append",
+      "rows": [
+       {
+        "a": 1
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "limit",
+     "reads": [],
+     "writes": [],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[1]",
+     "op": "offset",
+     "reads": [],
+     "writes": [],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[2]",
+     "op": "tail",
+     "reads": [],
+     "writes": [],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[3]",
+     "op": "sample_every",
+     "reads": [],
+     "writes": [],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[4]",
+     "op": "append",
+     "reads": [],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "normalized-names",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": " Map ",
+      "as": " total ",
+      "expr": " a "
+     },
+     {
+      "op": "lookup",
+      "column": " cc ",
+      "as": " c ",
+      "table": {}
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "map",
+     "reads": [
+      "a"
+     ],
+     "writes": [
+      "total"
+     ],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[1]",
+     "op": "lookup",
+     "reads": [
+      "cc"
+     ],
+     "writes": [
+      "c"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "branch",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "x > 1 and kind == \"a\"",
+        "steps": [
+         {
+          "op": "set",
+          "column": "big",
+          "value": true
+         }
+        ]
+       },
+       {
+        "when": "y",
+        "steps": []
+       },
+       {
+        "when": "otherwise",
+        "steps": [
+         {
+          "op": "drop",
+          "columns": [
+           "z"
+          ]
+         },
+         {
+          "op": "limit",
+          "n": 1
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "op": "cast",
+      "column": "x",
+      "to": "string"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "branch",
+     "reads": [
+      "kind",
+      "x",
+      "y"
+     ],
+     "writes": [],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[0].branches[0].steps[0]",
+     "op": "set",
+     "reads": [],
+     "writes": [
+      "big"
+     ],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[0].branches[2].steps[0]",
+     "op": "drop",
+     "reads": [
+      "z"
+     ],
+     "writes": [],
+     "removes": [
+      "z"
+     ]
+    },
+    {
+     "path": "pipeline.steps[0].branches[2].steps[1]",
+     "op": "limit",
+     "reads": [],
+     "writes": [],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[1]",
+     "op": "cast",
+     "reads": [
+      "x"
+     ],
+     "writes": [
+      "x"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "nested-branch",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "otherwise",
+        "steps": [
+         {
+          "op": "map",
+          "as": "a",
+          "expr": "b"
+         },
+         {
+          "op": "branch",
+          "branches": [
+           {
+            "when": "c",
+            "steps": [
+             {
+              "op": "nest",
+              "columns": [
+               "a"
+              ],
+              "as": "o"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "op": "row_number",
+          "as": "r"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "branch",
+     "reads": [],
+     "writes": [],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[0].branches[0].steps[0]",
+     "op": "map",
+     "reads": [
+      "b"
+     ],
+     "writes": [
+      "a"
+     ],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[0].branches[0].steps[1]",
+     "op": "branch",
+     "reads": [
+      "c"
+     ],
+     "writes": [],
+     "removes": []
+    },
+    {
+     "path": "pipeline.steps[0].branches[0].steps[1].branches[0].steps[0]",
+     "op": "nest",
+     "reads": [
+      "a"
+     ],
+     "writes": [
+      "o"
+     ],
+     "removes": [
+      "a"
+     ]
+    },
+    {
+     "path": "pipeline.steps[0].branches[0].steps[2]",
+     "op": "row_number",
+     "reads": [],
+     "writes": [
+      "r"
+     ],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "not-run-with-execute",
+  "flags": [
+   "--explain",
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "select",
+      "columns": [
+       "missing"
+      ]
+     },
+     {
+      "op": "assert",
+      "where": "false"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": 1
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": [
+    {
+     "path": "pipeline.steps[0]",
+     "op": "select",
+     "reads": [
+      "missing"
+     ],
+     "writes": [],
+     "removes": [
+      "*"
+     ]
+    },
+    {
+     "path": "pipeline.steps[1]",
+     "op": "assert",
+     "reads": [],
+     "writes": [],
+     "removes": []
+    }
+   ]
+  }
+ },
+ {
+  "id": "empty-pipeline",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": []
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "explain": []
+  }
+ },
+ {
+  "id": "validation-error-unchanged",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "select",
+      "columns": [
+       "a"
+      ]
+     },
+     {
+      "op": "map",
+      "as": "x"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].expr"
+  }
+ },
+ {
+  "id": "bad-expression-unchanged",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "filter",
+      "where": "a >"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "BAD_EXPR",
+   "path": "pipeline.steps[0].where"
+  }
+ },
+ {
+  "id": "unknown-op-in-branch-unchanged",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "otherwise",
+        "steps": [
+         {
+          "op": "pivot"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "UNKNOWN_OP",
+   "path": "pipeline.steps[0].branches[0].steps[0].op"
+  }
+ },
+ {
+  "id": "request-error-unchanged",
+  "flags": [
+   "--explain"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": []
+   },
+   "dataset": {}
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "dataset"
+  }
+ },
+ {
+  "id": "without-flag-unchanged",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "Set",
+      "column": "a",
+      "value": 1
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "set",
+      "column": "a",
+      "value": 1
+     }
+    ]
+   }
+  }
+ }
+]

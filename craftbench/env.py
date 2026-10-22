@@ -22,7 +22,7 @@ from pathlib import Path
 from .agents import Agent, AgentRun, ClaudeCodeAgent, load_calls, save_calls
 from .analysis import ANALYZERS, code_metrics
 from .effort import change_effort
-from .grading import grade_snapshots, run_suites
+from .grading import grade_snapshots, run_suite, run_suites
 from .reward import geomean, reward
 from .sandbox import LocalSandbox, tree_digest
 from .task import Suite, Task
@@ -74,7 +74,10 @@ class Grade:
 @dataclass
 class Environment:
     task: Task
-    extenders: list[Agent] = field(default_factory=lambda: [ClaudeCodeAgent()])  # the panel
+    # The panel. Readers disagree about which code is easy to change (docs/experiments/v_measures.md), so
+    # use several, ideally from different model families.
+    extenders: list[Agent] = field(default_factory=lambda: [ClaudeCodeAgent("claude-sonnet-5-5"),
+                                                            ClaudeCodeAgent("claude-opus-5-5")])
     extender_runs: int = 1          # runs per extender per change; their efforts are averaged
     max_parallel: int = 4           # extender runs at once
     lam: float = 0.5
@@ -156,8 +159,10 @@ class Environment:
     def score(self, run: AgentRun, d: Path, base: Path, change: Suite, regression_base: int) -> dict:
         """Effort for a finished extender run whose snapshots are in d/snaps (also used to re-grade)."""
         curve = grade_snapshots(self.task, change, d / "snaps")
-        effort = change_effort(run.calls, curve, base, ANALYZERS[self.task.language], regression_base)
-        return {"effort": effort, "cost_usd": run.cost_usd, "usage": run.usage, "stop": run.stop,
+        already = run_suite(self.task, base, change).passed  # passing before the extender did anything
+        effort = change_effort(run.calls, curve, base, ANALYZERS[self.task.language], regression_base, already)
+        return {"effort": effort, "already_passing": len(already), "cost_usd": run.cost_usd, "usage": run.usage,
+                "stop": run.stop,
                 "tool_calls": len(run.calls),
                 "new_tests_passed": len(curve.points[-1].new_passed) if curve.points else 0,
                 "new_tests_total": len(curve.tests)}

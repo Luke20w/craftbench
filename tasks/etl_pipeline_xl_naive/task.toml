@@ -1,0 +1,111 @@
+# etl_pipeline_xl with its change requests written as plain asks ("we need X" / "we're seeing Y") plus the
+# observable contract the tests check, and no hints about structure or future work. Hidden tests talk to
+# the program only through `entrypoint`.
+
+id = "etl_pipeline_xl_naive"
+program = "a CLI ETL tool that reads a JSON request on stdin and writes a JSON response to stdout"
+language = "python"
+entrypoint = "{python} {workspace}/etl_pipeline.py"
+reference = "reference"   # composable: one class per op, built from shared field kinds
+mutants = "mutants"       # same behaviour, one known flaw each (if_elif, dead_code, duplicated, junk_names, golfed)
+
+# ---- build phase -------------------------------------------------------------------------------
+[[milestones]]
+id = "m1_parse"
+spec = "specs/m1_parse.md"
+tests = ["test_checkpoint_1.py"]
+
+[[milestones]]
+id = "m2_execute"
+spec = "specs/m2_execute.md"
+tests = ["test_checkpoint_2.py"]
+
+[[milestones]]
+id = "m3_branch"
+spec = "specs/m3_branch.md"
+tests = ["test_checkpoint_3.py"]
+
+[[milestones]]
+id = "m4_columns"
+spec = "specs/m4_columns.md"
+tests = ["test_m4_columns.py"]
+
+[[milestones]]
+id = "m5_text"
+spec = "specs/m5_text.md"
+tests = ["test_m5_text.py"]
+
+[[milestones]]
+id = "m6_numbers"
+spec = "specs/m6_numbers.md"
+tests = ["test_m6_numbers.py"]
+
+[[milestones]]
+id = "m7_rows"
+spec = "specs/m7_rows.md"
+tests = ["test_m7_rows.py"]
+
+# ---- maintain phase: hidden changes ------------------------------------------------------------
+[[changes]]
+id = "subpipelines"            # new capability
+spec = "specs/subpipelines.md"
+tests = ["test_checkpoint_4.py"]
+
+[[changes]]
+id = "case"                    # new capability built from existing parts (expressions, step fields)
+spec = "specs/case.md"
+tests = ["test_case.py"]
+
+[[changes]]
+id = "limits"                  # rule that applies to every field of all 52 operations
+spec = "specs/limits.md"
+tests = ["test_limits.py"]
+
+[[changes]]
+id = "trace"                   # cross-cutting concern
+spec = "specs/trace.md"
+tests = ["test_trace.py"]
+
+# ---- held out: never graded in episodes. A maintainer applies them in this order, each on the result of the
+# previous one; the total reading is the ground truth for what the starting code costs to own ------------
+[[held_out]]
+id = "h1_dates"                # new capability
+spec = "specs/h1_dates.md"
+tests = ["test_h1_dates.py"]
+
+[[held_out]]
+id = "h2_all_errors"           # cross-cutting control flow
+spec = "specs/h2_all_errors.md"
+tests = ["test_h2_all_errors.py"]
+
+[[held_out]]
+id = "h3_strict"               # rule that applies to every op
+spec = "specs/h3_strict.md"
+tests = ["test_h3_strict.py"]
+
+[[held_out]]
+id = "h4_list_ops"             # introspection
+spec = "specs/h4_list_ops.md"
+tests = ["test_h4_list_ops.py"]
+
+# ---- bigger probes: each needs per-op knowledge across most of the 52 ops, so a codebase with one place to
+# change beats one that has to be edited op by op. Implemented independently in big_reference/<id>. -------
+[[big_changes]]
+id = "explain"                 # introspection: per-op column lineage
+spec = "specs/explain.md"
+tests = ["test_big_explain.py"]
+
+[[big_changes]]
+id = "column_types"            # per-op type rules plus tracking of what each op changes
+spec = "specs/column_types.md"
+tests = ["test_big_column_types.py"]
+
+[[big_changes]]
+id = "ignore_case_columns"     # cross-cutting: every column reference in every op
+spec = "specs/ignore_case_columns.md"
+tests = ["test_big_ignore_case_columns.py"]
+
+[[big_changes]]
+id = "missing_as_null"         # weak: every design already has one column-lookup helper
+spec = "specs/missing_as_null.md"
+tests = ["test_big_missing_as_null.py"]

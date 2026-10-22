@@ -59,3 +59,29 @@ def test_instruction_files_count_as_read(tmp_path):
     (tmp_path / "CLAUDE.md").write_text("x" * 4_000)  # loaded into the extender's context unasked
     curve = Curve(("t",), (CurvePoint(1, frozenset(["t"]), OLD_TESTS),))
     assert change_effort([bash(400)], curve, tmp_path, PY, OLD_TESTS) == 1_100
+
+
+def test_tests_that_already_pass_are_not_charged():
+    assert effort((2, ["a", "b"], 100), tests=("a", "b")) == 200
+    curve = Curve(("a", "b"), (CurvePoint(2, frozenset(["a", "b"]), OLD_TESTS),))
+    assert change_effort(CALLS, curve, TASK.reference, PY, OLD_TESTS, frozenset({"a"})) == 200
+    # all of them already passing: the code anticipated a hidden change, which shouldn't pay
+    assert change_effort(CALLS, curve, TASK.reference, PY, OLD_TESTS, frozenset({"a", "b"})) == FAILURE_TOKENS
+
+
+def test_prose_and_padding_never_make_reading_cheaper(tmp_path):
+    (tmp_path / "code.py").write_text((TASK.reference / "etl_pipeline.py").read_text())
+    (tmp_path / "manual.py").write_text('"""' + "How this works. " * 5_000 + '"""\n')  # no syntax nodes at all
+    cat_manual = ToolCall("Bash", {"command": "cat manual.py"}, 4_000)
+    cat_code = ToolCall("Bash", {"command": "cd /x/code && sed -n 1,200p code.py"}, 4_000)
+    assert read_weight(cat_manual, tmp_path, PY) == 1.0  # docs cost their tokens, not nothing
+    # weighted by the file it printed, not the codebase average the manual drags down
+    assert read_weight(cat_code, tmp_path, PY) == pytest.approx(read_weight(cat_code, TASK.reference, PY))
+
+
+def test_unparseable_source_still_counts_as_code(tmp_path):
+    src = (TASK.mutants / "golfed" / "etl_pipeline.py").read_text()
+    (tmp_path / "etl_pipeline.py").write_text("%% not python %%\n" + src)  # stripped at import by an import hook
+    read = ToolCall("Read", {"file_path": "/x/code/etl_pipeline.py"}, 4_000)
+    golfed = read_weight(read, TASK.mutants / "golfed", PY)
+    assert read_weight(read, tmp_path, PY) == pytest.approx(golfed, rel=0.05)  # as dense as the code it hides

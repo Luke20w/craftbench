@@ -1,0 +1,2060 @@
+[
+ {
+  "id": "spec-example",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "concat",
+      "as": "name",
+      "columns": [
+       "first",
+       "last"
+      ],
+      "sep": " "
+     },
+     {
+      "op": "select",
+      "columns": [
+       "id",
+       "name",
+       "last"
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1,
+     "first": "Ada",
+     "last": "Lovelace"
+    },
+    {
+     "id": 2,
+     "first": "Plato"
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "name": "Ada Lovelace",
+     "last": "Lovelace"
+    },
+    {
+     "id": 2,
+     "name": "Plato ",
+     "last": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "select",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "select",
+      "columns": [
+       "id",
+       "x"
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1,
+     "x": 2
+    },
+    {
+     "id": 2
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "x": 2
+    },
+    {
+     "id": 2,
+     "x": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "rename-from-to",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "rename",
+      "from": "x",
+      "to": "y"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1,
+     "x": 5
+    },
+    {
+     "id": 2
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "y": 5
+    },
+    {
+     "id": 2,
+     "y": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "rename-mapping",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "rename",
+      "mapping": {
+       "a": "b",
+       "c": "d"
+      }
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": 1
+    },
+    {
+     "c": 2
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "b": 1,
+     "d": null
+    },
+    {
+     "d": 2,
+     "b": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "drop",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "drop",
+      "columns": [
+       "x",
+       "y"
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1,
+     "x": 2
+    },
+    {
+     "id": 2,
+     "y": 3
+    },
+    {
+     "id": 3
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1
+    },
+    {
+     "id": 2
+    },
+    {
+     "id": 3
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "cast",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "cast",
+      "column": "x",
+      "to": "int"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "x": "7"
+    },
+    {
+     "id": 2
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "x": 7
+    },
+    {
+     "id": 2,
+     "x": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "explode",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "explode",
+      "column": "tags"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1,
+     "tags": [
+      "a",
+      "b"
+     ]
+    },
+    {
+     "id": 2
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "tags": "a"
+    },
+    {
+     "id": 1,
+     "tags": "b"
+    },
+    {
+     "id": 2,
+     "tags": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "lookup-null-key",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "lookup",
+      "column": "cc",
+      "as": "country",
+      "table": {
+       "NO": "Norway",
+       "null": "unknown"
+      }
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "cc": "NO"
+    },
+    {
+     "id": 2
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "cc": "NO",
+     "country": "Norway"
+    },
+    {
+     "id": 2,
+     "cc": null,
+     "country": "unknown"
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "lookup-default",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "lookup",
+      "column": "cc",
+      "as": "country",
+      "table": {
+       "NO": "Norway"
+      },
+      "default": "?"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 2
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 2,
+     "cc": null,
+     "country": "?"
+    }
+   ],
+   "metrics": {
+    "rows_in": 1,
+    "rows_out": 1
+   }
+  }
+ },
+ {
+  "id": "reorder",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "reorder",
+      "columns": [
+       "b",
+       "a"
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": 1,
+     "b": 2
+    },
+    {
+     "a": 3
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "b": 2,
+     "a": 1
+    },
+    {
+     "b": null,
+     "a": 3
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "nest",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "nest",
+      "columns": [
+       "a",
+       "b"
+      ],
+      "as": "ab"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1,
+     "a": 1
+    },
+    {
+     "id": 2,
+     "b": 2
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "ab": {
+      "a": 1,
+      "b": null
+     }
+    },
+    {
+     "id": 2,
+     "ab": {
+      "a": null,
+      "b": 2
+     }
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "unnest",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "unnest",
+      "column": "meta",
+      "prefix": "m_"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1,
+     "meta": {
+      "k": 1
+     }
+    },
+    {
+     "id": 2
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "m_k": 1
+    },
+    {
+     "id": 2
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "concat-middle",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "concat",
+      "as": "full",
+      "columns": [
+       "a",
+       "b",
+       "c"
+      ],
+      "sep": "-"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": "x",
+     "c": 3
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "a": "x",
+     "c": 3,
+     "b": null,
+     "full": "x--3"
+    }
+   ],
+   "metrics": {
+    "rows_in": 1,
+    "rows_out": 1
+   }
+  }
+ },
+ {
+  "id": "split",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "split",
+      "column": "name",
+      "sep": " ",
+      "into": [
+       "f",
+       "l"
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "name": "A B"
+    },
+    {
+     "id": 2
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "name": "A B",
+     "f": "A",
+     "l": "B"
+    },
+    {
+     "id": 2,
+     "name": null,
+     "f": null,
+     "l": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "text",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "text",
+      "columns": [
+       "a",
+       "b"
+      ],
+      "fn": "upper"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": "x"
+    },
+    {
+     "b": "y"
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "a": "X",
+     "b": null
+    },
+    {
+     "b": "Y",
+     "a": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "replace",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "replace",
+      "column": "s",
+      "find": "-",
+      "with": "+"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "s": "a-b"
+    },
+    {}
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "s": "a+b"
+    },
+    {
+     "s": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "regex_extract",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "regex_extract",
+      "column": "s",
+      "pattern": "\\d+",
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "s": "ab12"
+    },
+    {
+     "id": 1
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "s": "ab12",
+     "n": "12"
+    },
+    {
+     "id": 1,
+     "s": null,
+     "n": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "substr",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "substr",
+      "column": "s",
+      "as": "p",
+      "start": 1,
+      "length": 2
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "s": "hello"
+    },
+    {}
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "s": "hello",
+     "p": "el"
+    },
+    {
+     "s": null,
+     "p": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "pad",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "pad",
+      "column": "id",
+      "width": 3,
+      "fill": "0"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 7
+    },
+    {
+     "x": 1
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": "007"
+    },
+    {
+     "x": 1,
+     "id": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "length",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "length",
+      "column": "tags",
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "tags": [
+      1,
+      2
+     ]
+    },
+    {}
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "tags": [
+      1,
+      2
+     ],
+     "n": 2
+    },
+    {
+     "tags": null,
+     "n": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "json_parse",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "json_parse",
+      "column": "j"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "j": "[1]"
+    },
+    {}
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "j": [
+      1
+     ]
+    },
+    {
+     "j": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "json_dump",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "json_dump",
+      "column": "j"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "j": {
+      "b": 1
+     }
+    },
+    {}
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "j": "{\"b\": 1}"
+    },
+    {
+     "j": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "date_part",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "date_part",
+      "column": "d",
+      "part": "year",
+      "as": "y"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "d": "2024-01-02"
+    },
+    {}
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "d": "2024-01-02",
+     "y": 2024
+    },
+    {
+     "d": null,
+     "y": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "round",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "round",
+      "column": "x",
+      "digits": 1
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "x": 1.26
+    },
+    {}
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "x": 1.3
+    },
+    {
+     "x": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "clip",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "clip",
+      "column": "x",
+      "max": 10
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "x": 50
+    },
+    {
+     "y": 1
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "x": 10
+    },
+    {
+     "y": 1,
+     "x": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "scale",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "scale",
+      "column": "x",
+      "factor": 2,
+      "offset": 1
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "x": 3
+    },
+    {}
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "x": 7
+    },
+    {
+     "x": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "bucket",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "bucket",
+      "column": "x",
+      "as": "b",
+      "edges": [
+       10
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "x": 15
+    },
+    {}
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "x": 15,
+     "b": 1
+    },
+    {
+     "x": null,
+     "b": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "math",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "math",
+      "column": "x",
+      "fn": "abs"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "x": -2
+    },
+    {}
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "x": 2
+    },
+    {
+     "x": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "later-step-sees-null",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "round",
+      "column": "x"
+     },
+     {
+      "op": "fill",
+      "column": "x",
+      "value": "0"
+     },
+     {
+      "op": "select",
+      "columns": [
+       "x",
+       "z"
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1
+    },
+    {
+     "x": 2.6
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "x": 0,
+     "z": null
+    },
+    {
+     "x": 3,
+     "z": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "tolerant-ops-unchanged",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "between",
+      "column": "v",
+      "low": 0,
+      "high": 5,
+      "as": "in"
+     },
+     {
+      "op": "cumsum",
+      "column": "v",
+      "as": "run"
+     },
+     {
+      "op": "lag",
+      "column": "v",
+      "as": "prev"
+     },
+     {
+      "op": "regex_filter",
+      "column": "s",
+      "pattern": "x",
+      "invert": true
+     },
+     {
+      "op": "sort",
+      "by": "k"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "v": 3,
+     "k": 2
+    },
+    {
+     "id": 1
+    },
+    {
+     "v": 9,
+     "k": 1
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "v": 9,
+     "k": 1,
+     "in": false,
+     "run": 12,
+     "prev": null
+    },
+    {
+     "v": 3,
+     "k": 2,
+     "in": true,
+     "run": 3,
+     "prev": null
+    },
+    {
+     "id": 1,
+     "in": false,
+     "run": 3,
+     "prev": 3
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "grouping-unchanged",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "group_count",
+      "by": [
+       "g"
+      ],
+      "as": "n"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "g": 1
+    },
+    {
+     "id": 2
+    },
+    {
+     "g": null
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "g": 1,
+     "n": 1
+    },
+    {
+     "g": null,
+     "n": 2
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "require-still-fails",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "require",
+      "columns": [
+       "a",
+       "b"
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": 1,
+     "b": 2
+    },
+    {
+     "a": 1
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].columns[1]"
+  }
+ },
+ {
+  "id": "type-error-still-reported",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "cast",
+      "column": "x",
+      "to": "int"
+     }
+    ]
+   },
+   "dataset": [
+    {},
+    {
+     "x": "abc"
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "type-error-in-listed-column",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "text",
+      "columns": [
+       "a",
+       "b"
+      ],
+      "fn": "lower"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "b": "X"
+    },
+    {
+     "a": 5
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "EXECUTION_FAILED",
+   "path": "pipeline.steps[0].columns[0]"
+  }
+ },
+ {
+  "id": "in-branch",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "k == 1",
+        "steps": [
+         {
+          "op": "cast",
+          "column": "x",
+          "to": "string"
+         }
+        ]
+       },
+       {
+        "when": "otherwise",
+        "steps": [
+         {
+          "op": "length",
+          "column": "x",
+          "as": "n"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "k": 1
+    },
+    {
+     "k": 2
+    },
+    {
+     "k": 1,
+     "x": 5
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "k": 1,
+     "x": null
+    },
+    {
+     "k": 1,
+     "x": "5"
+    },
+    {
+     "k": 2,
+     "x": null,
+     "n": null
+    }
+   ],
+   "metrics": {
+    "rows_in": 3,
+    "rows_out": 3
+   }
+  }
+ },
+ {
+  "id": "nested-branch",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "true",
+        "steps": [
+         {
+          "op": "branch",
+          "branches": [
+           {
+            "when": "otherwise",
+            "steps": [
+             {
+              "op": "nest",
+              "columns": [
+               "a"
+              ],
+              "as": "o"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "o": {
+      "a": null
+     }
+    }
+   ],
+   "metrics": {
+    "rows_in": 1,
+    "rows_out": 1
+   }
+  }
+ },
+ {
+  "id": "option-false-unchanged",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": false
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "select",
+      "columns": [
+       "x"
+      ]
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "MISSING_COLUMN",
+   "path": "pipeline.steps[0].columns[0]"
+  }
+ },
+ {
+  "id": "option-absent-unchanged",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {},
+   "pipeline": {
+    "steps": [
+     {
+      "op": "round",
+      "column": "x"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "MISSING_COLUMN",
+   "path": "pipeline.steps[0].column"
+  }
+ },
+ {
+  "id": "unknown-option-keys-ignored",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "speed": "fast",
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "scale",
+      "column": "x",
+      "factor": 3
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "id": 1
+    },
+    {
+     "x": 2
+    }
+   ]
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "data": [
+    {
+     "id": 1,
+     "x": null
+    },
+    {
+     "x": 6
+    }
+   ],
+   "metrics": {
+    "rows_in": 2,
+    "rows_out": 2
+   }
+  }
+ },
+ {
+  "id": "normalize-unchanged",
+  "flags": [],
+  "request": {
+   "options": {
+    "missing_as_null": true
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": " Cast ",
+      "column": " x ",
+      "to": "INT"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "cast",
+      "column": "x",
+      "to": "int"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "options-not-object",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": [
+    "missing_as_null"
+   ],
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "options"
+  }
+ },
+ {
+  "id": "options-null",
+  "flags": [],
+  "request": {
+   "options": null,
+   "pipeline": {
+    "steps": []
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "options"
+  }
+ },
+ {
+  "id": "flag-not-boolean",
+  "flags": [
+   "--execute"
+  ],
+  "request": {
+   "options": {
+    "missing_as_null": "yes"
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": 1
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "options.missing_as_null"
+  }
+ },
+ {
+  "id": "flag-number-without-execute",
+  "flags": [],
+  "request": {
+   "options": {
+    "missing_as_null": 1
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "options.missing_as_null"
+  }
+ },
+ {
+  "id": "options-before-steps",
+  "flags": [],
+  "request": {
+   "options": {
+    "missing_as_null": null
+   },
+   "pipeline": {
+    "steps": [
+     {
+      "op": "nope"
+     },
+     {
+      "op": "limit",
+      "n": -1
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "options.missing_as_null"
+  }
+ },
+ {
+  "id": "dataset-before-options",
+  "flags": [],
+  "request": {
+   "options": 5,
+   "pipeline": {
+    "steps": []
+   },
+   "dataset": [
+    3
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "dataset[0]"
+  }
+ }
+]

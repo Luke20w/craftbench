@@ -10,7 +10,9 @@ extra usage (billed beyond the subscription) is being used.
 from __future__ import annotations
 
 import json
+import os
 import sys
+import tempfile
 import threading
 import time
 from collections import defaultdict
@@ -22,10 +24,16 @@ class QuotaExceeded(RuntimeError):
     pass
 
 
+# Every process on the machine shares the latest report, so parallel runs don't all start before any of them
+# has seen that the subscription is full.
+SHARED = Path(os.environ.get("CRAFTBENCH_QUOTA_FILE", Path(tempfile.gettempdir()) / "craftbench_quota.json"))
+
+
 @dataclass
 class Quota:
     max_five_hour: float = 0.8    # pause when the 5-hour window is this full
     max_seven_day: float = 0.5    # stop when the weekly window is this full
+    allow_overage: bool = False   # keep going on extra (billed) usage instead of stopping or waiting
     latest: dict = field(default_factory=dict)  # the last rate-limit report seen
     _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
 
@@ -33,16 +41,32 @@ class Quota:
         if info:
             with self._lock:
                 self.latest = info
+            try:
+                _shared().write_text(json.dumps({"at": time.time(), "info": info}))
+            except OSError:
+                pass
 
     def check(self) -> None:
         """Call before starting a run."""
+        try:
+            shared = json.loads(_shared().read_text())
+            if shared["at"] > time.time() - 6 * 3600:
+                self.latest = shared["info"]
+        except (OSError, ValueError, KeyError):
+            pass
         info = self.latest
         if not info:
             return
-        if info.get("isUsingOverage"):
-            raise QuotaExceeded("the subscription is past its limit and billing extra usage")
         windows = info.get("unifiedWindows", {})
         week, five = windows.get("seven_day", {}), windows.get("five_hour", {})
+        if five.get("resetsAt", 0) and five["resetsAt"] < time.time():  # that window is over: the report is stale
+            with self._lock:
+                self.latest = {}
+            return
+        if self.allow_overage:
+            return
+        if info.get("isUsingOverage") and five.get("utilization", 0) < 1:
+            raise QuotaExceeded("the subscription is past its limit and billing extra usage")
         if week.get("utilization", 0) >= self.max_seven_day:
             raise QuotaExceeded(f"weekly usage is at {week['utilization']:.0%} (limit {self.max_seven_day:.0%})")
         if five.get("utilization", 0) >= self.max_five_hour:
@@ -52,6 +76,10 @@ class Quota:
             time.sleep(wait)
             with self._lock:
                 self.latest = {}
+
+
+def _shared() -> Path:
+    return SHARED
 
 
 QUOTA = Quota()

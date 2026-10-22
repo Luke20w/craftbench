@@ -1,0 +1,1403 @@
+[
+ {
+  "id": "no-flag-still-dropped",
+  "flags": [],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "select",
+      "columns": [
+       "a"
+      ],
+      "colums": [
+       "b"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "select",
+      "columns": [
+       "a"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "select-typo",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "select",
+      "columns": [
+       "a"
+      ],
+      "colums": [
+       "b"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].colums"
+  }
+ },
+ {
+  "id": "missing-field-before-unknown",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "select",
+      "colums": [
+       "a"
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].columns"
+  }
+ },
+ {
+  "id": "bad-field-before-unknown",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "m": 1,
+      "n": -1
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].n"
+  }
+ },
+ {
+  "id": "first-unknown-in-request-order",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "map",
+      "zeta": 1,
+      "as": "a",
+      "expr": "1",
+      "alpha": 2
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].zeta"
+  }
+ },
+ {
+  "id": "rename-extra-key",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "rename",
+      "from": "a",
+      "to": "b",
+      "form": "c"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].form"
+  }
+ },
+ {
+  "id": "rename-both-forms-known",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "rename",
+      "mapping": {
+       "a": "b"
+      },
+      "from": "x",
+      "to": "y"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "rename",
+      "mapping": {
+       "a": "b"
+      }
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "rename-mapping-keys-are-data",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "rename",
+      "mapping": {
+       "colums": "b",
+       "op": "c"
+      }
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "rename",
+      "mapping": {
+       "colums": "b",
+       "op": "c"
+      }
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "lookup-table-keys-are-data",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "lookup",
+      "column": "cc",
+      "as": "c",
+      "table": {
+       "anything": 1
+      }
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "lookup",
+      "as": "c",
+      "column": "cc",
+      "table": {
+       "anything": 1
+      }
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "spec-example",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "lookup",
+      "column": "cc",
+      "as": "country",
+      "table": {
+       "NO": "Norway"
+      },
+      "defualt": "?"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].defualt"
+  }
+ },
+ {
+  "id": "append-rows-are-data",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "append",
+      "rows": [
+       {
+        "whatever": 1
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "append",
+      "rows": [
+       {
+        "whatever": 1
+       }
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "branch-step-key",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "otherwise",
+        "steps": []
+       }
+      ],
+      "merges": {
+       "strategy": "concat"
+      }
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].merges"
+  }
+ },
+ {
+  "id": "branch-entry-key",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "x > 1",
+        "steps": []
+       },
+       {
+        "when": "otherwise",
+        "stpes": [],
+        "steps": []
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].branches[1].stpes"
+  }
+ },
+ {
+  "id": "merge-key",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "x > 1",
+        "steps": []
+       }
+      ],
+      "merge": {
+       "strategy": "concat",
+       "how": "x"
+      }
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].merge.how"
+  }
+ },
+ {
+  "id": "summarize-metric-key",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "summarize",
+      "metrics": [
+       {
+        "as": "n",
+        "fn": "count"
+       },
+       {
+        "as": "s",
+        "fn": "sum",
+        "col": "x"
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].metrics[1].col"
+  }
+ },
+ {
+  "id": "nested-step-key",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "x > 1",
+        "steps": [
+         {
+          "op": "branch",
+          "branches": [
+           {
+            "when": "otherwise",
+            "steps": [
+             {
+              "op": "limit",
+              "n": 1
+             },
+             {
+              "op": "text",
+              "columns": [
+               "a"
+              ],
+              "fn": "upper",
+              "fnn": "x"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].branches[0].steps[0].branches[0].steps[1].fnn"
+  }
+ },
+ {
+  "id": "branch-key-before-later-merge",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "x > 1",
+        "steps": [],
+        "idd": "a"
+       }
+      ],
+      "merge": {
+       "strategy": "union"
+      }
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].branches[0].idd"
+  }
+ },
+ {
+  "id": "inner-step-before-branch-key",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "x > 1",
+        "steps": [
+         {
+          "op": "limit"
+         }
+        ],
+        "idd": "a"
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].branches[0].steps[0].n"
+  }
+ },
+ {
+  "id": "with-execute",
+  "flags": [
+   "--strict",
+   "--execute"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "filter",
+      "where": "a > 1",
+      "wehre": "x"
+     }
+    ]
+   },
+   "dataset": [
+    {
+     "a": 2
+    }
+   ]
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].wehre"
+  }
+ },
+ {
+  "id": "to_date",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "to_date",
+      "column": "d",
+      "fromat": "us"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].fromat"
+  }
+ },
+ {
+  "id": "date_diff",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "date_diff",
+      "start": "a",
+      "end": "b",
+      "as": "n",
+      "unit": "days"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].unit"
+  }
+ },
+ {
+  "id": "date_add",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "date_add",
+      "column": "d",
+      "day": 1,
+      "days": 1,
+      "as": "e"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].day"
+  }
+ },
+ {
+  "id": "cast",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "cast",
+      "column": "a",
+      "to": "int",
+      "type": "int"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].type"
+  }
+ },
+ {
+  "id": "coalesce",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "coalesce",
+      "as": "a",
+      "exprs": [
+       "b"
+      ],
+      "expr": "c"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].expr"
+  }
+ },
+ {
+  "id": "pad",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "pad",
+      "column": "a",
+      "width": 3,
+      "padding": "0"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].padding"
+  }
+ },
+ {
+  "id": "sort",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "sort",
+      "by": "a",
+      "order": "desc"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].order"
+  }
+ },
+ {
+  "id": "rank",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "rank",
+      "by": "a",
+      "as": "r",
+      "descending": true
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].descending"
+  }
+ },
+ {
+  "id": "lag",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "lag",
+      "column": "a",
+      "as": "b",
+      "offset": 2
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].offset"
+  }
+ },
+ {
+  "id": "group_count",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "group_count",
+      "by": [
+       "a"
+      ],
+      "as": "n",
+      "count": 1
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].count"
+  }
+ },
+ {
+  "id": "clip",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "clip",
+      "column": "a",
+      "minimum": 0
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].minimum"
+  }
+ },
+ {
+  "id": "ensure",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "ensure",
+      "columns": [
+       "a"
+      ],
+      "default": 0
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].default"
+  }
+ },
+ {
+  "id": "regex_filter",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "regex_filter",
+      "column": "a",
+      "pattern": "x",
+      "negate": true
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].negate"
+  }
+ },
+ {
+  "id": "sample_every",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "sample_every",
+      "n": 2,
+      "every": 2
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].every"
+  }
+ },
+ {
+  "id": "every-optional-field-known",
+  "flags": [
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "to_date",
+      "column": "d",
+      "format": "us",
+      "as": "d2"
+     },
+     {
+      "op": "lookup",
+      "column": "c",
+      "as": "n",
+      "table": {
+       "a": 1
+      },
+      "default": 0
+     },
+     {
+      "op": "pad",
+      "column": "p",
+      "width": 4,
+      "fill": "0",
+      "side": "right"
+     },
+     {
+      "op": "lag",
+      "column": "x",
+      "as": "y",
+      "n": 2,
+      "default": null
+     },
+     {
+      "op": "summarize",
+      "by": [
+       "c"
+      ],
+      "metrics": [
+       {
+        "as": "t",
+        "fn": "sum",
+        "column": "x"
+       }
+      ]
+     },
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "id": "A",
+        "when": "x > 1",
+        "steps": [
+         {
+          "op": "date_add",
+          "column": "d2",
+          "days": 1,
+          "as": "d3"
+         }
+        ]
+       },
+       {
+        "id": "B",
+        "when": "otherwise",
+        "steps": [
+         {
+          "op": "date_diff",
+          "start": "a",
+          "end": "b",
+          "as": "n"
+         }
+        ]
+       }
+      ],
+      "merge": {
+       "strategy": "concat"
+      }
+     },
+     {
+      "op": "regex_extract",
+      "column": "s",
+      "pattern": "(a)",
+      "as": "g",
+      "group": 1
+     },
+     {
+      "op": "prefix",
+      "prefix": "p_",
+      "columns": [
+       "a"
+      ]
+     },
+     {
+      "op": "assert",
+      "where": "true",
+      "message": "m"
+     },
+     {
+      "op": "unnest",
+      "column": "m",
+      "prefix": "m_"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 0,
+  "expected": {
+   "status": "ok",
+   "normalized": {
+    "steps": [
+     {
+      "op": "to_date",
+      "as": "d2",
+      "column": "d",
+      "format": "us"
+     },
+     {
+      "op": "lookup",
+      "as": "n",
+      "column": "c",
+      "default": 0,
+      "table": {
+       "a": 1
+      }
+     },
+     {
+      "op": "pad",
+      "column": "p",
+      "fill": "0",
+      "side": "right",
+      "width": 4
+     },
+     {
+      "op": "lag",
+      "as": "y",
+      "column": "x",
+      "default": null,
+      "n": 2
+     },
+     {
+      "op": "summarize",
+      "by": [
+       "c"
+      ],
+      "metrics": [
+       {
+        "as": "t",
+        "fn": "sum",
+        "column": "x"
+       }
+      ]
+     },
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "x > 1",
+        "steps": [
+         {
+          "op": "date_add",
+          "as": "d3",
+          "column": "d2",
+          "days": 1
+         }
+        ],
+        "id": "A"
+       },
+       {
+        "when": "otherwise",
+        "steps": [
+         {
+          "op": "date_diff",
+          "as": "n",
+          "end": "b",
+          "start": "a"
+         }
+        ],
+        "id": "B"
+       }
+      ],
+      "merge": {
+       "strategy": "concat"
+      }
+     },
+     {
+      "op": "regex_extract",
+      "as": "g",
+      "column": "s",
+      "group": 1,
+      "pattern": "(a)"
+     },
+     {
+      "op": "prefix",
+      "columns": [
+       "a"
+      ],
+      "prefix": "p_"
+     },
+     {
+      "op": "assert",
+      "message": "m",
+      "where": "true"
+     },
+     {
+      "op": "unnest",
+      "column": "m",
+      "prefix": "m_"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "id": "all-errors-and-strict",
+  "flags": [
+   "--strict",
+   "--all-errors"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "select",
+      "columns": [
+       "a"
+      ],
+      "colums": [
+       "b"
+      ]
+     },
+     {
+      "op": "limit",
+      "n": 1
+     },
+     {
+      "op": "limit",
+      "n": -1,
+      "extra": 1
+     },
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "x > 1",
+        "stpes": [],
+        "steps": [
+         {
+          "op": "map",
+          "as": "a",
+          "expr": "1",
+          "exp": "2"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "op": "date_diff",
+      "start": "a",
+      "end": "b",
+      "as": "n",
+      "unit": "days"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].colums",
+   "errors": [
+    {
+     "error_code": "SCHEMA_VALIDATION_FAILED",
+     "path": "pipeline.steps[0].colums"
+    },
+    {
+     "error_code": "SCHEMA_VALIDATION_FAILED",
+     "path": "pipeline.steps[2].n"
+    },
+    {
+     "error_code": "SCHEMA_VALIDATION_FAILED",
+     "path": "pipeline.steps[3].branches[0].stpes"
+    },
+    {
+     "error_code": "SCHEMA_VALIDATION_FAILED",
+     "path": "pipeline.steps[3].branches[0].steps[0].exp"
+    },
+    {
+     "error_code": "SCHEMA_VALIDATION_FAILED",
+     "path": "pipeline.steps[4].unit"
+    }
+   ]
+  }
+ },
+ {
+  "id": "all-errors-and-strict-branch-key-after-inner",
+  "flags": [
+   "--all-errors",
+   "--strict"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "branch",
+      "branches": [
+       {
+        "when": "x > 1",
+        "steps": [
+         {
+          "op": "limit",
+          "n": 1,
+          "nn": 2
+         }
+        ],
+        "idd": "z"
+       }
+      ]
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[0].branches[0].steps[0].nn",
+   "errors": [
+    {
+     "error_code": "SCHEMA_VALIDATION_FAILED",
+     "path": "pipeline.steps[0].branches[0].idd"
+    },
+    {
+     "error_code": "SCHEMA_VALIDATION_FAILED",
+     "path": "pipeline.steps[0].branches[0].steps[0].nn"
+    }
+   ]
+  }
+ },
+ {
+  "id": "all-errors-without-strict-ignores-unknown",
+  "flags": [
+   "--all-errors"
+  ],
+  "request": {
+   "pipeline": {
+    "steps": [
+     {
+      "op": "select",
+      "colums": [
+       "a"
+      ],
+      "columns": [
+       "a"
+      ]
+     },
+     {
+      "op": "limit"
+     }
+    ]
+   },
+   "dataset": []
+  },
+  "code": 1,
+  "expected": {
+   "status": "error",
+   "error_code": "SCHEMA_VALIDATION_FAILED",
+   "path": "pipeline.steps[1].n",
+   "errors": [
+    {
+     "error_code": "SCHEMA_VALIDATION_FAILED",
+     "path": "pipeline.steps[1].n"
+    }
+   ]
+  }
+ }
+]
