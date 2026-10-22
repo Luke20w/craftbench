@@ -11,6 +11,7 @@ from pathlib import Path
 
 SKIP_PARTS = {"__pycache__", ".git", ".pytest_cache", ".claude", ".venv", "node_modules"}
 _NO_MEANING = (ast.expr_context, ast.boolop, ast.operator, ast.unaryop, ast.cmpop)  # bookkeeping nodes
+_DEFINES = (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Import, ast.ImportFrom)
 
 
 @dataclass(frozen=True)
@@ -39,17 +40,28 @@ class PythonAnalyzer:
                 count += 1
         return count
 
+    def is_code(self, path: Path) -> bool:
+        """A .py file, or any other file that defines functions or classes or imports modules (e.g. modules an
+        import hook loads from .txt). Config that happens to parse, like TOML, does neither."""
+        if path.suffix in self.suffixes:
+            return True
+        try:
+            return any(isinstance(n, _DEFINES) for n in ast.walk(ast.parse(path.read_text(errors="replace"))))
+        except (SyntaxError, ValueError):
+            return False
+
 
 ANALYZERS = {"python": PythonAnalyzer()}
 
 
 def source_files(root: Path, analyzer: PythonAnalyzer) -> list[Path]:
-    """Source files under root, excluding tests and tool directories."""
+    """Source files under root (or root itself, if it is one), excluding tests and tool directories."""
     if root.is_file():
-        return [root]
-    return sorted(p for p in root.rglob("*") if p.suffix in analyzer.suffixes
+        return [root] if analyzer.is_code(root) else []
+    return sorted(p for p in root.rglob("*") if p.is_file()
                   and not set(p.relative_to(root).parts) & SKIP_PARTS
-                  and not any("test" in part.lower() for part in p.relative_to(root).parts))
+                  and not any("test" in part.lower() for part in p.relative_to(root).parts)
+                  and analyzer.is_code(p))
 
 
 def size(root: Path, analyzer: PythonAnalyzer) -> tuple[int, int, int]:
@@ -68,14 +80,19 @@ def size(root: Path, analyzer: PythonAnalyzer) -> tuple[int, int, int]:
 
 @cache
 def density_weight(target: Path | tuple[Path, ...], analyzer: PythonAnalyzer) -> float:
-    """Syntax nodes per token of `target` (a file, a directory, or several files), relative to clean code:
-    converts tokens of code read into clean-code-equivalent nodes, so code is measured by its syntax rather
-    than its characters."""
-    nodes = chars = 0
-    for t in (target if isinstance(target, tuple) else (target,)):
-        _, n, c = size(t, analyzer)
-        nodes, chars = nodes + n, chars + c
-    return nodes / chars / analyzer.reference_density if chars else 1.0
+    """What a token read from `target` (a file, a directory, or several of them) costs: each source file's syntax
+    nodes per character relative to clean code, never below 1, so code is measured by its syntax rather than its
+    characters and nothing reads for less than its tokens. Files are averaged by how much code they hold: a search
+    returns code, so files with little of it (docs, padding) can't dilute the rest."""
+    files = dict.fromkeys(f for t in (target if isinstance(target, tuple) else (target,))
+                          for f in source_files(t, analyzer))
+    weighted = total = 0.0
+    for f in files:
+        _, nodes, chars = size(f, analyzer)
+        if chars:
+            weighted += nodes * max(1.0, nodes / chars / analyzer.reference_density)
+            total += nodes
+    return weighted / total if total else 1.0
 
 
 def code_metrics(root: Path, analyzer: PythonAnalyzer) -> dict:

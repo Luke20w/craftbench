@@ -18,7 +18,7 @@ from .task import list_tasks, load_task
 def main(argv=None):
     p = argparse.ArgumentParser(prog="craftbench")
     p.add_argument("command", choices=["tasks", "check-task", "grade", "validate", "smoke", "bench", "usage"])
-    p.add_argument("--task", default="etl_pipeline")
+    p.add_argument("--task", default="etl_pipeline_xl_naive")
     p.add_argument("--code", help="grade: the codebase to grade")
     p.add_argument("--recorded", help="validate: re-grade recorded runs instead of running the extender")
     p.add_argument("--builders", default="", help="bench, smoke: comma-separated models that build the code")
@@ -27,7 +27,7 @@ def main(argv=None):
                         "(e.g. add gpt-6-astra): what's easy to change depends on the reader")
     p.add_argument("--builder-budget", type=float, default=3.0, help="max USD per milestone (Claude Code only)")
     p.add_argument("--extender-budget", type=float, default=1.0, help="max USD per extender run (Claude Code only)")
-    p.add_argument("--extender-runs", type=int, default=1, help="runs per extender per change")
+    p.add_argument("--extender-runs", type=int, default=2, help="runs per extender per change")
     p.add_argument("--runs", type=int, default=3, help="bench: builds per builder")
     p.add_argument("--parallel", type=int, default=1, help="bench: builds at once")
     p.add_argument("--runs-dir", default=os.environ.get("CRAFTBENCH_RUNS", "runs"),
