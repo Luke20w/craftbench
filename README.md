@@ -21,6 +21,8 @@ E = reading until each change's tests passed    (how hard was it to change?)
 
 Reading counts code in syntax nodes, so things like code-golf are mostly mitigated. The reward is per rollout, so it plugs into normal group-based RL training.
 
+The maintainer it measures for is an LLM agent, with humans reviewing its work: "easy to change" means cheap for a model to change correctly. Some of what that rewards (less code, one place per rule, invariants you can check locally) helps human readers too; some (how cheaply dense code reads, which differs even between models) is about how today's models read.
+
 The extenders are a panel (Sonnet + Opus by default; add other families with `--extenders`, e.g. `gpt-6-astra` through Codex, which has been checked against live runs). One reader isn't enough: Opus, Sonnet and Codex each measure consistently but disagree with each other about which code is easy to change ([#14](docs/experiments/v_measures.md)), so the reward averages the panel. The same setup benchmarks models as builders: see [benchmarking](docs/BENCHMARK.md).
 
 ## Evidence
@@ -46,8 +48,8 @@ The extenders are a panel (Sonnet + Opus by default; add other families with `--
 
 ## What's next
 
-- **More tasks.** Only the ETL task exists. Add more domains, with changes covering every kind of change.
-- **Bigger codebases.** The reward only sees structure past ~12k tokens. `etl_pipeline_xl` (52 operations over 7 milestones) is the first task at that size; more domains need the same.
+- **More tasks.** Only the ETL domain exists. Add more, with changes covering every kind of change.
+- **Bigger codebases.** The reward only sees structure past ~12k tokens, so the default task is `etl_pipeline_xl_naive` (52 operations over 7 milestones, plain-language specs); the small `etl_pipeline` is for quick checks. New domains need the same size.
 - **Make a cross-family panel the default V, and test it leave-one-reader-out** ([#14](docs/experiments/v_measures.md)): no single reader was reliably best. Drop tests no run can pass (behaviour the specs leave open) in the shipped grader too.
 - **Validate the effort metric against an answer key that isn't reading** (human time, defects introduced later, success within a fixed budget). #14 shows the syntax-node weighting decides whether golf counts as costly.
 - **More and stronger extenders.** Only Claude models have been used so far. Codex and Gemini extenders are wired up but need a live check. A panel of models keeps the policy from writing for one reader's quirks.
@@ -62,7 +64,7 @@ The maintenance phase can wrap most coding tasks whose output lives on: greenfie
 
 ```bash
 pip install -e .
-craftbench validate --recorded data/recorded/etl_pipeline   # re-grades recorded runs, no model calls
+craftbench validate --task etl_pipeline --recorded data/recorded/etl_pipeline   # re-grades recorded runs, no model calls
 craftbench grade --code path/to/code                        # live grading (needs the `claude` CLI)
 craftbench bench --builders opus,gpt-6-astra --extenders opus,gemini-4-argon   # benchmark models
 ```

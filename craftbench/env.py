@@ -78,7 +78,9 @@ class Environment:
     # use several, ideally from different model families.
     extenders: list[Agent] = field(default_factory=lambda: [ClaudeCodeAgent("claude-sonnet-5-5"),
                                                             ClaudeCodeAgent("claude-opus-5-5")])
-    extender_runs: int = 1          # runs per extender per change; their efforts are averaged
+    # Runs per extender per change; their efforts are averaged. A second run is worth ~+0.1 correlation with what code
+    # really costs to own (docs/experiments/v_measures.md).
+    extender_runs: int = 2
     max_parallel: int = 4           # extender runs at once
     lam: float = 0.5
     runs_dir: Path = Path("runs")

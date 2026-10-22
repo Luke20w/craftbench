@@ -2,10 +2,11 @@
 
   * Reading is everything the extender's tools returned to it (files, searches, command and test
     output), in tokens (chars / 4).
-  * Reads of source code (Read, Grep/Glob, and shell commands that print source files) are measured
-    in syntax nodes (analysis.density_weight), so compressing code, stripping comments or shortening
-    names doesn't make it cheaper to read. A shell command that names files is weighted by those files;
-    one that doesn't, by the whole codebase.
+  * Reads of source code are measured in syntax nodes (analysis.density_weight), so compressing code,
+    stripping comments or shortening names doesn't make it cheaper to read. A read is weighted by the
+    workspace code it read: the file Read, the path Grep searched, or the files and directories named
+    by the parts of a shell command that print files (cat, grep, sed, ...). Code is code whatever the
+    file is called.
   * Reading never costs less than its tokens: prose, docstrings and padding can't dilute the weight of
     the code around them, or make anything free to read.
   * Tests that already pass on the untouched code aren't charged at all: the extender didn't make them
@@ -26,7 +27,8 @@
 
 from __future__ import annotations
 
-import re
+import os
+import shlex
 import statistics as st
 from pathlib import Path
 
@@ -36,37 +38,55 @@ from .grading import Curve
 
 REGRESSION_KEEP = 0.98
 FAILURE_TOKENS = 40_000
-MIN_WEIGHT = 1.0  # a token read always costs at least one token
 PRELOADED = ("CLAUDE.md", "CLAUDE.local.md", "AGENTS.md", "GEMINI.md")
-# A shell command reads code when any of its parts (e.g. after `cd <dir> &&`) prints a source file.
-_READS_CODE = re.compile(r"(?:^|[;&|\n])\s*(cat|head|tail|sed\s+-n|grep|rg|awk|nl|less|more)\b[^;&|\n]*\.py\b")
-_PY_PATH = re.compile(r"[\w./*\-\[\]]+\.py\b")
+_PRINTS = {"cat", "head", "tail", "sed", "grep", "rg", "awk", "nl", "less", "more"}  # shell commands that print files
 
 
-def _named_files(command: str, base: Path) -> tuple[Path, ...]:
-    """Source files of `base` that a shell command names (globs expanded), e.g. `cat etl/ops/*.py`."""
+def _workspace_paths(args: list[str], base: Path) -> tuple[Path, ...]:
+    """Files and directories of `base` that these paths name (globs expanded). The extender worked in a copy of
+    `base`; workspaces are named "code"."""
     found = []
-    for tok in _PY_PATH.findall(command):
-        rel = tok.split("/code/", 1)[1] if "/code/" in tok else tok.lstrip("./")
-        found += [p for p in sorted(base.glob(rel)) if p.is_file()] if any(c in rel for c in "*?[") else \
-            [base / rel] if (base / rel).is_file() else []
-    return tuple(dict.fromkeys(found))
+    for arg in filter(None, args):
+        rel = arg.split("/code/", 1)[1] if "/code/" in arg else arg
+        if not Path(rel).is_absolute():
+            found += sorted(base.glob(rel)) if any(c in rel for c in "*?[") else [base / rel]
+    return tuple(dict.fromkeys(p for p in found if p.exists() and p.resolve().is_relative_to(base.resolve())))
+
+
+def _printed_args(command: str) -> list[str]:
+    """Paths named by the parts of a shell command that print files, after any `cd` before them: e.g.
+    `/x/code/etl` in `cd /x/code && grep -rn f etl`."""
+    try:
+        lex = shlex.shlex(command, posix=True, punctuation_chars=True)
+        lex.whitespace_split = True
+        tokens = list(lex)
+    except ValueError:  # unbalanced quotes
+        tokens = command.split()
+    args, cwd, program, start = [], "", None, True
+    for tok in tokens:
+        if set(tok) <= set(";&|()"):
+            start = True
+        elif start:
+            program, start = tok, False
+        elif program == "cd":
+            cwd = os.path.join(cwd, tok)
+        elif program in _PRINTS:
+            args.append(os.path.join(cwd, tok))
+    return args
 
 
 def read_weight(call: ToolCall, base: Path, analyzer: PythonAnalyzer) -> float:
-    """Weight of one token of this tool result: the density of the code read, at least MIN_WEIGHT."""
-    weight = 1.0
+    """Weight of one token of this tool result: the density of the code it read (the file Read, the path Grep
+    searched, the paths a file-printing shell command names), or 1 if it read no code."""
+    args = []
     if call.name == "Read":
-        path = str(call.input.get("file_path", ""))
-        if path.endswith(analyzer.suffixes):
-            # The extender worked in a copy of `base`; map its path back. Workspaces are named "code".
-            rel = path.split("/code/", 1)[1] if "/code/" in path else Path(path).name
-            weight = density_weight(base / rel if (base / rel).exists() else base, analyzer)
-    elif call.name in ("Grep", "Glob"):
-        weight = density_weight(base, analyzer)
-    elif call.name == "Bash" and _READS_CODE.search(command := call.input.get("command", "")):
-        weight = density_weight(_named_files(command, base) or base, analyzer)
-    return max(weight, MIN_WEIGHT)
+        args = [call.input.get("file_path", "")]
+    elif call.name == "Grep":
+        args = [call.input.get("path") or "."]
+    elif call.name == "Bash":
+        args = _printed_args(call.input.get("command", ""))
+    paths = _workspace_paths(args, base)
+    return density_weight(paths, analyzer) if paths else 1.0
 
 
 def preloaded_tokens(base: Path) -> float:

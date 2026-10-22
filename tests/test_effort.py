@@ -46,6 +46,11 @@ def test_reading_dense_code_costs_more():
     assert read_weight(bash(4_000), TASK.mutants / "golfed", PY) == 1.0  # not code
     cat = ToolCall("Bash", {"command": "cat etl_pipeline.py"}, 4_000)
     assert read_weight(cat, TASK.mutants / "golfed", PY) == pytest.approx(1.895, abs=0.01)  # printing code is reading it
+    # globs, directories and `cd` all lead to the code a command prints
+    for command in ("cat *", "cd /x/code && grep -rn def .", "cd / && cat x/code/etl_pipeline.py | head"):
+        assert read_weight(ToolCall("Bash", {"command": command}, 4_000), TASK.mutants / "golfed", PY) == \
+            pytest.approx(1.895, abs=0.01)
+    assert read_weight(ToolCall("Glob", {"pattern": "**/*"}, 4_000), TASK.mutants / "golfed", PY) == 1.0  # just names
 
 
 def test_snapshots_skip_failed_calls():
@@ -70,13 +75,14 @@ def test_tests_that_already_pass_are_not_charged():
 
 
 def test_prose_and_padding_never_make_reading_cheaper(tmp_path):
-    (tmp_path / "code.py").write_text((TASK.reference / "etl_pipeline.py").read_text())
+    (tmp_path / "code.py").write_text((TASK.mutants / "golfed" / "etl_pipeline.py").read_text())
     (tmp_path / "manual.py").write_text('"""' + "How this works. " * 5_000 + '"""\n')  # no syntax nodes at all
     cat_manual = ToolCall("Bash", {"command": "cat manual.py"}, 4_000)
     cat_code = ToolCall("Bash", {"command": "cd /x/code && sed -n 1,200p code.py"}, 4_000)
     assert read_weight(cat_manual, tmp_path, PY) == 1.0  # docs cost their tokens, not nothing
     # weighted by the file it printed, not the codebase average the manual drags down
-    assert read_weight(cat_code, tmp_path, PY) == pytest.approx(read_weight(cat_code, TASK.reference, PY))
+    assert read_weight(cat_code, tmp_path, PY) == pytest.approx(1.895, abs=0.01)
+    assert read_weight(ToolCall("Grep", {"pattern": "def"}, 4_000), tmp_path, PY) == pytest.approx(1.895, abs=0.01)
 
 
 def test_unparseable_source_still_counts_as_code(tmp_path):
@@ -85,3 +91,11 @@ def test_unparseable_source_still_counts_as_code(tmp_path):
     read = ToolCall("Read", {"file_path": "/x/code/etl_pipeline.py"}, 4_000)
     golfed = read_weight(read, TASK.mutants / "golfed", PY)
     assert read_weight(read, tmp_path, PY) == pytest.approx(golfed, rel=0.05)  # as dense as the code it hides
+
+
+def test_code_is_code_whatever_the_file_is_called(tmp_path):
+    (tmp_path / "logic.txt").write_text((TASK.mutants / "golfed" / "etl_pipeline.py").read_text())  # loaded by a hook
+    (tmp_path / "pyproject.toml").write_text('[project]\nname = "etl"\nversion = "1.0"\n')  # parses, but isn't code
+    read = lambda name: ToolCall("Read", {"file_path": f"/x/code/{name}"}, 4_000)
+    assert read_weight(read("logic.txt"), tmp_path, PY) == pytest.approx(1.895, abs=0.01)
+    assert read_weight(read("pyproject.toml"), tmp_path, PY) == 1.0
