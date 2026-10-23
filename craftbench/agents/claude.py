@@ -45,7 +45,7 @@ class ClaudeCodeAgent(CliAgent):
 
     def parse(self, lines, times, log_dir):
         calls, result = parse_claude_transcript("\n".join(lines))
-        if not result:
+        if not result or result.get("terminal_reason") == "api_error":  # e.g. the network was down: not a real run
             return None, []
         quota = {}
         for line in lines:  # subscription usage, reported as the run starts
