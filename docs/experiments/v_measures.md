@@ -167,6 +167,43 @@ than the gap between near-identical candidates, so as a per-rollout RL reward am
 mostly rank noise. Bigger probes help with structural differences, not with that noise. The independent
 witnesses outside the LLM loop (real history, real refactors) are so far null or slightly negative.
 
+## Diagnosis: the idea or the parts?
+
+Mostly the parts. Where there was a real difference in how code was built, measuring the cost of an actual change
+found it; the failures trace to choices inside the grader:
+
+* **The probe changes.** Swapping the 4 small probes for 3 bigger ones (explain, column types, case-insensitive
+  columns) turned "ranks the two best-of-N trajectories backwards" (−1.00) into "ranks them right" (+0.69), on the
+  same code with the same grader.
+* **Codebase size.** Below roughly 7–12k tokens the extender reads everything and the score tracks length; structure
+  only shows above that.
+* **The real-repo witnesses** used fixes that needed ~500–1,000 tokens of reading, too little for design to matter.
+* **The exploits** were weighting details, now fixed.
+* **Reader disagreement** is a setting: a three-family panel matched the human better than any single reader.
+
+Closer to the idea itself:
+
+* **Noise is inherent.** One extender run varies ~10–15% on the same code, so separating candidates ~5% apart needs
+  on the order of 10–40 runs each: expensive for a per-rollout RL reward.
+* **"Easy to change" is reader-relative.** A panel averages it out but the score always means "easy for these
+  readers".
+* **Validation is mostly circular.** Almost every check compares LLM reading with LLM reading; the human ranking
+  (10 pairs, one rater) and real history (null) are the only outside witnesses so far.
+* **The sibling test may have had nothing to find.** Near-identical siblings differed by 1.12–1.19× in cost to own,
+  inside the noise of the answer key itself.
+
+## What to change next
+
+1. Bigger, more varied probe changes, sampled from a large pool per episode (also the structural fix for
+   pre-implementation).
+2. Bigger codebases, past the size where the extender can read everything.
+3. Several runs per candidate over a panel of model families, and accept the cost; measure how many are needed for
+   the differences rollouts actually have.
+4. Test where rollouts genuinely differ in design, not on near-identical siblings; and get more non-LLM witnesses
+   (more blind human rankings; real-repo changes big enough to need exploration).
+
+If the measure still can't separate candidates after 1–3, the problem is the idea, not the parts.
+
 ## Reproduce
 
 `scripts/v_measures/`: `build.py` (builds), `run.py` (probe / bigprobe / plan / judge / chain runs, resumable),
