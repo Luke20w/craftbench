@@ -1,6 +1,7 @@
-# etl_pipeline_xl with its change requests written as plain asks ("we need X" / "we're seeing Y") plus the
-# observable contract the tests check, and no hints about structure or future work. Hidden tests talk to
-# the program only through `entrypoint`.
+# The default task: a CLI ETL tool grown to 52 operations over 7 milestones (~12k tokens across 15 files in the
+# reference), with every spec written as a plain ask ("we need X" / "we're seeing Y") plus the observable contract
+# the tests check, and no hints about structure or future work. Hidden tests talk to the program only through
+# `entrypoint`. make_tests.py refills the golden tests from the reference.
 
 id = "etl_pipeline_xl_naive"
 program = "a CLI ETL tool that reads a JSON request on stdin and writes a JSON response to stdout"
@@ -65,47 +66,3 @@ tests = ["test_limits.py"]
 id = "trace"                   # cross-cutting concern
 spec = "specs/trace.md"
 tests = ["test_trace.py"]
-
-# ---- held out: never graded in episodes. A maintainer applies them in this order, each on the result of the
-# previous one; the total reading is the ground truth for what the starting code costs to own ------------
-[[held_out]]
-id = "h1_dates"                # new capability
-spec = "specs/h1_dates.md"
-tests = ["test_h1_dates.py"]
-
-[[held_out]]
-id = "h2_all_errors"           # cross-cutting control flow
-spec = "specs/h2_all_errors.md"
-tests = ["test_h2_all_errors.py"]
-
-[[held_out]]
-id = "h3_strict"               # rule that applies to every op
-spec = "specs/h3_strict.md"
-tests = ["test_h3_strict.py"]
-
-[[held_out]]
-id = "h4_list_ops"             # introspection
-spec = "specs/h4_list_ops.md"
-tests = ["test_h4_list_ops.py"]
-
-# ---- bigger probes: each needs per-op knowledge across most of the 52 ops, so a codebase with one place to
-# change beats one that has to be edited op by op. Implemented independently in big_reference/<id>. -------
-[[big_changes]]
-id = "explain"                 # introspection: per-op column lineage
-spec = "specs/explain.md"
-tests = ["test_big_explain.py"]
-
-[[big_changes]]
-id = "column_types"            # per-op type rules plus tracking of what each op changes
-spec = "specs/column_types.md"
-tests = ["test_big_column_types.py"]
-
-[[big_changes]]
-id = "ignore_case_columns"     # cross-cutting: every column reference in every op
-spec = "specs/ignore_case_columns.md"
-tests = ["test_big_ignore_case_columns.py"]
-
-[[big_changes]]
-id = "missing_as_null"         # weak: every design already has one column-lookup helper
-spec = "specs/missing_as_null.md"
-tests = ["test_big_missing_as_null.py"]

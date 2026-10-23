@@ -1,12 +1,22 @@
-# Change mix: three kinds of change request (exp2)
+# Do different kinds of change separate codebases?
 
-6 codebases (all at milestone 3 of the ETL task), 3 change requests of different kinds, Haiku extender, 2 runs each.
-Run-to-run agreement on the ranking: +0.89 (vs +0.51 with the single easy change in [judge_vs_extender.md](judge_vs_extender.md)).
+With one easy change, 8 of 9 codebases scored near the ceiling and repeat runs agreed on their ranking at only +0.51
+([judge vs extender](judge_vs_extender.md)). This asks whether three change requests of different kinds do better.
 
+## Setup
 
-Bases = run-1 codebases after C3. Extender = Haiku, 40 turns. Score = new-feature pass fraction × regression retained (vs the base's own C1–C3 pass count).
+- **Codebases.** 6 of the [judge vs extender](judge_vs_extender.md) codebases, as one of that experiment's
+  extender runs left them after adding checkpoint 3 (C3: `branch` steps, milestone 3 of the ETL task). C1–C3 are
+  the ETL task's first three milestones.
+- **Changes.** Sub-pipelines (a new capability: named step sequences invoked with `call`), limits (a rule applied
+  everywhere: every string value in a step must be short and printable) and trace (cross-cutting: a `--trace`
+  flag reporting rows through each step). Specs are in `tasks/etl_pipeline/specs/`.
+- **Extender.** Haiku, 40 turns, 2 runs per change. 36 runs, $9.94; no run peeked at the hidden tests.
+- **Score.** New-feature pass fraction × regression retained (against the base's own C1–C3 pass count).
 
-## Overall per base (mean over change requests and runs)
+## Result
+
+Overall per base, mean over change requests and runs (per-run scores in parentheses):
 
 | base | score | sub-pipelines | limits (rule everywhere) | trace (cross-cutting) | turns | lines changed | files changed | hit turn cap |
 |---|---|---|---|---|---|---|---|---|
@@ -17,7 +27,7 @@ Bases = run-1 codebases after C3. Extender = Haiku, 40 turns. Score = new-featur
 | copypaste | **0.70** | 0.26 (0.36, 0.16) | 0.85 (0.85, 0.85) | 1.00 (1.00, 1.00) | 36 | 174 | 6.5 | 4/6 |
 | overengineered | **0.52** | 0.00 (0.00, 0.00) | 0.90 (0.95, 0.85) | 0.67 (0.67, 0.67) | 41 | 149 | 6.3 | 6/6 |
 
-## Per change request: new-feature pass / regression retained / turns
+Per change request, each run as new-feature pass · regression retained · turns:
 
 | base | subpipelines | limits | trace |
 |---|---|---|---|
@@ -28,6 +38,8 @@ Bases = run-1 codebases after C3. Extender = Haiku, 40 turns. Score = new-featur
 | copypaste | 7/17 · 88% · 41t ; 3/17 · 88% · 41t | 17/20 · 100% · 41t ; 17/20 · 100% · 41t | 9/9 · 100% · 25t ; 9/9 · 100% · 25t |
 | overengineered | 0/17 · 0% · 41t ; 0/17 · 100% · 41t | 19/20 · 100% · 41t ; 17/20 · 100% · 41t | 6/9 · 100% · 41t ; 6/9 · 100% · 41t |
 
-Run-to-run agreement of the base ranking (run 0 vs run 1, Spearman): score +0.89, turns +0.88
+## What it means
 
-Runs: 36. Spend: $9.94. Peeked at hidden tests: 0.
+**A mix of changes separates codebases, and repeatably.** Scores spread from 0.52 to 0.98, and run 0 vs run 1 agree
+on the base ranking at +0.89 for score and +0.88 for turns (Spearman), against +0.51 with the single easy change.
+Sub-pipelines does most of the separating (0.00 to 1.00 across bases); limits and trace move scores less.

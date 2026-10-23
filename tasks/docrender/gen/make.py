@@ -1,4 +1,4 @@
-"""Build the docrender task: the five variants, the golden outputs and the hidden tests.
+"""Build the docrender task: the six variants, the golden outputs and the hidden tests.
 
     python tasks/docrender/gen/make.py
 

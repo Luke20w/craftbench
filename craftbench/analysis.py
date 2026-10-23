@@ -9,7 +9,8 @@ from dataclasses import dataclass
 from functools import cache
 from pathlib import Path
 
-SKIP_PARTS = {"__pycache__", ".git", ".pytest_cache", ".claude", ".venv", "node_modules"}
+from .sandbox import IGNORE
+
 _NO_MEANING = (ast.expr_context, ast.boolop, ast.operator, ast.unaryop, ast.cmpop)  # bookkeeping nodes
 _DEFINES = (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Import, ast.ImportFrom)
 
@@ -29,7 +30,7 @@ class PythonAnalyzer:
         tree = ast.parse(source)
         for n in ast.walk(tree):
             if isinstance(n, (ast.Module, ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and n.body \
-                    and isinstance(n.body[0], ast.Expr) and isinstance(getattr(n.body[0], "value", None), ast.Constant) \
+                    and isinstance(n.body[0], ast.Expr) and isinstance(n.body[0].value, ast.Constant) \
                     and isinstance(n.body[0].value.value, str):
                 n.body = n.body[1:] or [ast.Pass()]
         count = 0
@@ -59,7 +60,7 @@ def source_files(root: Path, analyzer: PythonAnalyzer) -> list[Path]:
     if root.is_file():
         return [root] if analyzer.is_code(root) else []
     return sorted(p for p in root.rglob("*") if p.is_file()
-                  and not set(p.relative_to(root).parts) & SKIP_PARTS
+                  and not set(p.relative_to(root).parts) & IGNORE
                   and not any("test" in part.lower() for part in p.relative_to(root).parts)
                   and analyzer.is_code(p))
 

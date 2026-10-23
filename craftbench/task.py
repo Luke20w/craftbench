@@ -36,9 +36,6 @@ class Task:
     changes: tuple[Suite, ...]
     reference: Path | None       # optional known-good solution
     mutants: Path | None         # optional known-worse copies of the reference
-    held_out: tuple[Suite, ...] = ()  # optional: changes never graded in episodes, applied in sequence as
-                                      # the ground truth for how much a codebase costs to own
-    big_changes: tuple[Suite, ...] = ()  # optional: larger probe changes that touch most of the design
 
     @property
     def tests_dir(self) -> Path:
@@ -50,7 +47,7 @@ class Task:
         return self.entrypoint.replace("{workspace}/", "")
 
     def change(self, change_id: str) -> Suite:
-        return next(c for c in self.changes + self.held_out + self.big_changes if c.id == change_id)
+        return next(c for c in self.changes if c.id == change_id)
 
     def episode_changes(self) -> list[Suite]:
         """The changes graded in every episode: all independent ones, so every rollout in a training
@@ -65,7 +62,10 @@ def load_task(task: str | Path) -> Task:
     """Load a task by id (from ./tasks) or by path to its folder."""
     root = Path(task) if (Path(task) / "task.toml").exists() else TASKS_DIR / str(task)
     raw = tomllib.loads((root / "task.toml").read_text())
-    suite = lambda s: Suite(s["id"], root / s["spec"], tuple(s["tests"]), tuple(s.get("requires", ())))  # noqa: E731
+
+    def suite(s: dict) -> Suite:
+        return Suite(s["id"], root / s["spec"], tuple(s["tests"]), tuple(s.get("requires", ())))
+
     return Task(
         id=raw["id"], root=root, program=raw["program"], language=raw.get("language", "python"),
         entrypoint=raw["entrypoint"],
@@ -73,8 +73,6 @@ def load_task(task: str | Path) -> Task:
         changes=tuple(suite(c) for c in raw.get("changes", [])),
         reference=root / raw["reference"] if "reference" in raw else None,
         mutants=root / raw["mutants"] if "mutants" in raw else None,
-        held_out=tuple(suite(c) for c in raw.get("held_out", [])),
-        big_changes=tuple(suite(c) for c in raw.get("big_changes", [])),
     )
 
 

@@ -1,7 +1,8 @@
 # A synthetic domain whose right structure is known: a renderer of a document tree (20 node kinds) into
-# 12 markup formats. The same behaviour is organized five ways (variants/, built by gen/make.py), and the
-# changes come in two streams: new node kinds (k*) and new formats (f*). Which organization is right depends
+# 12 markup formats. The same behaviour is organized six ways (variants/), and the changes come in three
+# streams: new node kinds (k*), new formats (f*) and shared behaviour (s*). Which organization is right depends
 # on which stream arrives, so a measure of change cost should flip its preference between the streams.
+# `python tasks/docrender/gen/make.py` rebuilds the variants, specs and tests from one table of rules.
 
 id = "docrender"
 program = "a CLI that renders a JSON document tree to a markup format"

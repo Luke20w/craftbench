@@ -30,7 +30,7 @@ def live(env: Environment) -> dict[str, dict]:
         g = env.grade(code, env.runs_dir / env.task.id / f"validate_{name}")
         return name, {"F": g.milestone_pass_fraction, "efforts": g.efforts}
 
-    with ThreadPoolExecutor(4) as ex:
+    with ThreadPoolExecutor(4) as ex:  # variants at once; each also runs its extenders in parallel
         return dict(ex.map(grade, variants(env).items()))
 
 

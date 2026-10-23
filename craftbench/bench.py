@@ -1,5 +1,5 @@
-"""Benchmark builder models: each builds the task `runs` times, the environment's extender panel grades
-every build, and the report compares builders.
+"""Benchmark models as builders (the policy, in env.py's terms): each builds the task `runs` times, the
+environment's extender panel grades every build, and the report compares builders.
 
 Builds live at <runs dir>/<task>/bench/<builder>/s<k>. A finished build is never rebuilt, and grading
 reuses finished extender runs, so rerunning resumes an interrupted benchmark, and adding extenders or
@@ -56,7 +56,8 @@ def report(results: dict[str, list[dict]]) -> str:
     if not graded:
         return "no finished builds"
     changes = sorted(next(iter(graded.values()))[0]["efforts"])
-    rows = ["| builder | builds | F | reward ×100 | " + " | ".join(f"effort: {c}" for c in changes) + " | code nodes |",
+    efforts = " | ".join(f"effort: {c}" for c in changes)
+    rows = [f"| builder | builds | F | reward ×100 | {efforts} | code nodes |",
             "|---|---|---|---|" + "---|" * len(changes) + "---|"]
     for b, gs in graded.items():
         cells = " | ".join(f"{st.median(g['efforts'][c] for g in gs):,.0f}" for c in changes)
@@ -88,7 +89,9 @@ def report(results: dict[str, list[dict]]) -> str:
 
 
 def _spearman(x: list[float], y: list[float]) -> float:
-    rank = lambda v: [sorted(v).index(a) + (v.count(a) - 1) / 2 for a in v]  # noqa: E731
+    def rank(v):  # ties share the mean of their ranks
+        return [sorted(v).index(a) + (v.count(a) - 1) / 2 for a in v]
+
     rx, ry = rank(x), rank(y)
     mx, my = sum(rx) / len(rx), sum(ry) / len(ry)
     sx = sum((a - mx) ** 2 for a in rx) ** 0.5

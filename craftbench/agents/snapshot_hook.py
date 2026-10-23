@@ -12,6 +12,8 @@ import shutil
 import sys
 from pathlib import Path
 
+# A standalone script in a fresh interpreter per tool call, so it doesn't import the package: keep SKIP and
+# the digest in sync with sandbox.IGNORE and sandbox.tree_digest.
 SKIP = {"__pycache__", ".git", ".pytest_cache", ".claude", ".venv", "node_modules"}
 
 event = json.load(sys.stdin)

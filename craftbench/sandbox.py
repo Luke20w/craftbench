@@ -8,7 +8,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-IGNORE = {"__pycache__", ".git", ".pytest_cache", ".claude", ".venv", "node_modules"}
+IGNORE = {"__pycache__", ".git", ".pytest_cache", ".claude", ".venv", "node_modules"}  # tool directories, not code
 
 
 class LocalSandbox:
@@ -18,12 +18,16 @@ class LocalSandbox:
         if dest.exists():
             shutil.rmtree(dest)
         if source:
-            shutil.copytree(source, dest, ignore=lambda d, names: [n for n in names if n in IGNORE])
+            copy_code(source, dest)
         else:
             dest.mkdir(parents=True)
         subprocess.run("git init -q && git add -A && git -c user.name=env -c user.email=env@local "
                        "commit -q --allow-empty -m base", shell=True, cwd=dest, check=True)
         return dest
+
+
+def copy_code(src: Path, dest: Path) -> None:
+    shutil.copytree(src, dest, ignore=shutil.ignore_patterns(*IGNORE))
 
 
 def tree_digest(root: Path) -> str:

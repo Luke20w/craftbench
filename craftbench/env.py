@@ -2,9 +2,9 @@
 
     env = Environment(load_task("etl_pipeline"))
     ep = env.reset()
-    for prompt in ep.prompts:
-        policy.act(ep.workspace, prompt)       # the policy edits files in ep.workspace
-    grade = env.grade(ep.workspace, ep.dir)    # grade.reward is the per-rollout reward
+    for i, prompt in enumerate(ep.prompts, 1):
+        policy.run(ep.workspace, prompt, ep.dir / "build" / f"milestone_{i}")  # edits files in ep.workspace
+    grade = env.grade(ep.workspace, ep.dir)  # grade.reward is the per-rollout reward
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ from .analysis import ANALYZERS, code_metrics
 from .effort import change_effort
 from .grading import grade_snapshots, run_suite, run_suites
 from .reward import geomean, reward
-from .sandbox import LocalSandbox, tree_digest
+from .sandbox import LocalSandbox, copy_code, tree_digest
 from .task import Suite, Task
 
 POLICY_PROMPT = """You are building {program} in the current directory. It is run as `{run}`.
@@ -78,9 +78,9 @@ class Environment:
     # use several, ideally from different model families.
     extenders: list[Agent] = field(default_factory=lambda: [ClaudeCodeAgent("claude-sonnet-5-5"),
                                                             ClaudeCodeAgent("claude-opus-5-5")])
-    # Runs per extender per change; their efforts are averaged. A second run is worth ~+0.1 correlation with what code
-    # really costs to own (docs/experiments/v_measures.md).
-    extender_runs: int = 2
+    # Per change; the runs' efforts are averaged. A second run is worth ~+0.1 correlation with what code really costs
+    # to own (docs/experiments/v_measures.md).
+    runs_per_extender: int = 2
     max_parallel: int = 4           # extender runs at once
     lam: float = 0.5
     runs_dir: Path = Path("runs")
@@ -118,10 +118,15 @@ class Environment:
         F = passed / sum(len(r.tests) for r in milestones.values())
 
         changes = self.task.episode_changes()
-        jobs = [(c, e, k) for c in changes for e in self.extenders for k in range(self.extender_runs)]
+        jobs = [(c, e, k) for c in changes for e in self.extenders for k in range(self.runs_per_extender)]
+
+        def one_run(job):
+            change, extender, k = job
+            d = out / "maintain" / change.id / extender.name / f"run_{k}"
+            return self.maintain(extender, code, change, d, passed)
+
         with ThreadPoolExecutor(max(1, min(self.max_parallel, len(jobs)))) as ex:
-            runs = list(ex.map(lambda j: self.maintain(
-                j[1], code, j[0], out / "maintain" / j[0].id / j[1].name / f"run_{j[2]}", passed), jobs))
+            runs = list(ex.map(one_run, jobs))
         by_change = {c.id: [r for (cc, _, _), r in zip(jobs, runs) if cc.id == c.id] for c in changes}
         by_extender = {c: {e.name: st.mean(r["effort"] for r in rs if r["extender"] == e.name) for e in self.extenders}
                        for c, rs in by_change.items()}
@@ -153,7 +158,7 @@ class Environment:
         save_calls(run.calls, d / "calls.json")  # what scoring (and later re-scoring) needs
         # Hooks don't fire for failed tool calls, so always snapshot the final state too.
         final = sum(not c.is_error for c in run.calls) + 1
-        shutil.copytree(workspace, d / "snaps" / f"{final:04d}", ignore=shutil.ignore_patterns(".git", "__pycache__"))
+        copy_code(workspace, d / "snaps" / f"{final:04d}")
         result = {"extender": extender.name, "key": key, **self.score(run, d, code, change, regression_base)}
         done.write_text(json.dumps(result))
         return result
@@ -164,7 +169,6 @@ class Environment:
         already = run_suite(self.task, base, change).passed  # passing before the extender did anything
         effort = change_effort(run.calls, curve, base, ANALYZERS[self.task.language], regression_base, already)
         return {"effort": effort, "already_passing": len(already), "cost_usd": run.cost_usd, "usage": run.usage,
-                "stop": run.stop,
-                "tool_calls": len(run.calls),
+                "stop": run.stop, "tool_calls": len(run.calls),
                 "new_tests_passed": len(curve.points[-1].new_passed) if curve.points else 0,
                 "new_tests_total": len(curve.tests)}

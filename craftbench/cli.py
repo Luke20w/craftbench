@@ -14,14 +14,17 @@ from .env import Environment
 from .grading import run_suite, run_suites
 from .task import list_tasks, load_task
 
+BUILDER_TURNS = 120  # building from a spec takes more turns than an extender's change (make_agent's default)
+
 
 def main(argv=None):
     p = argparse.ArgumentParser(prog="craftbench")
     p.add_argument("command", choices=["tasks", "check-task", "grade", "validate", "smoke", "bench", "usage"])
-    p.add_argument("--task", default="etl_pipeline_xl_naive")
+    p.add_argument("--task", default="etl_pipeline_xl_naive", help="task id or folder (default %(default)s)")
     p.add_argument("--code", help="grade: the codebase to grade")
     p.add_argument("--recorded", help="validate: re-grade recorded runs instead of running the extender")
-    p.add_argument("--builders", default="", help="bench, smoke: comma-separated models that build the code")
+    p.add_argument("--builders", default="",
+                   help="bench, smoke: comma-separated models that build the code (the policies being benchmarked)")
     p.add_argument("--extenders", default="claude-sonnet-5-5,claude-opus-5-5",
                    help="comma-separated models in the extender panel; mix model families where you can "
                         "(e.g. add gpt-6-astra): what's easy to change depends on the reader")
@@ -33,9 +36,11 @@ def main(argv=None):
     p.add_argument("--runs-dir", default=os.environ.get("CRAFTBENCH_RUNS", "runs"),
                    help="where runs are kept (default $CRAFTBENCH_RUNS or ./runs)")
     p.add_argument("--max-5h", type=float, default=usage.QUOTA.max_five_hour,
-                   help="Claude subscription: pause when the 5-hour window is this full")
+                   help="guards a Claude subscription's 5-hour limit: once it is this full (default %(default)s), "
+                        "wait for it to reset before starting another run")
     p.add_argument("--max-week", type=float, default=usage.QUOTA.max_seven_day,
-                   help="Claude subscription: stop when the weekly window is this full")
+                   help="guards a Claude subscription's weekly limit: once it is this full (default %(default)s), "
+                        "start no more runs")
     a = p.parse_args(argv)
     usage.QUOTA.max_five_hour, usage.QUOTA.max_seven_day = a.max_5h, a.max_week
 
@@ -48,8 +53,8 @@ def main(argv=None):
         return
     task = load_task(a.task)
     extenders = [make_agent(m, budget_usd=a.extender_budget) for m in a.extenders.split(",") if m]
-    builders = [make_agent(m, max_turns=120, budget_usd=a.builder_budget) for m in a.builders.split(",") if m]
-    env = Environment(task, extenders=extenders, extender_runs=a.extender_runs, runs_dir=Path(a.runs_dir))
+    builders = [make_agent(m, max_turns=BUILDER_TURNS, budget_usd=a.builder_budget) for m in a.builders.split(",") if m]
+    env = Environment(task, extenders=extenders, runs_per_extender=a.extender_runs, runs_dir=Path(a.runs_dir))
     if a.command in ("smoke", "bench"):
         missing = [f"{x.name}: {why}" for x in extenders + builders if (why := x.available())]
         if missing:

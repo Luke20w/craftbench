@@ -1,8 +1,13 @@
-# Free pattern check (no model calls)
+# Do classic design patterns go with code that's easier to change?
 
-Do the 6 graded codebases' design patterns line up with how cheap they were to change? Static
-detection (syntax tree) + the open-source `scb-check` static-quality tool. n = 6, outcomes were already known, 4 of the
-6 are deliberate styles: **descriptive only**.
+A free check, with no model calls. For the 6 graded codebases, we detected design patterns from the syntax tree
+and ran the open-source `scb-check` static-quality tool, then compared both with how cheap each codebase was to
+change. This is **descriptive only**: n = 6, the outcomes were already known, and 4 of the 6 are deliberate styles.
+
+The two outcome columns come from earlier Haiku runs on the ETL task. **Single-change score** is the mean pass
+score (new-feature pass rate × old tests retained) over the independent runs of [change mix](change_mix.md) and
+its repeat runs (sub-pipelines, limits, trace). **Chain score** is the mean score on changes 2–4 of the
+four-change sequence in [effort definitions](effort_definitions.md) (sub-pipelines → limits → trace → libraries).
 
 | codebase | LOC | erosion (scb) | dispatch tables | longest op if/elif | classes | ABC classes | single-change score | chain score |
 |---|---|---|---|---|---|---|---|---|
@@ -24,20 +29,23 @@ Rank correlation with outcomes (+ = goes with easier-to-change code):
 
 ## Findings
 
-1. **Patterns didn't pay at this size.** Compact, direct code (one file, a long if/elif on the op
-   name) was cheapest to change; pattern-heavy designs were the most expensive.
-2. **Size dominates.** Lines of code predicts outcomes almost perfectly here, so pattern effects
-   can't be separated from brevity with this data.
-3. **CraftBench and a static quality metric disagree.** The codebase scb-check calls most eroded
-   (concentrated complexity) is among the cheapest to change.
-4. **Spec ambiguity drowned one change.** On sub-pipelines, extenders added `"defs": {}` to the
-   normalized output and broke 14 old tests in 5 of 6 runs. The spec never says whether that's
-   wanted, and the regression gate turns any such break into a total failure (all 5 hit the 40k
-   floor), so that change gave no gradation.
+- **Patterns didn't pay at this size.** Compact, direct code (one file, a long if/elif on the op name) was
+  cheapest to change. Pattern-heavy designs were the most expensive.
+- **Size dominates.** Lines of code predicts outcomes almost perfectly, so this data can't separate the effect of
+  patterns from brevity.
+- **CraftBench and a static quality tool disagree.** The codebase scb-check calls most eroded (concentrated
+  complexity) is among the cheapest to change.
+- **An ambiguous spec drowned one change.** On sub-pipelines, extenders added `"defs": {}` to the normalized
+  output and broke 14 old tests in 5 of 6 runs. The spec didn't say whether that's wanted. The regression gate
+  (snapshots count only while ≥ 98% of old tests pass) turns any such break into a total failure: every test is
+  charged the failure cost, max(all reading in the run, 40k tokens) (`FAILURE_TOKENS` in `craftbench/effort.py`).
+  All 5 runs got that charge, so that change gave no gradation.
 
-## Implications
+## What it means
 
-- For patterns to *emerge*, tasks need size and change types where they pay (e.g. many new step
-  types, where a registry beats an if/elif). At ~400–2,000 lines, the reward favours simple code.
-- Fix the sub-pipelines spec (state the normalized output format) before calibrating scores.
-- The all-or-nothing regression gate compresses scores; consider a softer penalty.
+- **Patterns need room to pay.** For them to emerge, tasks need the size and kinds of change where they win
+  (e.g. many new step types, where a registry beats an if/elif). At ~400–2,000 lines, the reward favors simple code.
+- **Sub-pipelines spec: fixed.** It now says `normalized` includes `defs` only when the request has `defs`
+  (`tasks/etl_pipeline/specs/subpipelines.md`).
+- **The all-or-nothing regression gate compresses scores.** Whether a softer penalty for broken old tests would
+  give more gradation without rewarding regressions is an open question.

@@ -39,7 +39,7 @@ class CopiesReference:
 def test_rerunning_reuses_builds_and_extender_runs(tmp_path):
     task = load_task("etl_pipeline")
     builder, ext = CopiesReference("ref", task), CopiesReference("x", task)
-    env = Environment(task, extenders=[ext], extender_runs=1, runs_dir=tmp_path)
+    env = Environment(task, extenders=[ext], runs_per_extender=1, runs_dir=tmp_path)
     first = run(env, [builder], runs=1)["ref"][0]
     assert first["milestone_pass_fraction"] == pytest.approx(115 / 117) and (builder.runs, ext.runs) == (3, 3)
     assert "| ref | 1 | 0.98 |" in report({"ref": [first]})
@@ -50,14 +50,20 @@ def test_rerunning_reuses_builds_and_extender_runs(tmp_path):
     new = CopiesReference("y", task)  # a bigger panel later: only the new extender runs
     env.extenders = [ext, new]
     graded = run(env, [builder], runs=1)["ref"][0]
-    assert (builder.runs, ext.runs, new.runs) == (3, 3, 3) and set(graded["efforts_by_extender"]["limits"]) == {"x", "y"}
+    assert (builder.runs, ext.runs, new.runs) == (3, 3, 3)
+    assert set(graded["efforts_by_extender"]["limits"]) == {"x", "y"}
 
 
 def test_results_carry_over_to_another_checkout(tmp_path, monkeypatch):
     task = load_task("etl_pipeline")
     builder, ext = CopiesReference("ref", task), CopiesReference("x", task)
-    run(Environment(task, extenders=[ext], extender_runs=1, runs_dir=tmp_path / "a"), [builder], runs=1)
+
+    def env(runs_dir):
+        return Environment(task, extenders=[ext], runs_per_extender=1, runs_dir=runs_dir)
+
+    run(env(tmp_path / "a"), [builder], runs=1)
     shutil.copytree(tmp_path / "a", tmp_path / "b")  # e.g. exported to the repo, restored elsewhere
-    monkeypatch.setattr(Environment, "run_hint", property(lambda self: "/elsewhere/python etl_pipeline.py"))  # another venv
-    graded = run(Environment(task, extenders=[ext], extender_runs=1, runs_dir=tmp_path / "b"), [builder], runs=1)["ref"]
+    another_venv = property(lambda self: "/elsewhere/python etl_pipeline.py")
+    monkeypatch.setattr(Environment, "run_hint", another_venv)
+    graded = run(env(tmp_path / "b"), [builder], runs=1)["ref"]
     assert graded and (builder.runs, ext.runs) == (3, 3)  # nothing rebuilt or rerun

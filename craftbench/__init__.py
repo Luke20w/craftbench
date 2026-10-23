@@ -4,3 +4,6 @@ from .agents import Agent, ClaudeCodeAgent, CodexAgent, GeminiAgent, RecordedAge
 from .env import Environment, Grade
 from .reward import reward
 from .task import load_task
+
+__all__ = ["Agent", "ClaudeCodeAgent", "CodexAgent", "Environment", "GeminiAgent", "Grade", "RecordedAgent", "ToolCall",
+           "load_task", "make_agent", "reward"]

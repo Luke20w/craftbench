@@ -103,7 +103,7 @@ def reading_at_snapshot(read: list[float], calls: list[ToolCall], snapshot: int)
         return read[-1]
     if snapshot <= 0 or not successful:
         return read[0]
-    return read[successful[min(snapshot, len(successful)) - 1] + 1]
+    return read[successful[snapshot - 1] + 1]
 
 
 def change_effort(calls: list[ToolCall], curve: Curve, base: Path, analyzer: PythonAnalyzer,
@@ -126,4 +126,4 @@ def change_effort(calls: list[ToolCall], curve: Curve, base: Path, analyzer: Pyt
         return failed if start is None else reading_at_snapshot(read, calls, curve.points[start].call)
 
     tests = [t for t in curve.tests if t not in already_passing]
-    return st.mean(charge(t) for t in tests) if tests else max(failed, FAILURE_TOKENS)
+    return st.mean(charge(t) for t in tests) if tests else failed

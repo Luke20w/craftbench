@@ -1,3 +1,5 @@
+"""The effort rules in effort.py, each of which closes a gap an experiment found."""
+
 import pytest
 
 from craftbench.agents import ToolCall
@@ -44,8 +46,8 @@ def test_reading_dense_code_costs_more():
     assert read_weight(read, TASK.reference, PY) == pytest.approx(1.0, abs=0.01)  # clean code ≈ 1
     assert read_weight(read, TASK.mutants / "golfed", PY) == pytest.approx(1.895, abs=0.01)
     assert read_weight(bash(4_000), TASK.mutants / "golfed", PY) == 1.0  # not code
-    cat = ToolCall("Bash", {"command": "cat etl_pipeline.py"}, 4_000)
-    assert read_weight(cat, TASK.mutants / "golfed", PY) == pytest.approx(1.895, abs=0.01)  # printing code is reading it
+    cat = ToolCall("Bash", {"command": "cat etl_pipeline.py"}, 4_000)  # printing code is reading it
+    assert read_weight(cat, TASK.mutants / "golfed", PY) == pytest.approx(1.895, abs=0.01)
     # globs, directories and `cd` all lead to the code a command prints
     for command in ("cat *", "cd /x/code && grep -rn def .", "cd / && cat x/code/etl_pipeline.py | head"):
         assert read_weight(ToolCall("Bash", {"command": command}, 4_000), TASK.mutants / "golfed", PY) == \
@@ -96,6 +98,9 @@ def test_unparseable_source_still_counts_as_code(tmp_path):
 def test_code_is_code_whatever_the_file_is_called(tmp_path):
     (tmp_path / "logic.txt").write_text((TASK.mutants / "golfed" / "etl_pipeline.py").read_text())  # loaded by a hook
     (tmp_path / "pyproject.toml").write_text('[project]\nname = "etl"\nversion = "1.0"\n')  # parses, but isn't code
-    read = lambda name: ToolCall("Read", {"file_path": f"/x/code/{name}"}, 4_000)
+
+    def read(name):
+        return ToolCall("Read", {"file_path": f"/x/code/{name}"}, 4_000)
+
     assert read_weight(read("logic.txt"), tmp_path, PY) == pytest.approx(1.895, abs=0.01)
     assert read_weight(read("pyproject.toml"), tmp_path, PY) == 1.0

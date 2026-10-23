@@ -19,7 +19,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Protocol
 
-from ..sandbox import IGNORE, tree_digest
+from ..sandbox import copy_code, tree_digest
 from ..usage import QUOTA
 
 POLL_S = 0.5
@@ -158,7 +158,7 @@ def _poll(workspace: Path, tmp: Path, taken: list, stop: threading.Event) -> Non
         try:
             d = tree_digest(workspace)
             if d != last:
-                shutil.copytree(workspace, dest, ignore=lambda _, names: [n for n in names if n in IGNORE])
+                copy_code(workspace, dest)
                 last = d
                 taken.append((time.time(), dest))
         except (OSError, shutil.Error):  # a file vanished mid-copy: try again next poll

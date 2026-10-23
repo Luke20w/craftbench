@@ -1,3 +1,5 @@
+"""The reward as a per-rollout signal: what it ranks, and what it ignores."""
+
 import pytest
 
 from craftbench.reward import reward
@@ -11,6 +13,10 @@ def test_less_reading_scores_higher():
     assert reward(1.0, [4_000]) > reward(1.0, [6_000])
 
 
+def relative(rewards):  # each as a multiple of the group's first
+    return [r / rewards[0] for r in rewards]
+
+
 def test_ranking_does_not_depend_on_scale():
     """Scaling every effort, or one change being naturally bigger, scales every reward in the group
     by the same factor, so the ranking within a group is unchanged."""
@@ -18,7 +24,6 @@ def test_ranking_does_not_depend_on_scale():
     base = [reward(f, e) for f, e in group]
     scaled = [reward(f, [x * 7 for x in e]) for f, e in group]
     bigger_change = [reward(f, [e[0], e[1] * 10]) for f, e in group]
-    relative = lambda rs: [r / rs[0] for r in rs]  # noqa: E731
     assert relative(scaled) == pytest.approx(relative(base))
     assert relative(bigger_change) == pytest.approx(relative(base))
 

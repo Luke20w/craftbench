@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from functools import cache
 from pathlib import Path
 
+from .sandbox import tree_digest
 from .task import Suite, Task
 
 
@@ -42,6 +43,8 @@ class Curve:
 # on the machine shares this many test-suite slots (default: one per CPU).
 TEST_SLOTS = int(os.environ.get("CRAFTBENCH_TEST_SLOTS", os.cpu_count() or 4))
 _SLOT_DIR = Path(tempfile.gettempdir()) / "craftbench_test_slots"
+SUITE_TIMEOUT_S = 900  # a backstop: hidden tests already time out per CLI call
+SNAPSHOT_WORKERS = 4   # snapshots graded at once; the test slots bound how many suites really run
 
 
 @contextmanager
@@ -69,7 +72,8 @@ def _pytest(task: Task, code: Path, suite: Suite, *flags: str) -> str:
     files = [str(task.tests_dir / t) for t in suite.tests]
     cmd = [sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", *flags, *files, "--entrypoint", entry]
     with _test_slot():
-        return subprocess.run(cmd, cwd=task.tests_dir, capture_output=True, text=True, timeout=900).stdout
+        return subprocess.run(cmd, cwd=task.tests_dir, capture_output=True, text=True,
+                              timeout=SUITE_TIMEOUT_S).stdout
 
 
 @cache
@@ -94,7 +98,8 @@ def grade_snapshots(task: Task, change: Suite, snap_root: Path) -> Curve:
     cache_file = snap_root.parent / f"curve_{change.id}.json"
     if cache_file.exists():
         raw = json.loads(cache_file.read_text())
-        return Curve(tuple(raw["tests"]), tuple(CurvePoint(p["call"], frozenset(p["new"]), p["reg"]) for p in raw["points"]))
+        return Curve(tuple(raw["tests"]),
+                     tuple(CurvePoint(p["call"], frozenset(p["new"]), p["reg"]) for p in raw["points"]))
 
     def point(path: Path) -> CurvePoint:
         new = run_suite(task, path, change).passed
@@ -105,15 +110,14 @@ def grade_snapshots(task: Task, change: Suite, snap_root: Path) -> Curve:
 
     snaps = sorted(snap_root.glob("[0-9]*"), key=lambda p: int(p.name)) if snap_root.exists() else []
     # Most tool calls only read, so most snapshots repeat the one before: grade each distinct tree once.
-    from .sandbox import tree_digest
     digests = [tree_digest(p) for p in snaps]
     first = {}
     for p, dg in zip(snaps, digests):
         first.setdefault(dg, p)
-    with ThreadPoolExecutor(4) as ex:
+    with ThreadPoolExecutor(SNAPSHOT_WORKERS) as ex:
         graded = dict(zip(first, ex.map(point, first.values())))
-    curve = Curve(collect(task, change), tuple(CurvePoint(int(p.name), graded[dg].new_passed, graded[dg].regression_passed)
-                                               for p, dg in zip(snaps, digests)))
+    curve = Curve(collect(task, change), tuple(
+        CurvePoint(int(p.name), graded[dg].new_passed, graded[dg].regression_passed) for p, dg in zip(snaps, digests)))
     cache_file.write_text(json.dumps({"tests": list(curve.tests), "points": [
         {"call": p.call, "new": sorted(p.new_passed), "reg": p.regression_passed} for p in curve.points]}))
     return curve

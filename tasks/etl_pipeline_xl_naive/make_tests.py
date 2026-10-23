@@ -3,7 +3,7 @@
 Each case is {"id", "steps", "dataset"}; a dataset of null means normalize only (no --execute). Rerun this
 after changing a case or the reference:
 
-    python tasks/etl_pipeline_xl/make_tests.py
+    python tasks/etl_pipeline_xl_naive/make_tests.py
 """
 import json
 import subprocess
