@@ -18,5 +18,6 @@ Experiments with their own runners have a matching folder in [`scripts/`](../../
 | [v_measures](v_measures.md) | which measure predicts long-run cost; exploits, selection, real repos | [v_measures](../../scripts/v_measures) |
 | [review_followups](review_followups.md) | notes, defects, invariants, a third reader | [review_followups](../../scripts/review_followups) |
 | [structure_axes](structure_axes.md) | a domain where the right structure is known | [structure_axes](../../scripts/structure_axes) |
+| [precision](precision.md) | can it rank one policy's rollouts | [precision](../../scripts/precision) |
 
 Early write-ups refer to scratch paths (`.context/exp*`) that aren't part of the repo.

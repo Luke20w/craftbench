@@ -57,7 +57,7 @@ Gemini CLI), sandbox, and code analyzer (per language).
 
 ## Not done
 
-- **Precision.** One measurement's noise (~10–15%) is larger than the gap between near-identical rollouts (#28).
+- **Within-group signal.** One policy's rollouts haven't yet differed in cost to own (#28).
 - **A rotating change pool.** Each task's changes are fixed; pre-built changes are now charged as failures,
   but a large pool would remove the incentive altogether.
 - **Chained changes** in the reward (they are used as the answer key in experiments, not in episodes).

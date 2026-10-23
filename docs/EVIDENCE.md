@@ -48,7 +48,7 @@ Every result so far, grouped by question. Setup, predictions and raw tables are 
 | 25 | Can notes steer the extender? | **Not at this size**; telling it to ignore notes added 16–42% reading | [follow-ups](experiments/review_followups.md) |
 | 26 | What does an optimizer told to game it do? | **Writes clean code**, as cheap to own as the reference | [V measures](experiments/v_measures.md) |
 | 27 | Does best-of-3 selection make code cheaper to own? | **No** | [V measures](experiments/v_measures.md) |
-| 28 | Can it rank near-identical rollouts? | **Not yet**: siblings differ by less than one measurement's noise (~10–15%) | [V measures](experiments/v_measures.md) |
+| 28 | Can it rank one policy's rollouts? | **There's nothing to rank yet**: 6 Sonnet builds from scratch, like siblings from one state, cost the same to own within noise (true spread ≤ ~13%); the probes' ranking of them is noise. Across policies it works. More changes beat more runs | [precision](experiments/precision.md) |
 | 29 | Do real open-source refactors agree? | **Inconclusive**: real changes needed too little reading | [V measures](experiments/v_measures.md) |
 | 30 | Does it predict real project history? | **Not in a 21-module pilot** | [V measures](experiments/v_measures.md) |
 | 31 | Does it carry over to docs? | **Not yet**: README cost tracked length | [V measures](experiments/v_measures.md) |
