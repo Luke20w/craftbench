@@ -30,6 +30,12 @@ def test_codex_events_map_onto_claude_tool_names():
     assert parse_codex([json.dumps(events[1])], [1])[0] is None  # never finished a turn
 
 
+def test_a_claude_run_cut_off_by_an_api_error_never_finished(tmp_path):
+    result = {"type": "result", "subtype": "success", "is_error": True, "terminal_reason": "api_error",
+              "result": "API Error: Can't reach the API server"}
+    assert ClaudeCodeAgent().parse([json.dumps(result)], [], tmp_path) == (None, [])
+
+
 def test_gemini_reading_comes_from_the_session_log(tmp_path):
     chats = tmp_path / ".gemini" / "tmp" / "proj" / "chats"
     chats.mkdir(parents=True)
