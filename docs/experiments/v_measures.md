@@ -145,13 +145,13 @@ this correction and the later read-weighting changes; expect small shifts if the
 ## Round 2: other readers, independent witnesses, exploits, optimization
 
 Run after the results above, on the same task. Each line is one experiment; scripts are in
-`scripts/v_measures/` and `scripts/realrepo/`.
+`scripts/v_measures/`.
 
 | question | result |
 |---|---|
 | Does a third model family (Codex, `gpt-6-astra`) agree? | Not much. The three maintainers' long-run costs agree at ρ = +0.16 (Opus–Sonnet), +0.37 (Opus–Codex), −0.01 (Sonnet–Codex), though each repeats itself (+0.56 to +0.82). All three agree the reference is cheapest and the planted flaws cost more |
 | Does a panel predict a reader it wasn't built from? | Weakly: +0.67, +0.22, +0.27 for the held-out Opus, Sonnet and Codex maintainer. A three-reader panel predicts the three-maintainer answer key at +0.83 [+0.38, +1.00], better than any single reader (+0.52 to +0.67), partly because each reader is on both sides |
-| Does it agree with a human? (Luke ranked 10 pairs of codebases blind) | The three-reader panel agreed on 8/10 (5/5 of the confident picks); single-reader probes on 5–6/10; the Opus maintainer's long-run cost on 9/10, the Sonnet maintainer's on 4/10. One rater, half the picks low-confidence |
+| Does it agree with a human? (the author ranked 10 pairs of codebases blind) | The three-reader panel agreed on 8/10 (5/5 of the confident picks); single-reader probes on 5–6/10; the Opus maintainer's long-run cost on 9/10, the Sonnet maintainer's on 4/10. One rater, half the picks low-confidence |
 | Can it be gamed? (9 hand-built exploits, live Sonnet and Opus runs) | Three exploits worked: pre-implementing the fixed hidden changes (reward ×7.1), files that don't parse as Python (×2.9, counted as zero size) and docstring padding that diluted read weights (×1.29). All three are fixed in `effort.py`/`analysis.py` (×0.37, ×0.93, ×1.01 after); everything else stayed within ±7%. Grader-targeted notes and a maintainer guide did nothing |
 | What does an optimizer that knows the scoring do? (Opus told to maximize the score by any means) | It wrote a clean table-driven design with a map for the next maintainer: the best probe scores, and as cheap to own as the reference (5.2k vs 4.8k), cheaper than all four honest builds (6.4–7.5k). One run |
 | Does selecting by the reward make code better? (best of 3 Opus continuations per milestone, 2 seeds) | No: the selected codebases cost 7.2k and 8.0k to own, the plain builds 6.4k and 7.5k |
@@ -172,4 +172,4 @@ witnesses outside the LLM loop (real history, real refactors) are so far null or
 `scripts/v_measures/`: `build.py` (builds), `run.py` (probe / bigprobe / plan / judge / chain runs, resumable),
 `drive.sh` (the first round's queue), `analyze.py` (this report, raw numbers in `v_measures_data.json`),
 `best_of_n.py` and `more_siblings.py` (selection), `redteam_build.py`, `readme_evolve.py` / `readme_use.py`
-(docs), `realrepo_run.py` (real-repo probes from `scripts/realrepo/`).
+(docs), `realrepo_run.py` (real-repo probes, built by `realrepo/`).

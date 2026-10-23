@@ -123,9 +123,10 @@ on F), but it rates flat best on both streams (1 file), which is wrong.
 - Change size is tokens of normalized source changed (docstrings and formatting removed), counted per token.
   An earlier line-level count inflated by_kind's changes (1.24–1.32x); the corrected numbers are above.
 - Under heavy machine load the test runner sometimes failed outright, which the grader read as the extender
-  breaking every existing test. `scripts/axes/regrade.py` regrades such runs from their snapshots: 1 of 216 was
+  breaking every existing test. `scripts/structure_axes/regrade.py` regrades such runs from their snapshots: 1 of 216 was
   affected (40k -> 4.1k); another showed a real break mid-edit that reproduced.
-- Scored with the read-weighting rules as of commit f47f6ee. Branch `Luke20w/review-measure-fixes` (4209447) re-weights shell reads of several files; the runs can be rescored for free by rerunning `scripts/axes/drive.sh` once it lands.
+- Scored before reads were weighted per file (5c45b44). Rescoring 126 of the runs with the current rules raised
+  every variant's effort by 2–4%, so the ratios above move by about 2% at most.
 
 ## Predictions
 
@@ -143,5 +144,5 @@ Written before results (`.context/axes/PREDICTIONS.md`):
 | S2 | by_kind cheapest of all on S | Sonnet yes (0.85); Opus no (flat 0.61, families 0.70, by_kind 0.73) |
 | S3 | families change size < 0.8x by_format on S | **no**: 0.85–0.87 |
 
-Rerun: `python tasks/docrender/gen/make.py` (variants and tests), `scripts/axes/drive.sh`, then
-`python scripts/axes/analyze.py`.
+Rerun: `python tasks/docrender/gen/make.py` (variants and tests), `scripts/structure_axes/drive.sh`, then
+`python scripts/structure_axes/analyze.py`.

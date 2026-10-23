@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 DATA = ROOT / ".context" / "realrepo"
 REPOS = DATA / "repos"
 

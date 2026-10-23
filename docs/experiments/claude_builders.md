@@ -25,7 +25,7 @@ counted in syntax nodes like other code reads; before that fix Opus and Sonnet o
 
 ## Caveats
 
-- **A small task.** This is the regime where size dominates ([EVIDENCE](../EVIDENCE.md) #7, #11); see
+- **A small task.** This is the regime where size dominates ([EVIDENCE](../EVIDENCE.md) #8, #12); see
   [`etl_pipeline_xl`](xl_calibration.md) for a task big enough that structure shows.
 - **One extender, from the same family as the builders.** Opus rating Opus's code easiest can't be told
   apart from self-preference until GPT and Gemini extenders are added.

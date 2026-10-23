@@ -1,56 +1,79 @@
 # Evidence
 
-Multi-stage CLI data-pipeline task, Claude Haiku as the extender. Raw notes in [experiments/](experiments/).
+Every result so far, grouped by question. Setup, predictions and raw tables are in each write-up.
 
-## Findings
+## What to measure
 
-| # | Question | Result |
-|---|---|---|
-| 1 | Can an LLM judge grade good code? | **No.** A SOLID/DRY rubric judge was *anti*-correlated with real outcomes (ρ = −0.33) |
-| 2 | Does an extender give a usable signal? | **Yes, with varied changes.** Duplication and over-engineering clearly penalised; run-to-run agreement +0.89 |
-| 3 | What's the best "effort" measure? | **Reading until the code works**: 8/8 known pairs, reliability +0.85, not fooled by a "you're done" comment |
-| 4 | Do turns / cost / lines changed work? | **No.** Turns 0/8 (inverted); lines changed and turns gamed by a comment |
-| 5 | Does the 90% cutoff matter? | **No.** 70–100% and per-test all 8/8; we use per-test (no threshold) |
-| 6 | Can golfed code fool it? | **Raw reading yes** (−22 to −50%). **Measured in syntax nodes: partly fixed** (+29% on the big change, −6% n.s. on the small one) |
-| 7 | Does the packaged reward reproduce this? | **Yes.** Reference beats 5/5 degraded copies; 9/10 per change |
-| 8 | Does it reward design patterns? | **Not at this size.** At 400–2,000 lines, compact direct code was cheapest to change; size dominates ([notes](experiments/pattern_check.md)) |
-| 9 | Does it reward good modeling (a few composable concepts) at equal size? | **Not below ~7k tokens:** the extender reads the whole file, so reading tracks file length. **Yes at ~12–16k tokens across files:** an if/elif version needed +93% / +149% more reading on 2 of 3 change types (+74% overall, size gap +34%) ([notes](experiments/modeling_scale.md)) |
-| 10 | Does the env's grader reproduce #9? | **Yes**, +102% overall on the same runs (case +111%, sub-pipelines +193%, limits +33%). A floored variant that charges comments as tokens gave +80%; part of the difference is that the composable version is better documented, which pure node counting doesn't charge for |
-| 11 | Does splitting one big file into modules pay off at ~22k tokens (circuit_eval, same code)? | **Yes:** the one-file version needed +68–141% more reading. Descriptive names didn't matter. With a 200-line reading window the direction flipped (small n), so what gets rewarded depends on how the extender reads |
-| 12 | Does a clean fixture tempt agents to special-case (`if name == X`) instead of using the existing model? | **No:** 18/18 Haiku and Sonnet runs used the model correctly. Catching special-casing needs realistic pressure (legacy special cases, size, weak docs); hidden "clone/sibling" tests do catch it when it happens |
-
-Predictions for #3 were written down before running ([PREDICTIONS.md](experiments/PREDICTIONS.md)),
-including some that turned out wrong.
-
-## Validation (`craftbench validate --recorded data/recorded/etl_pipeline`)
-
-| variant | effort: limits | effort: sub-pipelines | verdict |
+| # | Question | Result | Write-up |
 |---|---|---|---|
-| reference | 4,268 | 5,921 | |
-| misleading note (same code) | 4,232 | 5,538 | ≈ reference ✓ |
-| dead code | 7,187 | 10,655 | harder ✓ |
-| duplicated logic | 6,987 | 9,068 | harder ✓ |
-| golfed | 4,112 | 8,832 | harder ✓ |
-| needless indirection | 4,542 | 9,157 | harder ✓ |
-| junk names | 4,746 | 9,533 | harder ✓ |
+| 1 | Can an LLM judge spot code that's easy to change? | **No.** A SOLID/DRY rubric was anti-correlated with the real outcome (ρ = −0.33) | [judge](experiments/judge_vs_extender.md) |
+| 2 | Does one easy change separate codebases? | **No.** 8 of 9 scored 91–98%; repeat runs agreed at +0.51 | [judge](experiments/judge_vs_extender.md) |
+| 3 | Do different kinds of change? | **Yes.** Scores spread 0.52–0.98, repeats agreed at +0.89; each kind exposed a different flaw | [change mix](experiments/change_mix.md) |
+| 4 | What should effort mean? | **Reading until the tests pass**: 8/8 known pairs. Turns were inverted, cost flat, lines changed fooled by a "you're done" comment | [effort](experiments/effort_definitions.md) |
+| 5 | Does compressed code fool it? | **Raw tokens, yes** (22–50% easier). **Syntax nodes, mostly not** (+29% on the bigger change, n.s. on the small one) | [golf](experiments/golf_confirmation.md) |
+| 6 | Must the extender make the change? | **Yes.** Implementing probes predict long-run cost at +0.58 to +0.77; plans, a judge and static metrics ≤ +0.38 | [V measures](experiments/v_measures.md) |
+| 7 | Can defects be an answer key that isn't reading? | **Not with additive changes**: 0 broken answers in 50 chains. Needs changes that modify behaviour | [follow-ups](experiments/review_followups.md) |
 
-Grader check (2026-10-19), all free re-scoring of recorded runs:
-- **Snapshot alignment fixed.** The snapshot hook doesn't fire for failed tool calls (43 of 44 recorded
-  runs had some, 10.7 per run on average), so snapshot *k* is the k-th *successful* call. The grader now
-  maps it back to the transcript. Most gaps above grew by a few points; verdicts didn't change.
-- **Code is measured in syntax nodes** (no floor), per file, for Read, Grep/Glob and shell commands that
-  print source. A floored variant (charge tokens or nodes, whichever is larger) gave the same validation
-  verdicts; pure nodes was kept because it's simpler and doesn't reward stripping comments.
-- **Auto-loaded instruction files** (CLAUDE.md, AGENTS.md) are now charged as read; before, the policy
-  could hand the extender free context.
-- **Final snapshot.** The extender's last edit can happen in a failed tool call, which the hook skips, so
-  the final workspace is always snapshotted too.
+## Size and structure
+
+| # | Question | Result | Write-up |
+|---|---|---|---|
+| 8 | Design patterns at 400–2,000 lines? | **No.** Lines of code alone predicted cost (ρ = −0.99) | [patterns](experiments/pattern_check.md) |
+| 9 | Composable vs if/elif, one file ≤ 7k tokens? | **No.** The extender reads the whole file; reading tracks length | [scale](experiments/modeling_scale.md) |
+| 10 | …at 12–16k tokens across files? | **Yes.** if/elif needed +74% more reading (size gap +34%) | [scale](experiments/modeling_scale.md) |
+| 11 | One file vs modules at ~22k tokens, same code? | **Modules win**: one file needed +68–141% more | not archived |
+| 12 | Small task, size-matched: cleaner but longer? | **Rated harder** on all 3 changes. Small tasks reward size | [opus + size](experiments/opus_and_size.md) |
+| 13 | 52 operations, composable vs if/elif, same size? | **Composable wins all 4 changes** (+20% to +150%); single runs disagreed on 2 | [XL calibration](experiments/xl_calibration.md) |
+| 14 | Does size decide on large code? | **No**: ρ = +0.13 with long-run cost | [V measures](experiments/v_measures.md) |
+| 15 | Known right structure (renderer, 6 organizations): does the preference flip with the changes? | **Yes, unevenly.** Wrong axis cost 2.5–4.2× on new formats; the right axis saved only 13–21% on new kinds, where edits are the same everywhere and agents script them | [axes](experiments/structure_axes.md) |
+| 16 | Does it reward an abstraction that compresses the domain? | **No, it penalizes it**: 1.4–1.7× more reading despite the smallest code and edits | [axes](experiments/structure_axes.md) |
+| 17 | Does stating or enforcing an invariant save reading? | **No.** Sonnet already trusts the design; Opus reads every op regardless | [follow-ups](experiments/review_followups.md) |
+| 18 | Does a clean fixture tempt special-casing (`if name == X`)? | **No**: 18/18 runs used the model | not archived |
+
+## Readers
+
+| # | Question | Result | Write-up |
+|---|---|---|---|
+| 19 | Is one reader consistent? | **Yes.** 96–98% of effort variance on bigger changes comes from the code | [reliability](experiments/opus_reliability.md) |
+| 20 | Do readers agree? | **No.** Opus rates golfed code 2× easier. Opus probes predict long-run cost at +0.31, Sonnet at +0.77; the two maintainers agree at +0.16 | [V measures](experiments/v_measures.md) |
+| 21 | A third family (Codex)? | **Each reader predicts itself best** (Codex → Codex +0.92, Sonnet → Codex +0.01). A three-family panel predicts the three-maintainer cost at +0.83 | [follow-ups](experiments/review_followups.md) |
+| 22 | Does it agree with a human? | **8 of 10 blind pairs** for the three-family panel; single readers 5–6 | [V measures](experiments/v_measures.md) |
+
+## As a reward
+
+| # | Question | Result | Write-up |
+|---|---|---|---|
+| 23 | Does the packaged grader reproduce the experiments? | **Yes**, [below](#validation) | |
+| 24 | Can it be gamed? (9 exploits) | **Three worked, all fixed**: pre-built changes ×7.1 → ×0.37, unparseable files ×2.9 → ×0.93, docstring padding ×1.29 → ×1.01 | [exploits](../tasks/etl_pipeline_xl_naive/exploits/README.md) |
+| 25 | Can notes steer the extender? | **Not at this size**; telling it to ignore notes added 16–42% reading | [follow-ups](experiments/review_followups.md) |
+| 26 | What does an optimizer told to game it do? | **Writes clean code**, as cheap to own as the reference | [V measures](experiments/v_measures.md) |
+| 27 | Does best-of-3 selection make code cheaper to own? | **No** | [V measures](experiments/v_measures.md) |
+| 28 | Can it rank near-identical rollouts? | **Not yet**: siblings differ by less than one measurement's noise (~10–15%) | [V measures](experiments/v_measures.md) |
+| 29 | Do real open-source refactors agree? | **Inconclusive**: real changes needed too little reading | [V measures](experiments/v_measures.md) |
+| 30 | Does it predict real project history? | **Not in a 21-module pilot** | [V measures](experiments/v_measures.md) |
+| 31 | Does it carry over to docs? | **Not yet**: README cost tracked length | [V measures](experiments/v_measures.md) |
+| 32 | Benchmark of Claude builders (small task) | **Opus > Sonnet > Fable**, mostly following size | [builders](experiments/claude_builders.md) |
+
+## Validation
+
+`craftbench validate --task etl_pipeline --recorded data/recorded/etl_pipeline` re-grades recorded Haiku runs with
+the current grader, no model calls:
+
+| variant | effort: limits | effort: sub-pipelines | reward ×100 |
+|---|---|---|---|
+| reference | 5,018 | 5,922 | 1.33 |
+| misleading note (same code) | 5,039 | 5,603 | 1.35 |
+| dead code | 8,476 | 10,684 | 1.01 |
+| duplicated logic | 8,383 | 9,229 | 1.05 |
+| golfed | 4,596 | 8,557 | 1.24 |
+| needless indirection | 5,479 | 9,292 | 1.16 |
+| junk names | 5,578 | 9,533 | 1.15 |
+
+Every flawed copy scores lower; 9 of 10 per-change comparisons go the right way (golf on `limits` doesn't).
 
 ## Caveats
 
-- Small n; one domain; one extender model.
-- Degraded copies are mostly *longer*, so part of the signal may be brevity. Size-matched tests (#9) show
-  reading rewards structure beyond size only once codebases are too big to read in one go.
-- The final measure's refinements were chosen after seeing data; needs a fresh confirmation run.
-- Below ~7k tokens an LLM reader takes in the whole codebase, so structure inside it is invisible (#9).
-- Untested attacks: pre-building hidden changes, stripping comments, prompt injection.
+- Two domains; Claude and Codex readers.
+- The answer key is LLM reading too; checks outside that loop (#7, #29–30) are null so far.
+- Counting syntax nodes rather than tokens is a choice, and it decides whether golf is costly (#5, #20).
+- Older write-ups predate later grader fixes; their numbers shift by a few percent.

@@ -1,18 +1,22 @@
-# Experiment notes (archived as written)
+# Experiments
 
-Raw notes and result tables from the experiments summarised in [../EVIDENCE.md](../EVIDENCE.md).
-Paths inside refer to the original scratch workspace (`.context/exp*`), which is not part of this repo.
+One write-up per experiment, in the order they ran, kept as written; [EVIDENCE](../EVIDENCE.md) summarises them.
+Experiments with their own runners have a matching folder in [`scripts/`](../../scripts).
 
-* `PREDICTIONS.md`: pre-registered predictions for the effort-definition study
-* `effort_definitions_FINDINGS.md`, `effort_definitions_RESULTS.md`: that study's write-up and full scoreboard
-* `golf_confirmation.md`: 6-run golf check of the node-weighted measure
-* `modeling_scale.md`: does the reward favor composable designs over if/elif at equal size
-* `judge_vs_extender.md`: LLM judges vs measured change outcomes on 9 codebases
-* `pattern_check.md`: static design-pattern indicators vs change outcomes on 6 codebases
-* `change_mix.md`: three kinds of change request (new capability, rule everywhere, cross-cutting) on 6 codebases
-* `opus_and_size.md`: Opus as the extender, and a size-matched check (bigger-but-cleaner vs smaller-but-golfed)
-* `opus_reliability.md`: is the extender's signal consistent? Opus, 3 runs per cell, vs recorded Haiku runs
-* `claude_builders.md`: benchmark of Claude Opus 5.5, Sonnet 5.5 and Fable 5.1 as builders (3 builds each, Opus extender)
-* `xl_calibration.md`: the 52-operation task's calibration check, composable reference vs if/elif mutant
-* `v_measures.md`: which way of computing change cost (probe models, panel, plan-only, judge, static metrics) predicts the real cost of owning code, measured by chains of held-out changes on the plain-language XL task
-* `structure_axes.md`: a domain where the right structure is known (document renderer, 5 organizations x 2 streams of changes): does the cost to extend flip its preference when the stream flips
+| write-up | question | runner |
+|---|---|---|
+| [effort_definitions](effort_definitions.md) ([predictions](effort_definitions_predictions.md), [results](effort_definitions_results.md)) | what "effort to change" should mean | |
+| [golf_confirmation](golf_confirmation.md) | does compressed code fool it | |
+| [judge_vs_extender](judge_vs_extender.md) | LLM judges vs measured changes | |
+| [change_mix](change_mix.md) | which kinds of change separate codebases | |
+| [pattern_check](pattern_check.md) | do design patterns predict cost on small code | |
+| [modeling_scale](modeling_scale.md) | composable vs if/elif as code grows | |
+| [opus_and_size](opus_and_size.md) | a stronger reader; size-matched variants | |
+| [opus_reliability](opus_reliability.md) | is one reader consistent | |
+| [claude_builders](claude_builders.md) | benchmark of Claude builders | `craftbench bench` |
+| [xl_calibration](xl_calibration.md) | composable vs if/elif at 52 operations | `craftbench validate` |
+| [v_measures](v_measures.md) | which measure predicts long-run cost; exploits, selection, real repos | [v_measures](../../scripts/v_measures) |
+| [review_followups](review_followups.md) | notes, defects, invariants, a third reader | [review_followups](../../scripts/review_followups) |
+| [structure_axes](structure_axes.md) | a domain where the right structure is known | [structure_axes](../../scripts/structure_axes) |
+
+Early write-ups refer to scratch paths (`.context/exp*`) that aren't part of the repo.

@@ -54,7 +54,7 @@ usage is being billed, it stops; finished work is kept for the next run.
 
 1. **Builders:** builds, F, reward and effort per change (medians, range in brackets), and code size in
    syntax nodes. Read effort next to size: on small tasks the reward mostly tracks size
-   ([EVIDENCE](EVIDENCE.md) #7, #11).
+   ([EVIDENCE](EVIDENCE.md) #8, #12).
 2. **Effort by extender:** each extender's effort for each builder, relative to its typical builder
    (1.00 = typical, lower = easier to change). If an extender rates its own family's code easier than the
    other extenders do, that is self-preference, and the panel is what cancels it.
@@ -79,9 +79,11 @@ so no single reader's scale decides the ranking.
 
 ## Limits
 
-- **Codex and Gemini are not yet checked against live runs.** Their parsers follow each CLI's documented or
-  source-level output format. Run `smoke` before anything bigger.
+- **Gemini is not yet checked against live runs.** Its parser follows the CLI's documented output format. Codex
+  has been used live as an extender and maintainer ([EVIDENCE](EVIDENCE.md) #21). Run `smoke` before anything bigger.
 - **Model plus harness.** Each builder runs in its own vendor's CLI, so a result is "GPT in Codex", not GPT
   alone.
-- **One small task.** Structure only shows in reading cost once code is too big to hold in context
-  ([EVIDENCE](EVIDENCE.md) #8–9), so rankings on `etl_pipeline` partly reflect who writes less code.
+- **Task size.** Structure only shows in reading cost once code is too big to hold in context
+  ([EVIDENCE](EVIDENCE.md) #9–10), so rankings on the small `etl_pipeline` mostly reflect who writes less code.
+  The default task, `etl_pipeline_xl_naive`, is big enough; the published builder results are still on the
+  small one.

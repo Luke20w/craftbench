@@ -1,5 +1,5 @@
-"""Claude models through Claude Code (`claude -p --output-format stream-json`). The default extender
-(Haiku). Snapshots come from a PostToolUse hook, so they line up with tool calls exactly."""
+"""Claude models through Claude Code (`claude -p --output-format stream-json`), the harness of the default
+extender panel. Snapshots come from a PostToolUse hook, so they line up with tool calls exactly."""
 
 from __future__ import annotations
 

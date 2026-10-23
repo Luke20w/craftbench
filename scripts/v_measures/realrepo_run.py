@@ -1,11 +1,11 @@
-"""CraftBench's extender on real open-source changes (probes from scripts/realrepo): the extender gets the
+"""CraftBench's extender on real open-source changes (probes from realrepo/): the extender gets the
 problem statement of a real commit and the repo as it was, and effort is reading until that commit's own
 tests pass (same rules as CraftBench). Used for two witnesses that don't depend on LLM reading for their answer:
 
   refactor pairs : the same real change on the code before vs after an expert refactoring
   module history : effort per werkzeug module vs what actually happened to that module over the next years
 
-    python scripts/realrepo/../v_measures/realrepo_run.py <refactor_pairs|module_history> <model,...> [runs] [parallel]
+    python scripts/v_measures/realrepo_run.py <refactor_pairs|module_history> <model,...> [runs] [parallel]
 """
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT / "scripts/realrepo"))
+sys.path.insert(0, str(ROOT / "scripts/v_measures/realrepo"))
 from craftbench import usage  # noqa: E402
 from craftbench.agents import load_calls, make_agent, save_calls  # noqa: E402
 from craftbench.analysis import ANALYZERS  # noqa: E402
@@ -29,7 +29,7 @@ from craftbench.env import EXTENDER_PROMPT  # noqa: E402
 from craftbench.grading import Curve, CurvePoint, _test_slot  # noqa: E402
 import harness  # noqa: E402
 
-usage.QUOTA.max_five_hour, usage.QUOTA.max_seven_day, usage.QUOTA.allow_overage = 1.0, 1.0, True  # Luke: extra usage OK
+usage.QUOTA.max_five_hour, usage.QUOTA.max_seven_day, usage.QUOTA.allow_overage = 1.0, 1.0, True  # experiment queues run through subscription limits
 DATA = ROOT / ".context/realrepo"
 OUT = ROOT / os.environ.get("CRAFTBENCH_RUNS", "runs") / "realrepo"
 PY = ANALYZERS["python"]

@@ -6,7 +6,7 @@ Follow-up F: a non-merge descendant of R within 183 days that changes both sourc
 touches R's code: >= 2 changed lines that `git blame` attributes to R (padded by 2 lines), or a
 function/method R changed (same file, same qualified name).
 
-    python scripts/realrepo/candidates.py REPO [REPO ...]   # writes .context/realrepo/candidates/REPO.json
+    python scripts/v_measures/realrepo/candidates.py REPO [REPO ...]   # writes .context/realrepo/candidates/REPO.json
 """
 
 from __future__ import annotations

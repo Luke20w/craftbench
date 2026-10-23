@@ -1,7 +1,7 @@
 """Tables for the docrender axes experiment: per variant and change stream, reading (CraftBench effort),
 change size, files touched and tests passed; then the by_kind / by_format ratio per stream and reader.
 
-    python scripts/axes/analyze.py
+    python scripts/structure_axes/analyze.py
 """
 from __future__ import annotations
 

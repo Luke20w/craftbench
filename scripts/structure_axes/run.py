@@ -1,8 +1,8 @@
 """Does change cost see structure? The docrender task's five organizations of the same behaviour, each given
 both streams of changes (new node kinds, new formats) by a frozen extender.
 
-    python scripts/axes/run.py <model> <runs> <variant,...|all> <change,...|all> [parallel]
-    python scripts/axes/analyze.py
+    python scripts/structure_axes/run.py <model> <runs> <variant,...|all> <change,...|all> [parallel]
+    python scripts/structure_axes/analyze.py
 """
 from __future__ import annotations
 

@@ -3,7 +3,7 @@
 Under heavy machine load the test runner can fail outright, which the grader records as the extender breaking
 the existing tests and charges as a failed change. A real break reproduces when regraded; a load failure doesn't.
 
-    python scripts/axes/regrade.py          # list suspect runs, regrade them, report effort before -> after
+    python scripts/structure_axes/regrade.py          # list suspect runs, regrade them, report effort before -> after
 """
 from __future__ import annotations
 

@@ -13,7 +13,7 @@ Checks, all recorded:
     side is only checked to fail).
   * the hidden set used for BOTH probes is the intersection, so the two probes are graded identically.
 
-    python scripts/realrepo/build_refactor_pairs.py [--only REPO]   # resumable; writes refactor_pairs.json
+    python scripts/v_measures/realrepo/build_refactor_pairs.py [--only REPO]   # resumable; writes refactor_pairs.json
 """
 
 from __future__ import annotations

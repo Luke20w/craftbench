@@ -32,7 +32,7 @@ As a reward (superseded: the environment now uses the per-rollout `R = F × geom
   A policy could game them with comments.
 * **Files touched / reads before first edit:** mostly count files, so they favour single-file code.
 
-## Pre-registered predictions (PREDICTIONS.md) — scorecard
+## Pre-registered predictions (effort_definitions_predictions.md) — scorecard
 
 1. Winner S*diff_hunks / S*tts — **wrong**; reading cost won. S*diff_hunks was best at chain prediction among my bets.
 2. Outcome alone ≤ 70 % pairs — **right** (69 %).

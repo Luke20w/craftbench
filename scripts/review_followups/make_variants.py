@@ -16,7 +16,7 @@ that guarantee is expressed:
   enforced    documented, and register() refuses ops that read their input themselves
   false_doc   documented, but `replace` quietly reads `with` itself (the docs are wrong about one op)
 
-    python scripts/review/make_variants.py
+    python scripts/review_followups/make_variants.py
 """
 import shutil
 from pathlib import Path

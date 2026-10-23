@@ -1,8 +1,8 @@
 """Hand-ported `before` oracles, for pairs where git can't apply F onto F^-with-R-reverted.
 
-    python scripts/realrepo/manual_oracle.py start  REPO R F     # worktree at the before base, F cherry-picked (conflicts left)
+    python scripts/v_measures/realrepo/manual_oracle.py start  REPO R F     # worktree at the before base, F cherry-picked (conflicts left)
     (resolve the conflicts by hand: port F's behaviour onto the pre-refactor code; don't touch tests)
-    python scripts/realrepo/manual_oracle.py commit REPO R F     # commit, keep under refs/realrepo/manual/, record it
+    python scripts/v_measures/realrepo/manual_oracle.py commit REPO R F     # commit, keep under refs/realrepo/manual/, record it
 
 Recorded in .context/realrepo/manual_oracles.json; build_refactor_pairs.py then verifies the hidden tests
 pass on it like any other oracle."""

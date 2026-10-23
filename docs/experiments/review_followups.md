@@ -54,7 +54,7 @@ because every value is read through shared field classes, yet the extender read 
 sure. Is that the reader's habit, or a rational response to a guarantee it can't check?
 
 **Design.** Four copies of the reference, behaviour-identical on ~38k requests, differing only in how the
-guarantee is expressed (`tasks/etl_pipeline_xl_naive/trust_gap/`, built by `scripts/review/make_variants.py`):
+guarantee is expressed (`tasks/etl_pipeline_xl_naive/trust_gap/`, built by `scripts/review_followups/make_variants.py`):
 `convention` (the reference), `documented` (docstrings state it), `enforced` (documented, and `register()`
 refuses an op that reads its own input), `false_doc` (documented, but `replace` quietly reads its `with`
 itself). Change: `limits` (50 tests over 32 ops, one of them `replace.with`). Sonnet 5.5 and Opus 5.5,
@@ -173,6 +173,6 @@ Maintainers agree with each other weakly (chain cost ρ: Opus–Sonnet +0.30, Op
 
 ## Reproduce
 
-`scripts/review/`: `make_variants.py` (the trust-gap copies and `misleading_note`), `followups.py` (live runs;
+`scripts/review_followups/`: `make_variants.py` (the trust-gap copies and `misleading_note`), `followups.py` (live runs;
 reuses V-measures probes where they exist), `defects.py` (fuzzes every chain step with `fuzz/requests.jsonl`, the 7,931
 requests used here; `fuzz.py` and `fuzz2.py` are the generators, kept as they were run), `analyze.py` (this report's numbers, raw data in `review_followups_data.json`).

@@ -32,7 +32,7 @@ from craftbench.reward import geomean  # noqa: E402
 from craftbench.sandbox import LocalSandbox  # noqa: E402
 from craftbench.task import load_task  # noqa: E402
 
-usage.QUOTA.max_five_hour, usage.QUOTA.max_seven_day, usage.QUOTA.allow_overage = 1.0, 1.0, True  # Luke: extra usage OK
+usage.QUOTA.max_five_hour, usage.QUOTA.max_seven_day, usage.QUOTA.allow_overage = 1.0, 1.0, True  # experiment queues run through subscription limits
 TASK = load_task("etl_pipeline_xl_naive")
 PY = ANALYZERS["python"]
 RUNS = ROOT / os.environ.get("CRAFTBENCH_RUNS", "runs")

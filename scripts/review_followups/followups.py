@@ -1,8 +1,8 @@
 """Live extender runs for docs/experiments/review_followups.md. Runs live next to the V-measures runs (same
 anonymous folder per codebase), so probes that already exist there are reused rather than rerun.
 
-    python scripts/review/followups.py trust <model> <runs> [parallel]            # trust gap: 4 variants x limits
-    python scripts/review/followups.py notes <model> <runs> <std|untrusted> [parallel]   # planted notes x limits, trace
+    python scripts/review_followups/followups.py trust <model> <runs> [parallel]            # trust gap: 4 variants x limits
+    python scripts/review_followups/followups.py notes <model> <runs> <std|untrusted> [parallel]   # planted notes x limits, trace
 
 The two prompt arms of `notes` must run in separate processes: the prompt is a module global.
 """

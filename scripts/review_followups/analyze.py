@@ -1,6 +1,6 @@
 """Results for docs/experiments/review_followups.md from the runs that exist (no model calls).
 
-    python scripts/review/analyze.py      # markdown on stdout, raw numbers in review_followups_data.json
+    python scripts/review_followups/analyze.py      # markdown on stdout, raw numbers in review_followups_data.json
 """
 from __future__ import annotations
 

@@ -16,10 +16,10 @@ Manifest (JSON):
   `regression` are visible-suite tests passing on base and on oracle (CraftBench's "old tests").
   Paths are relative to .context/realrepo (DATA).
 
-    python scripts/realrepo/harness.py list    MANIFEST
-    python scripts/realrepo/harness.py prepare MANIFEST PROBE_ID [DEST]
-    python scripts/realrepo/harness.py grade   MANIFEST PROBE_ID CODE_DIR [--hidden-only]
-    python scripts/realrepo/harness.py check   MANIFEST [PROBE_ID ...]   # base fails, oracle passes
+    python scripts/v_measures/realrepo/harness.py list    MANIFEST
+    python scripts/v_measures/realrepo/harness.py prepare MANIFEST PROBE_ID [DEST]
+    python scripts/v_measures/realrepo/harness.py grade   MANIFEST PROBE_ID CODE_DIR [--hidden-only]
+    python scripts/v_measures/realrepo/harness.py check   MANIFEST [PROBE_ID ...]   # base fails, oracle passes
 """
 
 from __future__ import annotations

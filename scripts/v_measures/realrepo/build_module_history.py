@@ -13,7 +13,7 @@ was renamed from, or split out of (the T-module its creating commit deleted the 
 >= 30% of the new file's size), else the T-module `git blame -C -C` attributes >= 50% of its lines to;
 otherwise it is new code and not counted for any module.
 
-    python scripts/realrepo/build_module_history.py   # resumable; writes module_history.json
+    python scripts/v_measures/realrepo/build_module_history.py   # resumable; writes module_history.json
 """
 
 from __future__ import annotations

@@ -6,7 +6,7 @@ starting code answered like the starting reference but the maintained code now a
 reference after step k (exit code, error code, path or data; message text is ignored). Requests the starting
 code already answered differently are behaviour the specs left open.
 
-    python scripts/review/defects.py <cases.jsonl> [parallel]     # writes defects.json next to the runs
+    python scripts/review_followups/defects.py <cases.jsonl> [parallel]     # writes defects.json next to the runs
 """
 from __future__ import annotations
 
