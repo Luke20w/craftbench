@@ -1,76 +1,102 @@
 # CraftBench
 
-**An objective reward for well-crafted code: grade code by what it costs to change, not by what it looks like.**
+**Measuring well-crafted code**
 
-Coding RL typically rewards whether tests pass (or some other scorer) for a one-time task. The code that does well in that scenario can be functionally correct, but built for one-time use rather than ongoing maintenance. This matters because a large portion of real-world use is in evolving software, not one-time tasks. Over time, agent-written code tends to accumulate complexity, verbosity, and duplication as it's extended. The usual remedies grade appearance (lint rules, LLM judges), which can be gamed, and can't quite fully represent what "well crafted code" is. Instead, here we measure maintainability/extensibility and the idea is that design patterns that make good code (SOLID, DRY, SOC, etc) may emerge as a result of that incentive.
+## Why
+
+RL tasks / evals traditionally reward code by its function (that it passes tests or gets graded well by an LLM judge with a rubric). In reality, code gets changed over and over, and agent-written code currently tends to pile up complexity, verbosity and duplication as it changes. The idea here is to try and reward for well-crafted code.
+
+Even in a world where the cost to read/write code falls close to zero, my belief is that well-crafted code is still quite valuable. Good abstractions and design patterns (SOLID, SoC, DRY, etc) shape a product or platform. For example:
+
+- Unix treats everything as a file, which is what made pipes, and a whole culture of small composable tools,
+  possible.
+- Git stores snapshots, not diffs, which made branching cheap, and branches and pull requests became how teams work.
+- Spreadsheets reduced computation to cells and formulas, which turned a ledger into a tool millions of people
+  program with.
 
 ## How it works
 
-1. **Build:** the policy writes a program from a spec, one milestone at a time. Hidden tests check it works.
-2. **Change:** a frozen model (the "extender") gets a few change requests the policy never saw, and implements
-   each one on its own copy of the code.
-3. **Score:** Measure how much the extender had to read before each new test passed. Less reading = code that's
-   easier to change.
+The idea, at the core, is to grade code based on how easy it is to build upon (or more concretely, how much an extender has to read to build on it).
 
+So we split a project into "checkpoints": feature requests, each with hidden tests.
+
+1. The policy (the agent we're grading) implements the first checkpoints one at a time, each on top of its own code.
+2. A panel of extender agents each implement one of the later checkpoints on a copy of the policy's code.
+3. We grade by how much (in AST nodes) the extenders had to read before that checkpoint's tests passed.
+
+**reward = F × V<sup>−½</sup>**
+
+- **F**: share of hidden checkpoint tests passing. Does it work?
+- **V**: how much the extenders read to make the changes. How hard is it to change?
+
+## Defining the value function (V)
+
+V has to track what code costs to own, and hold up when a policy optimizes against it. That proved to be the
+hardest part to get right. To compare candidates we used a few kinds of ground truth.
+
+- **Long-run cost.** We had a model keep maintaining each of 10 codebases through four more changes and measured
+  the total effort. A good V should rank the codebases the same way, from much less work.
+- **Planted flaws.** Copies of the same code with one flaw (dead code, bad abstractions, duplication, golfing, junk
+  names) should score worse.
+- **A human.** A blind ranking of 10 pairs of codebases.
+
+**What we tried.** Every candidate estimates how hard the code is to change; they differ in what they measure:
+
+| what we measured | result | |
+|---|---|---|
+| an LLM judge's score against a SOLID/DRY rubric | ranked codebases *backwards* (ρ = −0.33) | ✗ |
+| the code itself: size, duplication, complexity, name quality | weak (ρ ≤ +0.38) | ✗ |
+| an extender plans the change without making it: how much it read | weak (ρ = +0.36) | ✗ |
+| an extender makes the change: turns taken or dollars spent | turns were backwards (0 of 8 known comparisons); dollars track the budget, not the code | ✗ |
+| an extender makes the change: size of what it wrote (lines or syntax nodes) | fooled by a "you're done" comment and by junk names | ✗ |
+| **an extender makes the change: how much it read before the tests passed** | **8 of 8 known comparisons; ρ = +0.58 to +0.77 against long-run cost** | ✓ |
+
+### Learnings
+
+- **Count code in syntax nodes, not tokens.** In tokens, golfed code reads 22–50% cheaper. In syntax nodes,
+  compressing code, shortening names or stripping comments mostly doesn't help.
+- **Use a panel of readers.** Each model is consistent with itself, but models disagree about which code is easy
+  to change. A panel of Opus, Sonnet and Astra agreed with a blind human ranking on 8 of 10 pairs; single models got 5–6.
+- **Structure only shows at scale.** Below ~7k tokens a model reads everything, so V is just size. Above ~12k
+  tokens across files it reads selectively, and composable code wins.
+- **It rewards structure that matches the changes, but penalizes over-engineering.** Organizing code on the wrong axis costs 2.5–4.2× more.
+- **Hard to game.** None of the exploits we tried works now:
+  - pre-building the hidden checkpoints: charged as a failure
+  - code the parser can't read: estimated, not counted as empty
+  - docstrings padding out the code: reads are weighted by the code in each file
+  - code hidden in non-`.py` files: counts as code
+  - one giant file, notes aimed at the maintainer, or a "you're done" comment: no effect
+  Opus, told to maximize the score by any means, wrote clean code.
+
+Every result, with links to its write-up, is in
+[EVIDENCE](docs/EVIDENCE.md).
+
+## Open problems
+
+- **It can't tell slightly different code apart.** It separates very different code reliably, but differences
+  smaller than one measurement's noise (~10–15%) are invisible. That's the case RL needs most: rollouts of one
+  policy are usually that close (six Sonnet builds cost roughly the same to own).
+- **"Easy to change" depends on who's reading.** Models disagree, and each predicts its own maintenance cost best. A panel is a compromise, not ground truth.
+- **It can sometimes penalize good abstractions.** An abstraction that compresses the domain sometimes costs *more* to read, because each new maintainer has to learn it first.
+- **Expensive.** Each reward takes many agent runs on a codebase of ~12k+ tokens.
+
+## Quickstart
+
+```bash
+pip install -e .
+craftbench validate --task etl_pipeline --recorded data/recorded/etl_pipeline   # re-grades recorded runs, no model calls
+craftbench grade --code path/to/code                                            # live grading (needs the `claude` CLI)
+craftbench bench --builders opus,gpt-6-astra --extenders opus,gemini-4-argon    # benchmark models as builders
 ```
-reward = F × geomean(E)^(−½)
-
-F = share of hidden milestone tests passing     (does it work?)
-E = reading until each change's tests passed    (how hard was it to change?)
-```
-
-Reading counts code in syntax nodes, so things like code-golf are mostly mitigated. The reward is per rollout, so it plugs into normal group-based RL training.
-
-The maintainer it measures for is an LLM agent, with humans reviewing its work: "easy to change" means cheap for a model to change correctly. Some of what that rewards (less code, one place per rule, code organized along the changes that arrive) helps human readers too; some (how cheaply dense code reads, which differs even between models) is about how today's models read.
-
-The extenders are a panel (Sonnet + Opus by default; add other families with `--extenders`, e.g. `gpt-6-astra` through Codex, which has been checked against live runs). One reader isn't enough: Opus, Sonnet and Codex each measure consistently but disagree with each other about which code is easy to change ([evidence](docs/EVIDENCE.md#readers) #20–21), so the reward averages the panel. The same setup benchmarks models as builders: see [benchmarking](docs/BENCHMARK.md).
-
-## What we've found
-
-Details and links for every result are in [EVIDENCE](docs/EVIDENCE.md).
-
-1. **Measure a real change, not how code looks.** A SOLID/DRY judge was anti-correlated with real outcomes. Reading
-   until the tests pass, counted in syntax nodes, got every known pair right. (#1–7)
-2. **Structure only shows at scale.** Below ~7k tokens a model reads everything, so the reward is a size count. At
-   ~12k+ tokens across files it reads selectively, and composable code beats the same behaviour as if/elif. (#8–14)
-3. **It sees the structure that matters to a model.** Organizing on the wrong axis costs 2.5–4.2×. Uniform scattered
-   edits cost little (agents script them), and an abstraction that compresses the domain costs *more*: a
-   maintainer without memory relearns it on every change. (#15–18)
-4. **"Easy to change" depends on the reader.** Models are each consistent but disagree, so the reward uses a panel.
-   A three-family panel matched a blind human ranking on 8 of 10 pairs. (#19–22)
-5. **Robust, not yet precise.** Every exploit found is fixed, but one measurement's noise (~10–15%) exceeds the gap
-   between near-identical rollouts. (#23–31)
-
-## What's next
-
-- **Precision**: more runs or bigger probes, so it can rank similar rollouts (#28).
-- **Readers**: add a third family to the default panel; Opus predicts long-run cost weakly (#17, #20).
-- **Abstraction**: test longer streams of changes, where learning an abstraction once could pay off (#16).
-- **An answer key outside the LLM loop**: changes that modify behaviour, so defects show (#7).
-- **More large tasks**: new domains need ~12k+ tokens. Golf: whether dense code *should* cost more is open (#5, #20).
-- **A rotating change pool, then train with it.**
-
-## Beyond this benchmark
-
-The maintenance phase can wrap most coding tasks whose output lives on: greenfield builds, bug fixes, feature work, etc. More generally: grade any artifact by how well a frozen downstream agent can use or change it.
 
 ## Repository
 
 ```
 craftbench/   the environment: tasks, agents (Claude Code, Codex, Gemini CLI), grading, effort, reward, CLI
 tasks/        each task is a folder of specs and hidden tests (see tasks/README.md)
-docs/         DESIGN (how the reward works), EVIDENCE (what we've found), BENCHMARK, TASK_AUTHORING;
+docs/         DESIGN (how the reward works), EVIDENCE (every result), BENCHMARK, TASK_AUTHORING;
               experiments/ has one write-up per experiment
-scripts/      runners for experiments that needed more than the CLI, one folder per write-up
+scripts/      runners for experiments that needed more than the CLI
 data/         recorded runs, so validation and the benchmark re-grade without model calls
 tests/
-```
-
-## Try it
-
-```bash
-pip install -e .
-craftbench validate --task etl_pipeline --recorded data/recorded/etl_pipeline   # re-grades recorded runs, no model calls
-craftbench grade --code path/to/code                        # live grading (needs the `claude` CLI)
-craftbench bench --builders opus,gpt-6-astra --extenders opus,gemini-4-argon   # benchmark models
 ```
