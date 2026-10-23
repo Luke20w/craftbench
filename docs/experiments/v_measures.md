@@ -136,6 +136,12 @@ experiment can confirm. The panel is the only candidate that stays near the top 
   or success within a fixed budget (failures were too rare here to use).
 * **Scope:** one task, 10 codebases, 2 reader models.
 
+**Correction (after round 2):** one Sonnet probe run on `golfed` (change `case`) was charged the 40k failure
+cost because the regression suite timed out under machine load at its final snapshot (292 → 239 old tests on
+code identical to the snapshot before; 292 when regraded). Regraded, it costs 10.4k, so the Sonnet probe rates
+the golfed copy 1.24× the reference rather than 1.72×. It still catches golf. The other tables above predate
+this correction and the later read-weighting changes; expect small shifts if they are recomputed.
+
 ## Round 2: other readers, independent witnesses, exploits, optimization
 
 Run after the results above, on the same task. Each line is one experiment; scripts are in
