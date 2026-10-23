@@ -1,0 +1,2203 @@
+{
+ "rows": {
+  "reference": {
+   "static": {
+    "nodes": 8002,
+    "loc": 1196,
+    "chars": 47389,
+    "zlib_bytes": 10174,
+    "redundancy": 0.7853722338248634,
+    "clone_frac": 0.015984908657664814,
+    "dead_frac": 0.0,
+    "cc_mean": 3.5538461538461537,
+    "cc_max": 32,
+    "prop_cost": 0.5466272189349113,
+    "bad_name_frac": 0.20180722891566266
+   },
+   "unreachable": {},
+   "probe_opus": 6293.950818878759,
+   "probe_opus_1run": 5910.123750876848,
+   "probe_opus_runs": {
+    "subpipelines": [
+     10783.951981971852,
+     10045.04785945055
+    ],
+    "case": [
+     7702.5,
+     8054.064881013046
+    ],
+    "limits": [
+     6487.468181818182,
+     9862.478671462406,
+     9589.35909090909
+    ],
+    "trace": [
+     2264.130239239211,
+     2159.881914709485
+    ]
+   },
+   "probe_opus_cost": 2.8311461999999996,
+   "truth_opus": 5742.038149871421,
+   "truth_opus_steps": [
+    [
+     7552,
+     6313,
+     7266,
+     3088
+    ],
+    [
+     5998,
+     4892,
+     9013,
+     4177
+    ]
+   ],
+   "truth_opus_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_sonnet": 4649.8977415983345,
+   "probe_sonnet_1run": 4208.526714501014,
+   "probe_sonnet_runs": {
+    "subpipelines": [
+     7093.812045291394,
+     9910.766929491934
+    ],
+    "case": [
+     4194.374710982502,
+     4694.435507622187
+    ],
+    "limits": [
+     5256.297391856725,
+     5170.297391856725,
+     5435.297391856725
+    ],
+    "trace": [
+     2005.827220485426,
+     2673.8978540327025
+    ]
+   },
+   "probe_sonnet_cost": 1.270522,
+   "plan_sonnet": 6139.692743588371,
+   "plan_sonnet_cost": 0.5290834,
+   "judge_sonnet": 429.9960422075118,
+   "judge_sonnet_cost": 0.24118,
+   "truth_sonnet": 4944.658491476172,
+   "truth_sonnet_steps": [
+    [
+     4616,
+     4239,
+     7348,
+     5847
+    ],
+    [
+     3933,
+     4602,
+     6329,
+     3711
+    ]
+   ],
+   "truth_sonnet_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_codex": 7777.403846885021,
+   "probe_codex_1run": 7777.403846885021,
+   "probe_codex_runs": {
+    "subpipelines": [
+     6198.720576295537
+    ],
+    "case": [
+     6441.2796687222635
+    ],
+    "limits": [
+     10474.0
+    ],
+    "trace": [
+     8748.86705241074
+    ]
+   },
+   "probe_codex_cost": 0.0,
+   "truth_codex": 9114.286140154205,
+   "truth_codex_steps": [
+    [
+     10584,
+     6088,
+     12943,
+     8274
+    ]
+   ],
+   "truth_codex_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "panel": 5409.826956422481,
+   "panel_1run": 4987.2751770452915
+  },
+  "dead_code": {
+   "static": {
+    "nodes": 11495,
+    "loc": 1710,
+    "chars": 67789,
+    "zlib_bytes": 13793,
+    "redundancy": 0.7965784234201018,
+    "clone_frac": 0.021638655462184873,
+    "dead_frac": 0.16673669467787114,
+    "cc_mean": 3.492063492063492,
+    "cc_max": 32,
+    "prop_cost": 0.3880630441477002,
+    "bad_name_frac": 0.1978494623655914
+   },
+   "unreachable": {},
+   "probe_opus": 7988.864030758152,
+   "probe_opus_1run": 8529.79218766109,
+   "probe_opus_runs": {
+    "subpipelines": [
+     12744.543802141308,
+     11228.006452863166
+    ],
+    "case": [
+     8716.836658719809,
+     8026.352255791045
+    ],
+    "limits": [
+     10116.865336902583,
+     8739.952156789874
+    ],
+    "trace": [
+     4710.040381848649,
+     3900.6760664583458
+    ]
+   },
+   "probe_opus_cost": 2.9965924000000004,
+   "truth_opus": 8554.641658840204,
+   "truth_opus_steps": [
+    [
+     10197,
+     8807,
+     10885,
+     6115
+    ],
+    [
+     13310,
+     8590,
+     10106,
+     4153
+    ]
+   ],
+   "truth_opus_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_sonnet": 9350.295835450675,
+   "probe_sonnet_1run": 6971.916009738357,
+   "probe_sonnet_runs": {
+    "subpipelines": [
+     12340.905532385923,
+     14634.285493548967
+    ],
+    "case": [
+     8337.33900768684,
+     9815.304514348929
+    ],
+    "limits": [
+     8420.87470849594,
+     40000
+    ],
+    "trace": [
+     2726.9482216310726,
+     2431.0875689117097
+    ]
+   },
+   "probe_sonnet_cost": 1.4933202,
+   "plan_sonnet": 7042.696168266382,
+   "plan_sonnet_cost": 0.6298893999999999,
+   "judge_sonnet": 457.31704095975914,
+   "judge_sonnet_cost": 0.316855,
+   "truth_sonnet": 6571.189007356897,
+   "truth_sonnet_steps": [
+    [
+     7974,
+     5976,
+     7689,
+     7447
+    ],
+    [
+     7330,
+     5696,
+     8344,
+     3657
+    ]
+   ],
+   "truth_sonnet_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_codex": 10951.822035642352,
+   "probe_codex_1run": 10951.822035642352,
+   "probe_codex_runs": {
+    "subpipelines": [
+     7410.297417524904
+    ],
+    "case": [
+     9779.35210167998
+    ],
+    "limits": [
+     15118.75525477494
+    ],
+    "trace": [
+     13130.575261785496
+    ]
+   },
+   "probe_codex_cost": 0.0,
+   "truth_codex": 10702.067878673268,
+   "truth_codex_steps": [
+    [
+     11028,
+     7539,
+     13076,
+     12067
+    ]
+   ],
+   "truth_codex_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "panel": 8642.81447659151,
+   "panel_1run": 7711.614274125459
+  },
+  "duplicated": {
+   "static": {
+    "nodes": 15610,
+    "loc": 2320,
+    "chars": 88421,
+    "zlib_bytes": 12060,
+    "redundancy": 0.8636255696402927,
+    "clone_frac": 0.10616824537663509,
+    "dead_frac": 0.0,
+    "cc_mean": 5.367088607594937,
+    "cc_max": 32,
+    "prop_cost": 0.5,
+    "bad_name_frac": 0.20699708454810495
+   },
+   "unreachable": {},
+   "probe_opus": 6066.726101891083,
+   "probe_opus_1run": 6438.988948253134,
+   "probe_opus_runs": {
+    "subpipelines": [
+     11983.191397407876,
+     8760.871033378848
+    ],
+    "case": [
+     5012.717525677986,
+     4832.5
+    ],
+    "limits": [
+     6255.45,
+     8177.777272727273
+    ],
+    "trace": [
+     4574.740178895456,
+     2778.097144001804
+    ]
+   },
+   "probe_opus_cost": 2.6438471999999997,
+   "truth_opus": 7715.364969302551,
+   "truth_opus_steps": [
+    [
+     11233,
+     4541,
+     14310,
+     5466
+    ],
+    [
+     8177,
+     4587,
+     12103,
+     6933
+    ]
+   ],
+   "truth_opus_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_sonnet": 3937.4230986824346,
+   "probe_sonnet_1run": 3407.7063465238193,
+   "probe_sonnet_runs": {
+    "subpipelines": [
+     7330.697634217375,
+     7151.197634217375
+    ],
+    "case": [
+     3482.5195296187117,
+     3966.6212244646003
+    ],
+    "limits": [
+     2413.9099860468314,
+     4159.613636363636
+    ],
+    "trace": [
+     2188.208565540188,
+     3234.777777777778
+    ]
+   },
+   "probe_sonnet_cost": 1.0452342000000001,
+   "plan_sonnet": 5574.403986767578,
+   "plan_sonnet_cost": 0.5325338,
+   "judge_sonnet": 434.457052317594,
+   "judge_sonnet_cost": 0.37251,
+   "truth_sonnet": 4814.977932518707,
+   "truth_sonnet_steps": [
+    [
+     3646,
+     3137,
+     9166,
+     3591
+    ],
+    [
+     5097,
+     3213,
+     10540,
+     4445
+    ]
+   ],
+   "truth_sonnet_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_codex": 9442.765701924614,
+   "probe_codex_1run": 9442.765701924614,
+   "probe_codex_runs": {
+    "subpipelines": [
+     6943.536513911855
+    ],
+    "case": [
+     5866.7733482060985
+    ],
+    "limits": [
+     26582.0
+    ],
+    "trace": [
+     7342.25
+    ]
+   },
+   "probe_codex_cost": 0.0,
+   "truth_codex": 10620.953032699359,
+   "truth_codex_steps": [
+    [
+     10435,
+     5751,
+     27068,
+     7833
+    ]
+   ],
+   "truth_codex_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "panel": 4887.460228683769,
+   "panel_1run": 4684.248446032611
+  },
+  "golfed": {
+   "static": {
+    "nodes": 7124,
+    "loc": 567,
+    "chars": 22308,
+    "zlib_bytes": 7184,
+    "redundancy": 0.6781650389750022,
+    "clone_frac": 0.008384819064430714,
+    "dead_frac": 0.5850617828773168,
+    "cc_mean": 4.218390804597701,
+    "cc_max": 32,
+    "prop_cost": 0.655040295943982,
+    "bad_name_frac": 0.5411255411255411
+   },
+   "unreachable": {},
+   "probe_opus": 5045.4481979206075,
+   "probe_opus_1run": 5192.041858952397,
+   "probe_opus_runs": {
+    "subpipelines": [
+     7661.308868128825,
+     6341.25
+    ],
+    "case": [
+     5825.145776685967,
+     4332.618576501791
+    ],
+    "limits": [
+     4747.554848155491,
+     6077.697376288921
+    ],
+    "trace": [
+     3429.8330438775256,
+     3304.202808503735
+    ]
+   },
+   "probe_opus_cost": 2.4300753999999998,
+   "truth_opus": 6357.847268555433,
+   "truth_opus_steps": [
+    [
+     5570,
+     11362,
+     8537,
+     6041
+    ],
+    [
+     6234,
+     3931,
+     6319,
+     5283
+    ]
+   ],
+   "truth_opus_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_sonnet": 7079.271273314136,
+   "probe_sonnet_1run": 5975.928540578651,
+   "probe_sonnet_runs": {
+    "subpipelines": [
+     10456.722556255549,
+     4869.6778253705315
+    ],
+    "case": [
+     5221.828696702801,
+     40000
+    ],
+    "limits": [
+     6199.1355617518475,
+     4411.92370072672
+    ],
+    "trace": [
+     3767.6646727079847,
+     1696.5427072708264
+    ]
+   },
+   "probe_sonnet_cost": 1.1330722,
+   "plan_sonnet": 7256.630107424272,
+   "plan_sonnet_cost": 0.5666776,
+   "judge_sonnet": 252.7667956772286,
+   "judge_sonnet_cost": 0.190735,
+   "truth_sonnet": 6737.001386132418,
+   "truth_sonnet_steps": [
+    [
+     6426,
+     11463,
+     4212,
+     5614
+    ],
+    [
+     4881,
+     9991,
+     9630,
+     5189
+    ]
+   ],
+   "truth_sonnet_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_codex": 6140.623442063753,
+   "probe_codex_1run": 6140.623442063753,
+   "probe_codex_runs": {
+    "subpipelines": [
+     5813.134218514002
+    ],
+    "case": [
+     4922.8824784556355
+    ],
+    "limits": [
+     9671.98493870094
+    ],
+    "trace": [
+     5136.939307890486
+    ]
+   },
+   "probe_codex_cost": 0.0,
+   "truth_codex": 8233.050085070478,
+   "truth_codex_steps": [
+    [
+     5393,
+     12619,
+     10770,
+     6268
+    ]
+   ],
+   "truth_codex_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "panel": 5976.461870415801,
+   "panel_1run": 5570.212844119394
+  },
+  "if_elif": {
+   "static": {
+    "nodes": 11731,
+    "loc": 1338,
+    "chars": 63712,
+    "zlib_bytes": 10819,
+    "redundancy": 0.8302049656298063,
+    "clone_frac": 0.055040996052232005,
+    "dead_frac": 0.0,
+    "cc_mean": 17.105263157894736,
+    "cc_max": 263,
+    "prop_cost": 0.2856099342585829,
+    "bad_name_frac": 0.2490842490842491
+   },
+   "unreachable": {
+    "h2_all_errors": [
+     "test_golden[op-problems]"
+    ]
+   },
+   "probe_opus": 8714.677939068206,
+   "probe_opus_1run": 9370.014878651084,
+   "probe_opus_runs": {
+    "subpipelines": [
+     13040.088324087019,
+     13063.985098426636
+    ],
+    "case": [
+     10162.389389152184,
+     10189.33891711177
+    ],
+    "limits": [
+     9050.272121384938,
+     8613.004966323831
+    ],
+    "trace": [
+     6427.219318075973,
+     3407.1041711993744
+    ]
+   },
+   "probe_opus_cost": 2.8497861999999996,
+   "truth_opus": 6823.168372960528,
+   "truth_opus_steps": [
+    [
+     10764,
+     4361,
+     11132,
+     3692
+    ],
+    [
+     10984,
+     4710,
+     11168,
+     4214
+    ]
+   ],
+   "truth_opus_passed": [
+    [
+     "42/42",
+     "31/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "31/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_sonnet": 5588.045985498858,
+   "probe_sonnet_1run": 4235.190438656951,
+   "probe_sonnet_runs": {
+    "subpipelines": [
+     8840.354633872226,
+     20429.43013684359
+    ],
+    "case": [
+     4754.31410498288,
+     4405.660497707141
+    ],
+    "limits": [
+     2745.9000100308854,
+     3921.431745254742
+    ],
+    "trace": [
+     2787.722222222222,
+     5939.861111111111
+    ]
+   },
+   "probe_sonnet_cost": 1.185564,
+   "plan_sonnet": 8945.864209813477,
+   "plan_sonnet_cost": 0.6384778,
+   "judge_sonnet": 579.449817920047,
+   "judge_sonnet_cost": 0.296384,
+   "truth_sonnet": 7033.910233077148,
+   "truth_sonnet_steps": [
+    [
+     5410,
+     10078,
+     10416,
+     6793
+    ],
+    [
+     6380,
+     3754,
+     10721,
+     6049
+    ]
+   ],
+   "truth_sonnet_passed": [
+    [
+     "42/42",
+     "31/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "31/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_codex": 15545.461803907507,
+   "probe_codex_1run": 15545.461803907507,
+   "probe_codex_runs": {
+    "subpipelines": [
+     20453.564875299704
+    ],
+    "case": [
+     18810.756600856697
+    ],
+    "limits": [
+     9110.229045861886
+    ],
+    "trace": [
+     16661.34048230749
+    ]
+   },
+   "probe_codex_cost": 0.0,
+   "truth_codex": 13687.931103766588,
+   "truth_codex_steps": [
+    [
+     18441,
+     11513,
+     12081,
+     13686
+    ]
+   ],
+   "truth_codex_passed": [
+    [
+     "42/42",
+     "31/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "panel": 6978.396740822748,
+   "panel_1run": 6299.50771284046
+  },
+  "junk_names": {
+   "static": {
+    "nodes": 8013,
+    "loc": 1139,
+    "chars": 43296,
+    "zlib_bytes": 8778,
+    "redundancy": 0.7973216347263912,
+    "clone_frac": 0.01609356257497001,
+    "dead_frac": 0.0,
+    "cc_mean": 3.5538461538461537,
+    "cc_max": 32,
+    "prop_cost": 0.4546153846153846,
+    "bad_name_frac": 0.752542372881356
+   },
+   "unreachable": {},
+   "probe_opus": 10518.436185781773,
+   "probe_opus_1run": 10200.106677582056,
+   "probe_opus_runs": {
+    "subpipelines": [
+     14107.522480233321,
+     11997.25293266064
+    ],
+    "case": [
+     15992.75,
+     13168.5
+    ],
+    "limits": [
+     10083.779398845943,
+     7040.411335898371
+    ],
+    "trace": [
+     4757.969129112405,
+     10266.133263008656
+    ]
+   },
+   "probe_opus_cost": 3.4856578000000003,
+   "truth_opus": 11300.096381987676,
+   "truth_opus_steps": [
+    [
+     11384,
+     6419,
+     8862,
+     8010
+    ],
+    [
+     11492,
+     40000,
+     13848,
+     8053
+    ]
+   ],
+   "truth_opus_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "0/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_sonnet": 6815.099176486531,
+   "probe_sonnet_1run": 7414.921287764025,
+   "probe_sonnet_runs": {
+    "subpipelines": [
+     13282.280045074713,
+     14032.374713211795
+    ],
+    "case": [
+     7387.859442771358,
+     6109.411694338744
+    ],
+    "limits": [
+     6030.047068206743,
+     6054.721680569558
+    ],
+    "trace": [
+     5108.744953757057,
+     2638.1679190827854
+    ]
+   },
+   "probe_sonnet_cost": 1.6545688000000003,
+   "plan_sonnet": 8061.976023766756,
+   "plan_sonnet_cost": 0.7561908,
+   "judge_sonnet": 458.62309501554694,
+   "judge_sonnet_cost": 0.270332,
+   "truth_sonnet": 7088.421022973361,
+   "truth_sonnet_steps": [
+    [
+     9695,
+     6327,
+     6416,
+     6000
+    ],
+    [
+     5379,
+     7735,
+     8455,
+     7672
+    ]
+   ],
+   "truth_sonnet_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "30/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_codex": 12570.794520587871,
+   "probe_codex_1run": 12570.794520587871,
+   "probe_codex_runs": {
+    "subpipelines": [
+     13089.667301143141
+    ],
+    "case": [
+     13128.496475438094
+    ],
+    "limits": [
+     11091.131315394972
+    ],
+    "trace": [
+     13101.815001201272
+    ]
+   },
+   "probe_codex_cost": 0.0,
+   "truth_codex": 11848.324458025005,
+   "truth_codex_steps": [
+    [
+     11242,
+     13129,
+     15579,
+     8570
+    ]
+   ],
+   "truth_codex_passed": [
+    [
+     "42/42",
+     "32/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "panel": 8466.651391645193,
+   "panel_1run": 8696.72283915425
+  },
+  "opus-5-5_s0": {
+   "static": {
+    "nodes": 10485,
+    "loc": 1597,
+    "chars": 68668,
+    "zlib_bytes": 15741,
+    "redundancy": 0.7707899526756461,
+    "clone_frac": 0.010715652506697282,
+    "dead_frac": 0.0,
+    "cc_mean": 3.3617021276595747,
+    "cc_max": 16,
+    "prop_cost": 0.0762137057703231,
+    "bad_name_frac": 0.19636963696369636
+   },
+   "unreachable": {
+    "h2_all_errors": [
+     "test_golden[branch-merge-after-inner]",
+     "test_golden[branch-own-first-problem-only]",
+     "test_golden[malformed-branch-inner-still-checked]",
+     "test_golden[rename-forms]"
+    ],
+    "h3_strict": [
+     "test_golden[rename-both-forms-known]"
+    ]
+   },
+   "probe_opus": 12104.405381240893,
+   "probe_opus_1run": 12267.919057722529,
+   "probe_opus_runs": {
+    "subpipelines": [
+     23222.691176470587,
+     23297.0
+    ],
+    "case": [
+     17916.75,
+     18096.0
+    ],
+    "limits": [
+     9446.195454545454,
+     10067.95
+    ],
+    "trace": [
+     5763.083333333333,
+     4743.25
+    ]
+   },
+   "probe_opus_cost": 4.294405599999999,
+   "truth_opus": 8491.634550024144,
+   "truth_opus_steps": [
+    [
+     14924,
+     7477,
+     9375,
+     4536
+    ],
+    [
+     15329,
+     7954,
+     9582,
+     4876
+    ]
+   ],
+   "truth_opus_passed": [
+    [
+     "42/42",
+     "28/32",
+     "36/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "28/32",
+     "36/37",
+     "33/33"
+    ]
+   ],
+   "probe_sonnet": 6438.848348042935,
+   "probe_sonnet_1run": 6509.355798294731,
+   "probe_sonnet_runs": {
+    "subpipelines": [
+     14164.75,
+     16216.75
+    ],
+    "case": [
+     8776.5,
+     9856.5
+    ],
+    "limits": [
+     6088.240909090909,
+     3026.559090909091
+    ],
+    "trace": [
+     2372.0833333333335,
+     2957.75
+    ]
+   },
+   "probe_sonnet_cost": 1.5606993999999998,
+   "plan_sonnet": 7993.669708400389,
+   "plan_sonnet_cost": 0.7306973999999999,
+   "judge_sonnet": 450.22236357400556,
+   "judge_sonnet_cost": 0.317423,
+   "truth_sonnet": 6821.755238304311,
+   "truth_sonnet_steps": [
+    [
+     10814,
+     6544,
+     7527,
+     3778
+    ],
+    [
+     5849,
+     6539,
+     6724,
+     9062
+    ]
+   ],
+   "truth_sonnet_passed": [
+    [
+     "42/42",
+     "28/32",
+     "36/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "28/32",
+     "36/37",
+     "33/33"
+    ]
+   ],
+   "probe_codex": 14801.298310257509,
+   "probe_codex_1run": 14801.298310257509,
+   "probe_codex_runs": {
+    "subpipelines": [
+     26316.735294117647
+    ],
+    "case": [
+     21983.75
+    ],
+    "limits": [
+     7568.25
+    ],
+    "trace": [
+     10961.5
+    ]
+   },
+   "probe_codex_cost": 0.0,
+   "truth_codex": 12805.699760980595,
+   "truth_codex_steps": [
+    [
+     18585,
+     11794,
+     11515,
+     10654
+    ]
+   ],
+   "truth_codex_passed": [
+    [
+     "42/42",
+     "28/32",
+     "36/37",
+     "33/33"
+    ]
+   ],
+   "panel": 8828.274496924352,
+   "panel_1run": 8936.232430470709
+  },
+  "opus-5-5_s1": {
+   "static": {
+    "nodes": 10422,
+    "loc": 1631,
+    "chars": 68294,
+    "zlib_bytes": 15502,
+    "redundancy": 0.7730506836881094,
+    "clone_frac": 0.01426625564556599,
+    "dead_frac": 0.007742490501111191,
+    "cc_mean": 3.5240963855421685,
+    "cc_max": 17,
+    "prop_cost": 0.0695983379501385,
+    "bad_name_frac": 0.17549668874172186
+   },
+   "unreachable": {
+    "h2_all_errors": [
+     "test_golden[branch-own-first-problem-only]",
+     "test_golden[malformed-branch-inner-still-checked]",
+     "test_golden[rename-forms]"
+    ],
+    "h3_strict": [
+     "test_golden[rename-both-forms-known]"
+    ]
+   },
+   "probe_opus": 10895.38669865495,
+   "probe_opus_1run": 12661.419255162753,
+   "probe_opus_runs": {
+    "subpipelines": [
+     14401.148898088002,
+     13651.751839264472
+    ],
+    "case": [
+     8119.75,
+     8047.5
+    ],
+    "limits": [
+     40000,
+     7681.336363636364
+    ],
+    "trace": [
+     5494.520132177527,
+     4931.732168681067
+    ]
+   },
+   "probe_opus_cost": 4.0406372,
+   "truth_opus": 8116.343892841514,
+   "truth_opus_steps": [
+    [
+     12280,
+     6552,
+     7849,
+     6259
+    ],
+    [
+     11836,
+     8744,
+     7377,
+     6241
+    ]
+   ],
+   "truth_opus_passed": [
+    [
+     "42/42",
+     "29/32",
+     "36/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "29/32",
+     "36/37",
+     "33/33"
+    ]
+   ],
+   "probe_sonnet": 4963.56389328841,
+   "probe_sonnet_1run": 4915.152494607279,
+   "probe_sonnet_runs": {
+    "subpipelines": [
+     11322.469889107135,
+     10789.5
+    ],
+    "case": [
+     6449.25,
+     6593.083333333333
+    ],
+    "limits": [
+     5378.718181818182,
+     4053.2636363636366
+    ],
+    "trace": [
+     1486.0,
+     2084.3333333333335
+    ]
+   },
+   "probe_sonnet_cost": 1.4624550000000003,
+   "plan_sonnet": 5316.565204723094,
+   "plan_sonnet_cost": 0.548277,
+   "judge_sonnet": 496.31697746048997,
+   "judge_sonnet_cost": 0.29725,
+   "truth_sonnet": 5514.646697309647,
+   "truth_sonnet_steps": [
+    [
+     6974,
+     5458,
+     5754,
+     4435
+    ],
+    [
+     6966,
+     4569,
+     5938,
+     4659
+    ]
+   ],
+   "truth_sonnet_passed": [
+    [
+     "42/42",
+     "29/32",
+     "36/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "29/32",
+     "36/37",
+     "33/33"
+    ]
+   ],
+   "probe_codex": 12325.161153795667,
+   "probe_codex_1run": 12325.161153795667,
+   "probe_codex_runs": {
+    "subpipelines": [
+     13452.382739563376
+    ],
+    "case": [
+     13773.721347252238
+    ],
+    "limits": [
+     13618.5934325618
+    ],
+    "trace": [
+     9145.083251811337
+    ]
+   },
+   "probe_codex_cost": 0.0,
+   "truth_codex": 13602.98509009233,
+   "truth_codex_steps": [
+    [
+     12922,
+     24539,
+     9744,
+     11082
+    ]
+   ],
+   "truth_codex_passed": [
+    [
+     "42/42",
+     "29/32",
+     "36/37",
+     "33/33"
+    ]
+   ],
+   "panel": 7353.906990223525,
+   "panel_1run": 7888.777246017391
+  },
+  "sonnet-5-5_s0": {
+   "static": {
+    "nodes": 8534,
+    "loc": 1268,
+    "chars": 48521,
+    "zlib_bytes": 10410,
+    "redundancy": 0.7854537210692277,
+    "clone_frac": 0.004552211073950204,
+    "dead_frac": 0.0,
+    "cc_mean": 3.8661971830985915,
+    "cc_max": 23,
+    "prop_cost": 0.05144380853277836,
+    "bad_name_frac": 0.3283582089552239
+   },
+   "unreachable": {
+    "case": [
+     "test_runtime_error_in_else_inside_branch",
+     "test_runtime_error_in_then",
+     "test_runtime_error_in_when"
+    ],
+    "h2_all_errors": [
+     "test_golden[branch-merge-after-inner]",
+     "test_golden[branch-own-first-problem-only]",
+     "test_golden[empty-branches]",
+     "test_golden[op-problems]"
+    ]
+   },
+   "probe_opus": 6907.504533920635,
+   "probe_opus_1run": 6795.448197410706,
+   "probe_opus_runs": {
+    "subpipelines": [
+     12330.0,
+     13840.0
+    ],
+    "case": [
+     8223.5,
+     8344.5
+    ],
+    "limits": [
+     7811.309090909091,
+     5978.527272727273
+    ],
+    "trace": [
+     2692.3333333333335,
+     3399.8333333333335
+    ]
+   },
+   "probe_opus_cost": 2.6538122,
+   "truth_opus": 7817.373974170539,
+   "truth_opus_steps": [
+    [
+     12303,
+     4614,
+     10434,
+     6195
+    ],
+    [
+     12238,
+     4710,
+     8245,
+     7999
+    ]
+   ],
+   "truth_opus_passed": [
+    [
+     "42/42",
+     "28/32",
+     "36/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "28/32",
+     "36/37",
+     "33/33"
+    ]
+   ],
+   "probe_sonnet": 5382.337142506601,
+   "probe_sonnet_1run": 5340.959968336802,
+   "probe_sonnet_runs": {
+    "subpipelines": [
+     15616.0,
+     14158.25
+    ],
+    "case": [
+     5210.75,
+     5764.5
+    ],
+    "limits": [
+     4333.140909090909,
+     4886.668181818181
+    ],
+    "trace": [
+     2307.8333333333335,
+     2149.0
+    ]
+   },
+   "probe_sonnet_cost": 1.182207,
+   "plan_sonnet": 7393.351747355152,
+   "plan_sonnet_cost": 0.6698946,
+   "judge_sonnet": 436.61625012010927,
+   "judge_sonnet_cost": 0.253522,
+   "truth_sonnet": 4141.587024556911,
+   "truth_sonnet_steps": [
+    [
+     3931,
+     3743,
+     4483,
+     4164
+    ],
+    [
+     5201,
+     4033,
+     5009,
+     2999
+    ]
+   ],
+   "truth_sonnet_passed": [
+    [
+     "42/42",
+     "28/32",
+     "37/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "28/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_codex": 11693.669638631887,
+   "probe_codex_1run": 11693.669638631887,
+   "probe_codex_runs": {
+    "subpipelines": [
+     13874.5
+    ],
+    "case": [
+     13417.25
+    ],
+    "limits": [
+     7647.75
+    ],
+    "trace": [
+     13133.75
+    ]
+   },
+   "probe_codex_cost": 0.0,
+   "truth_codex": 11453.834093235735,
+   "truth_codex_steps": [
+    [
+     8325,
+     14598,
+     15309,
+     9251
+    ]
+   ],
+   "truth_codex_passed": [
+    [
+     "42/42",
+     "28/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "panel": 6097.418979777743,
+   "panel_1run": 6024.4681748082185
+  },
+  "sonnet-5-5_s1": {
+   "static": {
+    "nodes": 9058,
+    "loc": 1161,
+    "chars": 47799,
+    "zlib_bytes": 10320,
+    "redundancy": 0.7840959015878993,
+    "clone_frac": 0.006841299846970924,
+    "dead_frac": 0.0,
+    "cc_mean": 4.096774193548387,
+    "cc_max": 19,
+    "prop_cost": 0.04865220249835635,
+    "bad_name_frac": 0.3185840707964602
+   },
+   "unreachable": {
+    "h2_all_errors": [
+     "test_golden[branch-merge-after-inner]",
+     "test_golden[branch-own-first-problem-only]",
+     "test_golden[malformed-branch-inner-still-checked]",
+     "test_golden[op-problems]",
+     "test_golden[rename-forms]"
+    ]
+   },
+   "probe_opus": 5800.284074538801,
+   "probe_opus_1run": 5756.204030211024,
+   "probe_opus_runs": {
+    "subpipelines": [
+     8533.25,
+     13901.0
+    ],
+    "case": [
+     7751.5,
+     6922.75
+    ],
+    "limits": [
+     4774.218181818182,
+     5334.072727272727
+    ],
+    "trace": [
+     3476.5,
+     1965.6666666666667
+    ]
+   },
+   "probe_opus_cost": 2.5105708,
+   "truth_opus": 7445.0486401375665,
+   "truth_opus_steps": [
+    [
+     9712,
+     5175,
+     10407,
+     4453
+    ],
+    [
+     14662,
+     8825,
+     6016,
+     5207
+    ]
+   ],
+   "truth_opus_passed": [
+    [
+     "42/42",
+     "27/32",
+     "36/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "27/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "probe_sonnet": 4588.756352318633,
+   "probe_sonnet_1run": 4590.744858864167,
+   "probe_sonnet_runs": {
+    "subpipelines": [
+     13698.75,
+     10136.5
+    ],
+    "case": [
+     3679.0,
+     3611.75
+    ],
+    "limits": [
+     4133.336363636364,
+     5489.881818181818
+    ],
+    "trace": [
+     2132.1666666666665,
+     2110.0
+    ]
+   },
+   "probe_sonnet_cost": 1.0821988,
+   "plan_sonnet": 8919.329539883765,
+   "plan_sonnet_cost": 0.6185042000000001,
+   "judge_sonnet": 451.32787699316447,
+   "judge_sonnet_cost": 0.257336,
+   "truth_sonnet": 4178.6362982483015,
+   "truth_sonnet_steps": [
+    [
+     4965,
+     3587,
+     5775,
+     3198
+    ],
+    [
+     5888,
+     3636,
+     5753,
+     2294
+    ]
+   ],
+   "truth_sonnet_passed": [
+    [
+     "42/42",
+     "27/32",
+     "36/37",
+     "33/33"
+    ],
+    [
+     "42/42",
+     "27/32",
+     "36/37",
+     "33/33"
+    ]
+   ],
+   "probe_codex": 13813.461509633164,
+   "probe_codex_1run": 13813.461509633164,
+   "probe_codex_runs": {
+    "subpipelines": [
+     15258.25
+    ],
+    "case": [
+     13704.0
+    ],
+    "limits": [
+     12849.75
+    ],
+    "trace": [
+     13550.75
+    ]
+   },
+   "probe_codex_cost": 0.0,
+   "truth_codex": 13278.70858644688,
+   "truth_codex_steps": [
+    [
+     13742,
+     15228,
+     16929,
+     8776
+    ]
+   ],
+   "truth_codex_passed": [
+    [
+     "42/42",
+     "27/32",
+     "37/37",
+     "33/33"
+    ]
+   ],
+   "panel": 5159.078444091786,
+   "panel_1run": 5140.550948902705
+  }
+ },
+ "defects": {
+  "reference": 0.0,
+  "dead_code": 0.0,
+  "duplicated": 0.0,
+  "golfed": 0.0,
+  "if_elif": 0.0,
+  "junk_names": 0.0,
+  "opus-5-5_s0": 0.0,
+  "opus-5-5_s1": 0.0,
+  "sonnet-5-5_s0": 0.0,
+  "sonnet-5-5_s1": 0.0
+ },
+ "trust": {
+  "convention/opus": [
+   {
+    "effort": 5890.193492200017,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.24851554313657004,
+    "edited_ops": 0
+   },
+   {
+    "effort": 8702.13125212125,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 1.0,
+    "edited_ops": 1
+   },
+   {
+    "effort": 10922.0,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 1.0,
+    "edited_ops": 1
+   }
+  ],
+  "convention/sonnet": [
+   {
+    "effort": 4700.715240326942,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.16919315403422983,
+    "edited_ops": 1
+   },
+   {
+    "effort": 4720.107578686806,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.1371987425777157,
+    "edited_ops": 1
+   },
+   {
+    "effort": 5435.297391856725,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.16919315403422983,
+    "edited_ops": 1
+   }
+  ],
+  "documented/opus": [
+   {
+    "effort": 9537.02245076214,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 1.0,
+    "edited_ops": 0
+   },
+   {
+    "effort": 8187.669942334838,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.41051344743276286,
+    "edited_ops": 0
+   },
+   {
+    "effort": 5791.75,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 1.0,
+    "edited_ops": 1
+   }
+  ],
+  "documented/sonnet": [
+   {
+    "effort": 5353.797391856725,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.1371987425777157,
+    "edited_ops": 1
+   },
+   {
+    "effort": 5099.547391856725,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.1371987425777157,
+    "edited_ops": 1
+   },
+   {
+    "effort": 5068.797391856725,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.1371987425777157,
+    "edited_ops": 1
+   }
+  ],
+  "enforced/opus": [
+   {
+    "effort": 8325.25,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 1.0,
+    "edited_ops": 1
+   },
+   {
+    "effort": 11401.878043787061,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 1.0,
+    "edited_ops": 0
+   },
+   {
+    "effort": 11195.5,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 1.0,
+    "edited_ops": 1
+   }
+  ],
+  "enforced/sonnet": [
+   {
+    "effort": 4982.999409701979,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.1378913202805989,
+    "edited_ops": 1
+   },
+   {
+    "effort": 5388.75,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.1378913202805989,
+    "edited_ops": 0
+   },
+   {
+    "effort": 4705.500401247051,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.1378913202805989,
+    "edited_ops": 1
+   }
+  ],
+  "false_doc/opus": [
+   {
+    "effort": 11401.001057262942,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 1.0,
+    "edited_ops": 1
+   },
+   {
+    "effort": 11042.0,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 1.0,
+    "edited_ops": 2
+   },
+   {
+    "effort": 10836.4009854044,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 1.0,
+    "edited_ops": 1
+   }
+  ],
+  "false_doc/sonnet": [
+   {
+    "effort": 5377.048279610754,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.411391750801144,
+    "edited_ops": 2
+   },
+   {
+    "effort": 4763.126404610754,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.3798284001240481,
+    "edited_ops": 1
+   },
+   {
+    "effort": 4885.575939112228,
+    "passed": 55,
+    "total": 55,
+    "ops_read": 0.3798284001240481,
+    "edited_ops": 2
+   }
+  ]
+ },
+ "notes": {
+  "reference/probe/limits/opus": [
+   {
+    "effort": 5890.193492200017,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 8702.13125212125,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 10922.0,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "reference/probe/limits/sonnet": [
+   {
+    "effort": 4700.715240326942,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 4720.107578686806,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 5435.297391856725,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "reference/probe/trace/opus": [
+   {
+    "effort": 2027.9149162815895,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 1931.7663418567972,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "reference/probe/trace/sonnet": [
+   {
+    "effort": 1802.5724828290613,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 2381.9332725566956,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "reference/probe_untrusted/limits/opus": [
+   {
+    "effort": 10560.5,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 11345.5,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "reference/probe_untrusted/limits/sonnet": [
+   {
+    "effort": 10303.047391856726,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 5451.0,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "reference/probe_untrusted/trace/opus": [
+   {
+    "effort": 3634.231689947106,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 3446.969714018064,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "reference/probe_untrusted/trace/sonnet": [
+   {
+    "effort": 2169.117572461876,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 2474.1655860506007,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_targeted_notes/probe/limits/opus": [
+   {
+    "effort": 3348.2040056142555,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 7988.5,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_targeted_notes/probe/limits/sonnet": [
+   {
+    "effort": 3747.0137802082654,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 5299.441655859482,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_targeted_notes/probe/trace/opus": [
+   {
+    "effort": 2985.585021712217,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 4395.830865297099,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_targeted_notes/probe/trace/sonnet": [
+   {
+    "effort": 1757.573365702155,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 2103.8250753669013,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_targeted_notes/probe_untrusted/limits/opus": [
+   {
+    "effort": 7603.0,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 6333.0,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_targeted_notes/probe_untrusted/limits/sonnet": [
+   {
+    "effort": 5086.682893716867,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 5467.047391856725,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_targeted_notes/probe_untrusted/trace/opus": [
+   {
+    "effort": 5052.179755424851,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 3604.865269144112,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_targeted_notes/probe_untrusted/trace/sonnet": [
+   {
+    "effort": 2638.3133346218565,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 2083.568281902829,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_maintainer_notes/probe/limits/opus": [
+   {
+    "effort": 8748.371833743357,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 12077.75,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_maintainer_notes/probe/limits/sonnet": [
+   {
+    "effort": 4896.787829573725,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 5699.677115764686,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_maintainer_notes/probe/trace/opus": [
+   {
+    "effort": 3112.043634766346,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 3870.4297554248506,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_maintainer_notes/probe/trace/sonnet": [
+   {
+    "effort": 1788.6635667883254,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 2125.70139955406,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_maintainer_notes/probe_untrusted/limits/opus": [
+   {
+    "effort": 12512.75,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 6283.75,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_maintainer_notes/probe_untrusted/limits/sonnet": [
+   {
+    "effort": 5047.5,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 6089.616559583196,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_maintainer_notes/probe_untrusted/trace/opus": [
+   {
+    "effort": 4297.92063227199,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 3969.1797554248506,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_maintainer_notes/probe_untrusted/trace/sonnet": [
+   {
+    "effort": 12306.346406086219,
+    "passed": 7,
+    "total": 9
+   },
+   {
+    "effort": 2373.0868730461043,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_misleading_note/probe/limits/opus": [
+   {
+    "effort": 10853.75,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 7274.046171816735,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_misleading_note/probe/limits/sonnet": [
+   {
+    "effort": 5298.8157773676885,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 4792.3157773676885,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_misleading_note/probe/trace/opus": [
+   {
+    "effort": 2558.879431901697,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 2574.0413388194283,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_misleading_note/probe/trace/sonnet": [
+   {
+    "effort": 2289.75,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 2255.932173026281,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_misleading_note/probe_untrusted/limits/opus": [
+   {
+    "effort": 10639.75,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 8697.581183128976,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_misleading_note/probe_untrusted/limits/sonnet": [
+   {
+    "effort": 4990.59994813967,
+    "passed": 55,
+    "total": 55
+   },
+   {
+    "effort": 5563.5,
+    "passed": 55,
+    "total": 55
+   }
+  ],
+  "x_misleading_note/probe_untrusted/trace/opus": [
+   {
+    "effort": 3694.722467853829,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 3467.4297554248506,
+    "passed": 9,
+    "total": 9
+   }
+  ],
+  "x_misleading_note/probe_untrusted/trace/sonnet": [
+   {
+    "effort": 2405.9036145326686,
+    "passed": 9,
+    "total": 9
+   },
+   {
+    "effort": 2777.0367299783447,
+    "passed": 9,
+    "total": 9
+   }
+  ]
+ }
+}
