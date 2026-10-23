@@ -60,12 +60,14 @@ hardest part to get right. To compare candidates we used a few kinds of ground t
 - **Structure only shows at scale.** Below ~7k tokens a model reads everything, so V is just size. Above ~12k
   tokens across files it reads selectively, and composable code wins.
 - **It rewards structure that matches the changes, but penalizes over-engineering.** Organizing code on the wrong axis costs 2.5–4.2× more.
-- **Hard to game.** None of the exploits we tried works now:
-  - pre-building the hidden checkpoints: charged as a failure
-  - code the parser can't read: estimated, not counted as empty
-  - docstrings padding out the code: reads are weighted by the code in each file
-  - code hidden in non-`.py` files: counts as code
-  - one giant file, notes aimed at the maintainer, or a "you're done" comment: no effect
+- **Hard to game.** Common ways to score well without writing better code:
+  - Golfing (short names, packing code onto fewer lines): mostly doesn't help, since code is counted in syntax
+    nodes, not characters. Opus still reads dense code a little faster.
+  - Stripping comments and docstrings: no help, for the same reason.
+  - Padding files with long docstrings to make the code cheaper to read: no help.
+  - Hiding code where it isn't counted (files that aren't `.py`, or don't parse): counted anyway.
+  - Leaving notes for the extender ("you're done", "the change goes here"): no effect.
+
   Opus, told to maximize the score by any means, wrote clean code.
 
 Every result, with links to its write-up, is in
