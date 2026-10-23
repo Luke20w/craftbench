@@ -15,3 +15,4 @@ Paths inside refer to the original scratch workspace (`.context/exp*`), which is
 * `claude_builders.md`: benchmark of Claude Opus 5.5, Sonnet 5.5 and Fable 5.1 as builders (3 builds each, Opus extender)
 * `xl_calibration.md`: the 52-operation task's calibration check, composable reference vs if/elif mutant
 * `v_measures.md`: which way of computing change cost (probe models, panel, plan-only, judge, static metrics) predicts the real cost of owning code, measured by chains of held-out changes on the plain-language XL task
+* `structure_axes.md`: a domain where the right structure is known (document renderer, 5 organizations x 2 streams of changes): does the cost to extend flip its preference when the stream flips

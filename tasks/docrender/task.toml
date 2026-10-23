@@ -1,0 +1,64 @@
+# A synthetic domain whose right structure is known: a renderer of a document tree (20 node kinds) into
+# 12 markup formats. The same behaviour is organized five ways (variants/, built by gen/make.py), and the
+# changes come in two streams: new node kinds (k*) and new formats (f*). Which organization is right depends
+# on which stream arrives, so a measure of change cost should flip its preference between the streams.
+
+id = "docrender"
+program = "a CLI that renders a JSON document tree to a markup format"
+language = "python"
+entrypoint = "{python} {workspace}/docrender.py"
+reference = "variants/by_format"
+mutants = "variants"   # by_kind, by_format, families, families_explicit, flat, layered: identical behaviour
+
+[[milestones]]
+id = "base"
+spec = "specs/base.md"
+tests = ["test_base.py"]
+
+# ---- stream K: new node kinds ------------------------------------------------------------------
+[[changes]]
+id = "k1_strikethrough"        # an inline wrapper
+spec = "specs/k1_strikethrough.md"
+tests = ["test_k1_strikethrough.py"]
+
+[[changes]]
+id = "k2_callout"              # a block container
+spec = "specs/k2_callout.md"
+tests = ["test_k2_callout.py"]
+
+[[changes]]
+id = "k3_definition_list"      # a block with its own shape
+spec = "specs/k3_definition_list.md"
+tests = ["test_k3_definition_list.py"]
+
+# ---- stream F: new formats ---------------------------------------------------------------------
+[[changes]]
+id = "f1_asciidoc"
+spec = "specs/f1_asciidoc.md"
+tests = ["test_f1_asciidoc.py"]
+
+[[changes]]
+id = "f2_textile"
+spec = "specs/f2_textile.md"
+tests = ["test_f2_textile.py"]
+
+[[changes]]
+id = "f3_rst"
+spec = "specs/f3_rst.md"
+tests = ["test_f3_rst.py"]
+
+# ---- stream S: changes to behaviour the formats share (each adds an optional field) ------------
+[[changes]]
+id = "s1_list_start"           # numbering, in the formats that write numbers
+spec = "specs/s1_list_start.md"
+tests = ["test_s1_list_start.py"]
+
+[[changes]]
+id = "s2_quote_cite"           # one more block inside every quote
+spec = "specs/s2_quote_cite.md"
+tests = ["test_s2_quote_cite.py"]
+
+[[changes]]
+id = "s3_default_alt"          # a rule for every place alt text is written
+spec = "specs/s3_default_alt.md"
+tests = ["test_s3_default_alt.py"]

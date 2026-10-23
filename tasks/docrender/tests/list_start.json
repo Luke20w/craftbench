@@ -1,0 +1,2006 @@
+[
+ {
+  "id": "html-continued",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "<ol>\n<li>one</li>\n<li>two</li>\n</ol>\n<p>A note between steps.</p>\n<ol start=\"3\">\n<li>three</li>\n<li>four\n<ol>\n<li>four a</li>\n</ol></li>\n</ol>\n"
+ },
+ {
+  "id": "html-nested",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "<ul>\n<li>intro\n<ol start=\"5\">\n<li>step five</li>\n<li>step six</li>\n</ol></li>\n</ul>\n"
+ },
+ {
+  "id": "html-explicit_one",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "<ol>\n<li>a</li>\n<li>b</li>\n</ol>\n"
+ },
+ {
+  "id": "markdown-continued",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "1. one\n2. two\n\nA note between steps.\n\n3. three\n4. four\n   1. four a\n"
+ },
+ {
+  "id": "markdown-nested",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "- intro\n  5. step five\n  6. step six\n"
+ },
+ {
+  "id": "markdown-explicit_one",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "1. a\n2. b\n"
+ },
+ {
+  "id": "plain-continued",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "1) one\n2) two\n\nA note between steps.\n\n3) three\n4) four\n   1) four a\n"
+ },
+ {
+  "id": "plain-nested",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "* intro\n  5) step five\n  6) step six\n"
+ },
+ {
+  "id": "plain-explicit_one",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "1) a\n2) b\n"
+ },
+ {
+  "id": "latex-continued",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "\\begin{enumerate}\n  \\item one\n  \\item two\n\\end{enumerate}\n\nA note between steps.\n\n\\begin{enumerate}\n  \\setcounter{enumi}{2}\n  \\item three\n  \\item four\n  \\begin{enumerate}\n    \\item four a\n  \\end{enumerate}\n\\end{enumerate}\n"
+ },
+ {
+  "id": "latex-nested",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "\\begin{itemize}\n  \\item intro\n  \\begin{enumerate}\n    \\setcounter{enumi}{4}\n    \\item step five\n    \\item step six\n  \\end{enumerate}\n\\end{itemize}\n"
+ },
+ {
+  "id": "latex-explicit_one",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "\\begin{enumerate}\n  \\item a\n  \\item b\n\\end{enumerate}\n"
+ },
+ {
+  "id": "mediawiki-continued",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "# one\n# two\n\nA note between steps.\n\n# three\n# four\n## four a\n"
+ },
+ {
+  "id": "mediawiki-nested",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "* intro\n*# step five\n*# step six\n"
+ },
+ {
+  "id": "mediawiki-explicit_one",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "# a\n# b\n"
+ },
+ {
+  "id": "bbcode-continued",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "[list=1]\n[*]one\n[*]two\n[/list]\n\nA note between steps.\n\n[list=3]\n[*]three\n[*]four\n[list=1]\n[*]four a\n[/list]\n[/list]\n"
+ },
+ {
+  "id": "bbcode-nested",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "[list]\n[*]intro\n[list=5]\n[*]step five\n[*]step six\n[/list]\n[/list]\n"
+ },
+ {
+  "id": "bbcode-explicit_one",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "[list=1]\n[*]a\n[*]b\n[/list]\n"
+ },
+ {
+  "id": "org-continued",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "1. one\n2. two\n\nA note between steps.\n\n3. three\n4. four\n   1. four a\n"
+ },
+ {
+  "id": "org-nested",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "- intro\n  5. step five\n  6. step six\n"
+ },
+ {
+  "id": "org-explicit_one",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "1. a\n2. b\n"
+ },
+ {
+  "id": "slack-continued",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "1. one\n2. two\n\nA note between steps.\n\n3. three\n4. four\n    1. four a\n"
+ },
+ {
+  "id": "slack-nested",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "• intro\n    5. step five\n    6. step six\n"
+ },
+ {
+  "id": "slack-explicit_one",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "1. a\n2. b\n"
+ },
+ {
+  "id": "jira-continued",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "# one\n# two\n\nA note between steps.\n\n# three\n# four\n## four a\n"
+ },
+ {
+  "id": "jira-nested",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "* intro\n*# step five\n*# step six\n"
+ },
+ {
+  "id": "jira-explicit_one",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "# a\n# b\n"
+ },
+ {
+  "id": "dokuwiki-continued",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "  - one\n  - two\n\nA note between steps.\n\n  - three\n  - four\n    - four a\n"
+ },
+ {
+  "id": "dokuwiki-nested",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "  * intro\n    - step five\n    - step six\n"
+ },
+ {
+  "id": "dokuwiki-explicit_one",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "  - a\n  - b\n"
+ },
+ {
+  "id": "creole-continued",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "# one\n# two\n\nA note between steps.\n\n# three\n# four\n## four a\n"
+ },
+ {
+  "id": "creole-nested",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "* intro\n*# step five\n*# step six\n"
+ },
+ {
+  "id": "creole-explicit_one",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "# a\n# b\n"
+ },
+ {
+  "id": "tiddlywiki-continued",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "one"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "A note between steps."
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "three"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "four"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "four a"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ],
+     "start": 3
+    }
+   ]
+  },
+  "expected": "# one\n# two\n\nA note between steps.\n\n# three\n# four\n## four a\n"
+ },
+ {
+  "id": "tiddlywiki-nested",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "intro"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step five"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "step six"
+           }
+          ],
+          "sublist": null
+         }
+        ],
+        "start": 5
+       }
+      }
+     ],
+     "start": 9
+    }
+   ]
+  },
+  "expected": "* intro\n*# step five\n*# step six\n"
+ },
+ {
+  "id": "tiddlywiki-explicit_one",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "a"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "b"
+        }
+       ],
+       "sublist": null
+      }
+     ],
+     "start": 1
+    }
+   ]
+  },
+  "expected": "# a\n# b\n"
+ }
+]

@@ -1,0 +1,2198 @@
+[
+ {
+  "id": "html-simple",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<p>Price: <del>$10</del> $8</p>\n"
+ },
+ {
+  "id": "html-nested",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<p><del>old <strong>bold</strong> text</del> and <em><del>gone</del></em></p>\n"
+ },
+ {
+  "id": "html-in_blocks",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "<h2><del>Draft</del> Final</h2>\n<ul>\n<li><del>done</del></li>\n<li>todo</li>\n</ul>\n<table>\n<tr><th>Task</th><th>State</th></tr>\n<tr><td>ship</td><td><del>open</del></td></tr>\n</table>\n"
+ },
+ {
+  "id": "markdown-simple",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Price: ~~$10~~ $8\n"
+ },
+ {
+  "id": "markdown-nested",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "~~old **bold** text~~ and *~~gone~~*\n"
+ },
+ {
+  "id": "markdown-in_blocks",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "## ~~Draft~~ Final\n\n- ~~done~~\n- todo\n\n| Task | State |\n| --- | --- |\n| ship | ~~open~~ |\n"
+ },
+ {
+  "id": "plain-simple",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Price: ~$10~ $8\n"
+ },
+ {
+  "id": "plain-nested",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "~old BOLD text~ and _~gone~_\n"
+ },
+ {
+  "id": "plain-in_blocks",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "~Draft~ Final\n-------------\n\n* ~done~\n* todo\n\nTask | State\n-----+-------\nship | ~open~\n"
+ },
+ {
+  "id": "latex-simple",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Price: \\sout{\\$10} \\$8\n"
+ },
+ {
+  "id": "latex-nested",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "\\sout{old \\textbf{bold} text} and \\emph{\\sout{gone}}\n"
+ },
+ {
+  "id": "latex-in_blocks",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "\\subsection{\\sout{Draft} Final}\n\n\\begin{itemize}\n  \\item \\sout{done}\n  \\item todo\n\\end{itemize}\n\n\\begin{tabular}{|l|l|}\n\\hline\nTask & State \\\\\n\\hline\nship & \\sout{open} \\\\\n\\hline\n\\end{tabular}\n"
+ },
+ {
+  "id": "mediawiki-simple",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Price: <s>$10</s> $8\n"
+ },
+ {
+  "id": "mediawiki-nested",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<s>old '''bold''' text</s> and ''<s>gone</s>''\n"
+ },
+ {
+  "id": "mediawiki-in_blocks",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "=== <s>Draft</s> Final ===\n\n* <s>done</s>\n* todo\n\n{| class=\"wikitable\"\n! Task !! State\n|-\n| ship || <s>open</s>\n|}\n"
+ },
+ {
+  "id": "bbcode-simple",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Price: [s]$10[/s] $8\n"
+ },
+ {
+  "id": "bbcode-nested",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[s]old [b]bold[/b] text[/s] and [i][s]gone[/s][/i]\n"
+ },
+ {
+  "id": "bbcode-in_blocks",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "[size=150%][b][s]Draft[/s] Final[/b][/size]\n\n[list]\n[*][s]done[/s]\n[*]todo\n[/list]\n\n[table]\n[tr][th]Task[/th][th]State[/th][/tr]\n[tr][td]ship[/td][td][s]open[/s][/td][/tr]\n[/table]\n"
+ },
+ {
+  "id": "org-simple",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Price: +$10+ $8\n"
+ },
+ {
+  "id": "org-nested",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "+old *bold* text+ and /+gone+/\n"
+ },
+ {
+  "id": "org-in_blocks",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "** +Draft+ Final\n\n- +done+\n- todo\n\n| Task | State |\n|---+---|\n| ship | +open+ |\n"
+ },
+ {
+  "id": "slack-simple",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Price: ~$10~ $8\n"
+ },
+ {
+  "id": "slack-nested",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "~old *bold* text~ and _~gone~_\n"
+ },
+ {
+  "id": "slack-in_blocks",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "*~Draft~ Final*\n\n• ~done~\n• todo\n\n```\nTask  State\nship  ~open~\n```\n"
+ },
+ {
+  "id": "jira-simple",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Price: -$10- $8\n"
+ },
+ {
+  "id": "jira-nested",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "-old *bold* text- and _-gone-_\n"
+ },
+ {
+  "id": "jira-in_blocks",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "h2. -Draft- Final\n\n* -done-\n* todo\n\n||Task||State||\n|ship|-open-|\n"
+ },
+ {
+  "id": "dokuwiki-simple",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Price: <del>$10</del> $8\n"
+ },
+ {
+  "id": "dokuwiki-nested",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<del>old **bold** text</del> and //<del>gone</del>//\n"
+ },
+ {
+  "id": "dokuwiki-in_blocks",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "===== <del>Draft</del> Final =====\n\n  * <del>done</del>\n  * todo\n\n^ Task ^ State ^\n| ship | <del>open</del> |\n"
+ },
+ {
+  "id": "creole-simple",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Price: --$10-- $8\n"
+ },
+ {
+  "id": "creole-nested",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "--old **bold** text-- and //--gone--//\n"
+ },
+ {
+  "id": "creole-in_blocks",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "== --Draft-- Final\n\n* --done--\n* todo\n\n|=Task|=State|\n|ship|--open--|\n"
+ },
+ {
+  "id": "tiddlywiki-simple",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Price: "
+      },
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "$10"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " $8"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Price: ~~\"\"\"$10\"\"\"~~\"\"\" $8\"\"\"\n"
+ },
+ {
+  "id": "tiddlywiki-nested",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "old "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "bold"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " text"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "gone"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "~~old ''bold'' text~~ and //~~gone~~//\n"
+ },
+ {
+  "id": "tiddlywiki-in_blocks",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "strikethrough",
+       "children": [
+        {
+         "type": "text",
+         "value": "Draft"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " Final"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "done"
+          }
+         ]
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "todo"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Task"
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "State"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "ship"
+        }
+       ],
+       [
+        {
+         "type": "strikethrough",
+         "children": [
+          {
+           "type": "text",
+           "value": "open"
+          }
+         ]
+        }
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "!! ~~Draft~~ Final\n\n* ~~done~~\n* todo\n\n|!Task|!State|\n|ship|~~open~~|\n"
+ }
+]

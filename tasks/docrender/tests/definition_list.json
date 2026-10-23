@@ -1,0 +1,1898 @@
+[
+ {
+  "id": "html-simple",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<dl>\n<dt>API</dt>\n<dd><p>Application programming interface.</p></dd>\n<dt>CLI</dt>\n<dd><p>Command-line interface.</p></dd>\n</dl>\n"
+ },
+ {
+  "id": "html-rich",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<h2>Glossary</h2>\n<dl>\n<dt><code>render</code> <em>verb</em></dt>\n<dd><p>Turn a document into text.</p>\n<ol>\n<li>parse</li>\n<li>emit</li>\n</ol></dd>\n<dt><strong>node</strong></dt>\n<dd><p>One element of the tree.</p></dd>\n</dl>\n"
+ },
+ {
+  "id": "markdown-simple",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "API\n: Application programming interface.\n\nCLI\n: Command-line interface.\n"
+ },
+ {
+  "id": "markdown-rich",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "## Glossary\n\n`render` *verb*\n: Turn a document into text.\n\n  1. parse\n  2. emit\n\n**node**\n: One element of the tree.\n"
+ },
+ {
+  "id": "plain-simple",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "API\n    Application programming interface.\nCLI\n    Command-line interface.\n"
+ },
+ {
+  "id": "plain-rich",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Glossary\n--------\n\nrender _verb_\n    Turn a document into text.\n\n    1) parse\n    2) emit\nNODE\n    One element of the tree.\n"
+ },
+ {
+  "id": "latex-simple",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "\\begin{description}\n  \\item[API] Application programming interface.\n  \\item[CLI] Command-line interface.\n\\end{description}\n"
+ },
+ {
+  "id": "latex-rich",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "\\subsection{Glossary}\n\n\\begin{description}\n  \\item[\\texttt{render} \\emph{verb}] Turn a document into text.\n\n  \\begin{enumerate}\n    \\item parse\n    \\item emit\n  \\end{enumerate}\n  \\item[\\textbf{node}] One element of the tree.\n\\end{description}\n"
+ },
+ {
+  "id": "mediawiki-simple",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "; API\n: Application programming interface.\n; CLI\n: Command-line interface.\n"
+ },
+ {
+  "id": "mediawiki-rich",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "=== Glossary ===\n\n; <code>render</code> ''verb''\n: Turn a document into text.\n:\n: # parse\n: # emit\n; '''node'''\n: One element of the tree.\n"
+ },
+ {
+  "id": "bbcode-simple",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[b]API[/b]\n[indent]Application programming interface.[/indent]\n[b]CLI[/b]\n[indent]Command-line interface.[/indent]\n"
+ },
+ {
+  "id": "bbcode-rich",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[size=150%][b]Glossary[/b][/size]\n\n[b][icode]render[/icode] [i]verb[/i][/b]\n[indent]Turn a document into text.\n\n[list=1]\n[*]parse\n[*]emit\n[/list][/indent]\n[b][b]node[/b][/b]\n[indent]One element of the tree.[/indent]\n"
+ },
+ {
+  "id": "org-simple",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "- API :: Application programming interface.\n- CLI :: Command-line interface.\n"
+ },
+ {
+  "id": "org-rich",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "** Glossary\n\n- ~render~ /verb/ :: Turn a document into text.\n\n  1. parse\n  2. emit\n- *node* :: One element of the tree.\n"
+ },
+ {
+  "id": "slack-simple",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "*API*\n    Application programming interface.\n*CLI*\n    Command-line interface.\n"
+ },
+ {
+  "id": "slack-rich",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "*Glossary*\n\n*`render` _verb_*\n    Turn a document into text.\n\n    1. parse\n    2. emit\n**node**\n    One element of the tree.\n"
+ },
+ {
+  "id": "jira-simple",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "*API*\nApplication programming interface.\n*CLI*\nCommand-line interface.\n"
+ },
+ {
+  "id": "jira-rich",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "h2. Glossary\n\n*{{render}} _verb_*\nTurn a document into text.\n\n# parse\n# emit\n**node**\nOne element of the tree.\n"
+ },
+ {
+  "id": "dokuwiki-simple",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "  * **API**: Application programming interface.\n  * **CLI**: Command-line interface.\n"
+ },
+ {
+  "id": "dokuwiki-rich",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "===== Glossary =====\n\n  * **''render'' //verb//**: Turn a document into text.\n\n      - parse\n      - emit\n  * ****node****: One element of the tree.\n"
+ },
+ {
+  "id": "creole-simple",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": ";API\n:Application programming interface.\n;CLI\n:Command-line interface.\n"
+ },
+ {
+  "id": "creole-rich",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "== Glossary\n\n;{{{render}}} //verb//\n:Turn a document into text.\n:\n:# parse\n:# emit\n;**node**\n:One element of the tree.\n"
+ },
+ {
+  "id": "tiddlywiki-simple",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "API"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Application programming interface."
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "text",
+         "value": "CLI"
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Command-line interface."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "; API\n: Application programming interface.\n; CLI\n: Command-line interface.\n"
+ },
+ {
+  "id": "tiddlywiki-rich",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Glossary"
+      }
+     ]
+    },
+    {
+     "type": "definition_list",
+     "items": [
+      {
+       "term": [
+        {
+         "type": "code",
+         "value": "render"
+        },
+        {
+         "type": "text",
+         "value": " "
+        },
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "verb"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Turn a document into text."
+          }
+         ]
+        },
+        {
+         "type": "list",
+         "ordered": true,
+         "items": [
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "parse"
+            }
+           ],
+           "sublist": null
+          },
+          {
+           "children": [
+            {
+             "type": "text",
+             "value": "emit"
+            }
+           ],
+           "sublist": null
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "term": [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "node"
+          }
+         ]
+        }
+       ],
+       "definition": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "One element of the tree."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "!! Glossary\n\n; `render` //verb//\n: Turn a document into text.\n:\n: # parse\n: # emit\n; ''node''\n: One element of the tree.\n"
+ }
+]

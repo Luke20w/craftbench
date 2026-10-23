@@ -1,0 +1,1682 @@
+[
+ {
+  "id": "html-note",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<aside class=\"callout note\">\n<p>Back up your data first.</p>\n</aside>\n"
+ },
+ {
+  "id": "html-warning",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<p>Before you start:</p>\n<aside class=\"callout warning\">\n<p>This <strong>deletes</strong> files.</p>\n<ul>\n<li>logs</li>\n<li>cache</li>\n</ul>\n</aside>\n"
+ },
+ {
+  "id": "html-tip",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<aside class=\"callout tip\">\n<p>Try this:</p>\n<pre><code class=\"language-sh\">make fast</code></pre>\n<blockquote>\n<p>It worked for me.</p>\n</blockquote>\n</aside>\n"
+ },
+ {
+  "id": "markdown-note",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> [!NOTE]\n> Back up your data first.\n"
+ },
+ {
+  "id": "markdown-warning",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Before you start:\n\n> [!WARNING]\n> This **deletes** files.\n>\n> - logs\n> - cache\n"
+ },
+ {
+  "id": "markdown-tip",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> [!TIP]\n> Try this:\n>\n> ```sh\n> make fast\n> ```\n>\n> > It worked for me.\n"
+ },
+ {
+  "id": "plain-note",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "NOTE:\n  Back up your data first.\n"
+ },
+ {
+  "id": "plain-warning",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Before you start:\n\nWARNING:\n  This DELETES files.\n\n  * logs\n  * cache\n"
+ },
+ {
+  "id": "plain-tip",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "TIP:\n  Try this:\n\n      make fast\n\n  | It worked for me.\n"
+ },
+ {
+  "id": "latex-note",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "\\begin{note}\nBack up your data first.\n\\end{note}\n"
+ },
+ {
+  "id": "latex-warning",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Before you start:\n\n\\begin{warning}\nThis \\textbf{deletes} files.\n\n\\begin{itemize}\n  \\item logs\n  \\item cache\n\\end{itemize}\n\\end{warning}\n"
+ },
+ {
+  "id": "latex-tip",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "\\begin{tip}\nTry this:\n\n\\begin{verbatim}\nmake fast\n\\end{verbatim}\n\n\\begin{quote}\nIt worked for me.\n\\end{quote}\n\\end{tip}\n"
+ },
+ {
+  "id": "mediawiki-note",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "{{Note|1=\nBack up your data first.\n}}\n"
+ },
+ {
+  "id": "mediawiki-warning",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Before you start:\n\n{{Warning|1=\nThis '''deletes''' files.\n\n* logs\n* cache\n}}\n"
+ },
+ {
+  "id": "mediawiki-tip",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "{{Tip|1=\nTry this:\n\n<syntaxhighlight lang=\"sh\">\nmake fast\n</syntaxhighlight>\n\n<blockquote>\nIt worked for me.\n</blockquote>\n}}\n"
+ },
+ {
+  "id": "bbcode-note",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[quote=Note]\nBack up your data first.\n[/quote]\n"
+ },
+ {
+  "id": "bbcode-warning",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Before you start:\n\n[quote=Warning]\nThis [b]deletes[/b] files.\n\n[list]\n[*]logs\n[*]cache\n[/list]\n[/quote]\n"
+ },
+ {
+  "id": "bbcode-tip",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[quote=Tip]\nTry this:\n\n[code=sh]\nmake fast\n[/code]\n\n[quote]\nIt worked for me.\n[/quote]\n[/quote]\n"
+ },
+ {
+  "id": "org-note",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "#+BEGIN_NOTE\nBack up your data first.\n#+END_NOTE\n"
+ },
+ {
+  "id": "org-warning",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Before you start:\n\n#+BEGIN_WARNING\nThis *deletes* files.\n\n- logs\n- cache\n#+END_WARNING\n"
+ },
+ {
+  "id": "org-tip",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "#+BEGIN_TIP\nTry this:\n\n#+BEGIN_SRC sh\nmake fast\n#+END_SRC\n\n#+BEGIN_QUOTE\nIt worked for me.\n#+END_QUOTE\n#+END_TIP\n"
+ },
+ {
+  "id": "slack-note",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> :information_source: *Note*\n> Back up your data first.\n"
+ },
+ {
+  "id": "slack-warning",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Before you start:\n\n> :warning: *Warning*\n> This *deletes* files.\n>\n> • logs\n> • cache\n"
+ },
+ {
+  "id": "slack-tip",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> :bulb: *Tip*\n> Try this:\n>\n> ```\n> make fast\n> ```\n>\n> > It worked for me.\n"
+ },
+ {
+  "id": "jira-note",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "{panel:title=Note}\nBack up your data first.\n{panel}\n"
+ },
+ {
+  "id": "jira-warning",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Before you start:\n\n{panel:title=Warning}\nThis *deletes* files.\n\n* logs\n* cache\n{panel}\n"
+ },
+ {
+  "id": "jira-tip",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "{panel:title=Tip}\nTry this:\n\n{code:sh}\nmake fast\n{code}\n\n{quote}\nIt worked for me.\n{quote}\n{panel}\n"
+ },
+ {
+  "id": "dokuwiki-note",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<WRAP note>\nBack up your data first.\n</WRAP>\n"
+ },
+ {
+  "id": "dokuwiki-warning",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Before you start:\n\n<WRAP warning>\nThis **deletes** files.\n\n  * logs\n  * cache\n</WRAP>\n"
+ },
+ {
+  "id": "dokuwiki-tip",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<WRAP tip>\nTry this:\n\n<code sh>\nmake fast\n</code>\n\n> It worked for me.\n</WRAP>\n"
+ },
+ {
+  "id": "creole-note",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> NOTE:\n> Back up your data first.\n"
+ },
+ {
+  "id": "creole-warning",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Before you start:\n\n> WARNING:\n> This **deletes** files.\n>\n> * logs\n> * cache\n"
+ },
+ {
+  "id": "creole-tip",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> TIP:\n> Try this:\n>\n> {{{\n> make fast\n> }}}\n>\n> > It worked for me.\n"
+ },
+ {
+  "id": "tiddlywiki-note",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "note",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Back up your data first."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "@@.note\nBack up your data first.\n@@\n"
+ },
+ {
+  "id": "tiddlywiki-warning",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Before you start:"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "variant": "warning",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "This "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "deletes"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " files."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "logs"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "cache"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Before you start:\n\n@@.warning\nThis ''deletes'' files.\n\n* logs\n* cache\n@@\n"
+ },
+ {
+  "id": "tiddlywiki-tip",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "callout",
+     "variant": "tip",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Try this:"
+        }
+       ]
+      },
+      {
+       "type": "code_block",
+       "language": "sh",
+       "code": "make fast"
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "It worked for me."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "@@.tip\nTry this:\n\n```sh\nmake fast\n```\n\n<<<\nIt worked for me.\n<<<\n@@\n"
+ }
+]

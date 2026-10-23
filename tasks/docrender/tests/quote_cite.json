@@ -1,0 +1,1754 @@
+[
+ {
+  "id": "html-simple",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<blockquote>\n<p>Simplicity is prerequisite for reliability.</p>\n<footer>— Edsger W. Dijkstra</footer>\n</blockquote>\n"
+ },
+ {
+  "id": "html-rich",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<blockquote>\n<p>It just works.</p>\n<ul>\n<li>fast</li>\n<li>small</li>\n</ul>\n<footer>— <strong>A happy user</strong>, <em>2026</em></footer>\n</blockquote>\n"
+ },
+ {
+  "id": "html-nested",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<blockquote>\n<p>Outer.</p>\n<blockquote>\n<p>Inner.</p>\n<footer>— Someone</footer>\n</blockquote>\n</blockquote>\n"
+ },
+ {
+  "id": "markdown-simple",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> Simplicity is prerequisite for reliability.\n>\n> — Edsger W. Dijkstra\n"
+ },
+ {
+  "id": "markdown-rich",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> It just works.\n>\n> - fast\n> - small\n>\n> — **A happy user**, *2026*\n"
+ },
+ {
+  "id": "markdown-nested",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> Outer.\n>\n> > Inner.\n> >\n> > — Someone\n"
+ },
+ {
+  "id": "plain-simple",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "| Simplicity is prerequisite for reliability.\n|\n| — Edsger W. Dijkstra\n"
+ },
+ {
+  "id": "plain-rich",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "| It just works.\n|\n| * fast\n| * small\n|\n| — A HAPPY USER, _2026_\n"
+ },
+ {
+  "id": "plain-nested",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "| Outer.\n|\n| | Inner.\n| |\n| | — Someone\n"
+ },
+ {
+  "id": "latex-simple",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "\\begin{quote}\nSimplicity is prerequisite for reliability.\n\n— Edsger W. Dijkstra\n\\end{quote}\n"
+ },
+ {
+  "id": "latex-rich",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "\\begin{quote}\nIt just works.\n\n\\begin{itemize}\n  \\item fast\n  \\item small\n\\end{itemize}\n\n— \\textbf{A happy user}, \\emph{2026}\n\\end{quote}\n"
+ },
+ {
+  "id": "latex-nested",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "\\begin{quote}\nOuter.\n\n\\begin{quote}\nInner.\n\n— Someone\n\\end{quote}\n\\end{quote}\n"
+ },
+ {
+  "id": "mediawiki-simple",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<blockquote>\nSimplicity is prerequisite for reliability.\n\n— Edsger W. Dijkstra\n</blockquote>\n"
+ },
+ {
+  "id": "mediawiki-rich",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<blockquote>\nIt just works.\n\n* fast\n* small\n\n— '''A happy user''', ''2026''\n</blockquote>\n"
+ },
+ {
+  "id": "mediawiki-nested",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<blockquote>\nOuter.\n\n<blockquote>\nInner.\n\n— Someone\n</blockquote>\n</blockquote>\n"
+ },
+ {
+  "id": "bbcode-simple",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[quote]\nSimplicity is prerequisite for reliability.\n\n— Edsger W. Dijkstra\n[/quote]\n"
+ },
+ {
+  "id": "bbcode-rich",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[quote]\nIt just works.\n\n[list]\n[*]fast\n[*]small\n[/list]\n\n— [b]A happy user[/b], [i]2026[/i]\n[/quote]\n"
+ },
+ {
+  "id": "bbcode-nested",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[quote]\nOuter.\n\n[quote]\nInner.\n\n— Someone\n[/quote]\n[/quote]\n"
+ },
+ {
+  "id": "org-simple",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "#+BEGIN_QUOTE\nSimplicity is prerequisite for reliability.\n\n— Edsger W. Dijkstra\n#+END_QUOTE\n"
+ },
+ {
+  "id": "org-rich",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "#+BEGIN_QUOTE\nIt just works.\n\n- fast\n- small\n\n— *A happy user*, /2026/\n#+END_QUOTE\n"
+ },
+ {
+  "id": "org-nested",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "#+BEGIN_QUOTE\nOuter.\n\n#+BEGIN_QUOTE\nInner.\n\n— Someone\n#+END_QUOTE\n#+END_QUOTE\n"
+ },
+ {
+  "id": "slack-simple",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> Simplicity is prerequisite for reliability.\n>\n> — Edsger W. Dijkstra\n"
+ },
+ {
+  "id": "slack-rich",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> It just works.\n>\n> • fast\n> • small\n>\n> — *A happy user*, _2026_\n"
+ },
+ {
+  "id": "slack-nested",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> Outer.\n>\n> > Inner.\n> >\n> > — Someone\n"
+ },
+ {
+  "id": "jira-simple",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "{quote}\nSimplicity is prerequisite for reliability.\n\n— Edsger W. Dijkstra\n{quote}\n"
+ },
+ {
+  "id": "jira-rich",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "{quote}\nIt just works.\n\n* fast\n* small\n\n— *A happy user*, _2026_\n{quote}\n"
+ },
+ {
+  "id": "jira-nested",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "{quote}\nOuter.\n\n{quote}\nInner.\n\n— Someone\n{quote}\n{quote}\n"
+ },
+ {
+  "id": "dokuwiki-simple",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> Simplicity is prerequisite for reliability.\n>\n> — Edsger W. Dijkstra\n"
+ },
+ {
+  "id": "dokuwiki-rich",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> It just works.\n>\n>   * fast\n>   * small\n>\n> — **A happy user**, //2026//\n"
+ },
+ {
+  "id": "dokuwiki-nested",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> Outer.\n>\n> > Inner.\n> >\n> > — Someone\n"
+ },
+ {
+  "id": "creole-simple",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> Simplicity is prerequisite for reliability.\n>\n> — Edsger W. Dijkstra\n"
+ },
+ {
+  "id": "creole-rich",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> It just works.\n>\n> * fast\n> * small\n>\n> — **A happy user**, //2026//\n"
+ },
+ {
+  "id": "creole-nested",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "> Outer.\n>\n> > Inner.\n> >\n> > — Someone\n"
+ },
+ {
+  "id": "tiddlywiki-simple",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Simplicity is prerequisite for reliability."
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "text",
+       "value": "Edsger W. Dijkstra"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<<<\nSimplicity is prerequisite for reliability.\n\n— Edsger W. Dijkstra\n<<<\n"
+ },
+ {
+  "id": "tiddlywiki-rich",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "It just works."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "fast"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "small"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      }
+     ],
+     "cite": [
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "A happy user"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "2026"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<<<\nIt just works.\n\n* fast\n* small\n\n— ''A happy user'', //2026//\n<<<\n"
+ },
+ {
+  "id": "tiddlywiki-nested",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Outer."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Inner."
+          }
+         ]
+        }
+       ],
+       "cite": [
+        {
+         "type": "text",
+         "value": "Someone"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<<<\nOuter.\n\n<<<\nInner.\n\n— Someone\n<<<\n<<<\n"
+ }
+]

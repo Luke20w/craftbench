@@ -1,0 +1,910 @@
+[
+ {
+  "id": "asciidoc-inline",
+  "format": "asciidoc",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Plain "
+      },
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "bold"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "italic "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "both"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "code",
+       "value": "x = 1"
+      },
+      {
+       "type": "text",
+       "value": ", "
+      },
+      {
+       "type": "link",
+       "url": "https://example.com/a b",
+       "children": [
+        {
+         "type": "text",
+         "value": "a link"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " and"
+      },
+      {
+       "type": "line_break"
+      },
+      {
+       "type": "text",
+       "value": "a new line."
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "Plain *bold*, _italic *both*_, `+x = 1+`, https://example.com/a b[a link] and +\na new line.\n"
+ },
+ {
+  "id": "asciidoc-headings",
+  "format": "asciidoc",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 1,
+     "children": [
+      {
+       "type": "text",
+       "value": "Title"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Section "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "two"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "children": [
+      {
+       "type": "text",
+       "value": "Third"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 4,
+     "children": [
+      {
+       "type": "text",
+       "value": "Fourth level"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "== Title\n\n=== Section _two_\n\n==== Third\n\n===== Fourth level\n"
+ },
+ {
+  "id": "asciidoc-code",
+  "format": "asciidoc",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "code_block",
+     "language": "python",
+     "code": "def f(x):\n    return x * 2\n\nprint(f(3))"
+    },
+    {
+     "type": "code_block",
+     "language": "",
+     "code": "plain <text> & `ticks` ```"
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Inline "
+      },
+      {
+       "type": "code",
+       "value": "a`b"
+      },
+      {
+       "type": "text",
+       "value": " code."
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[source,python]\n----\ndef f(x):\n    return x * 2\n\nprint(f(3))\n----\n\n----\nplain <text> & `ticks` ```\n----\n\nInline `+a`b+` code.\n"
+ },
+ {
+  "id": "asciidoc-quote",
+  "format": "asciidoc",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "text",
+         "value": "Quoted "
+        },
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "words"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": "."
+        }
+       ]
+      },
+      {
+       "type": "list",
+       "ordered": false,
+       "items": [
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "one"
+          }
+         ],
+         "sublist": null
+        },
+        {
+         "children": [
+          {
+           "type": "text",
+           "value": "two"
+          }
+         ],
+         "sublist": null
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "children": [
+        {
+         "type": "paragraph",
+         "children": [
+          {
+           "type": "text",
+           "value": "Nested quote."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "____\nQuoted *words*.\n\n* one\n* two\n\n____\nNested quote.\n____\n____\n"
+ },
+ {
+  "id": "asciidoc-lists",
+  "format": "asciidoc",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "Fruit"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "apple"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "strong",
+            "children": [
+             {
+              "type": "text",
+              "value": "pear"
+             }
+            ]
+           }
+          ],
+          "sublist": {
+           "type": "list",
+           "ordered": false,
+           "items": [
+            {
+             "children": [
+              {
+               "type": "text",
+               "value": "green"
+              }
+             ],
+             "sublist": null
+            },
+            {
+             "children": [
+              {
+               "type": "text",
+               "value": "red"
+              }
+             ],
+             "sublist": null
+            }
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "Vegetables"
+        },
+        {
+         "type": "line_break"
+        },
+        {
+         "type": "text",
+         "value": "(seasonal)"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "Bread"
+        }
+       ],
+       "sublist": null
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "first"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "second"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": true,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "inner"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "* Fruit\n.. apple\n.. *pear*\n*** green\n*** red\n* Vegetables +\n(seasonal)\n* Bread\n\n. first\n. second\n.. inner\n"
+ },
+ {
+  "id": "asciidoc-table",
+  "format": "asciidoc",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Name"
+       }
+      ],
+      [
+       {
+        "type": "emphasis",
+        "children": [
+         {
+          "type": "text",
+          "value": "Score"
+         }
+        ]
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "Note"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "alice"
+        }
+       ],
+       [
+        {
+         "type": "text",
+         "value": "10"
+        }
+       ],
+       [
+        {
+         "type": "code",
+         "value": "ok"
+        }
+       ]
+      ],
+      [
+       [
+        {
+         "type": "text",
+         "value": "bob <b>"
+        }
+       ],
+       [
+        {
+         "type": "text",
+         "value": "7"
+        }
+       ],
+       [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "late"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " again"
+        }
+       ]
+      ],
+      [
+       [
+        {
+         "type": "text",
+         "value": "carol"
+        }
+       ],
+       [
+        {
+         "type": "text",
+         "value": "12"
+        }
+       ],
+       []
+      ]
+     ]
+    }
+   ]
+  },
+  "expected": "|===\n| Name | _Score_ | Note\n\n| alice | 10 | `+ok+`\n| bob <b> | 7 | *late* again\n| carol | 12 | \n|===\n"
+ },
+ {
+  "id": "asciidoc-media",
+  "format": "asciidoc",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Above the line."
+      }
+     ]
+    },
+    {
+     "type": "rule"
+    },
+    {
+     "type": "image",
+     "src": "img/cat 1.png",
+     "alt": "A \"cat\" [photo]"
+    },
+    {
+     "type": "image",
+     "src": "x.png",
+     "alt": ""
+    }
+   ]
+  },
+  "expected": "Above the line.\n\n'''\n\nimage::img/cat 1.png[A \"cat\" [photo]]\n\nimage::x.png[]\n"
+ },
+ {
+  "id": "asciidoc-extras",
+  "format": "asciidoc",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "H"
+      },
+      {
+       "type": "subscript",
+       "children": [
+        {
+         "type": "text",
+         "value": "2"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": "O and E = mc"
+      },
+      {
+       "type": "superscript",
+       "children": [
+        {
+         "type": "text",
+         "value": "2"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ". "
+      },
+      {
+       "type": "highlight",
+       "children": [
+        {
+         "type": "text",
+         "value": "Important"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": ": press "
+      },
+      {
+       "type": "kbd",
+       "value": "Ctrl+C"
+      },
+      {
+       "type": "text",
+       "value": " then "
+      },
+      {
+       "type": "kbd",
+       "value": "<Enter>"
+      },
+      {
+       "type": "text",
+       "value": ". Area: "
+      },
+      {
+       "type": "math",
+       "value": "\\pi r^2"
+      },
+      {
+       "type": "text",
+       "value": "."
+      }
+     ]
+    },
+    {
+     "type": "figure",
+     "src": "img/chart.png",
+     "alt": "Sales chart",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Sales by "
+      },
+      {
+       "type": "emphasis",
+       "children": [
+        {
+         "type": "text",
+         "value": "quarter"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "figure",
+     "src": "raw.png",
+     "alt": "",
+     "caption": [
+      {
+       "type": "text",
+       "value": "No alt text"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "H~2~O and E = mc^2^. #Important#: press kbd:[Ctrl+C] then kbd:[<Enter>]. Area: stem:[\\pi r^2].\n\n.Sales by _quarter_\nimage::img/chart.png[Sales chart]\n\n.No alt text\nimage::raw.png[]\n"
+ },
+ {
+  "id": "asciidoc-escaping",
+  "format": "asciidoc",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Specials: a & b < c > \"q\" * _ ` [x] [[y]] # | \\ % $ { } ~ ^ ' / + - = @ !"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "+++Specials: a & b < c > \"q\" * _ ` [x] [[y]] # | \\ % $ { } ~ ^ ' / + - = @ !+++\n"
+ },
+ {
+  "id": "asciidoc-full",
+  "format": "asciidoc",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "heading",
+     "level": 1,
+     "children": [
+      {
+       "type": "text",
+       "value": "Release notes"
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Version "
+      },
+      {
+       "type": "strong",
+       "children": [
+        {
+         "type": "text",
+         "value": "2.0"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": " is out. See "
+      },
+      {
+       "type": "link",
+       "url": "https://example.com/notes",
+       "children": [
+        {
+         "type": "text",
+         "value": "the notes"
+        }
+       ]
+      },
+      {
+       "type": "text",
+       "value": "."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "children": [
+      {
+       "type": "text",
+       "value": "Changes"
+      }
+     ]
+    },
+    {
+     "type": "list",
+     "ordered": true,
+     "items": [
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "Faster "
+        },
+        {
+         "type": "code",
+         "value": "render()"
+        }
+       ],
+       "sublist": null
+      },
+      {
+       "children": [
+        {
+         "type": "text",
+         "value": "New formats"
+        }
+       ],
+       "sublist": {
+        "type": "list",
+        "ordered": false,
+        "items": [
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "org"
+           }
+          ],
+          "sublist": null
+         },
+         {
+          "children": [
+           {
+            "type": "text",
+            "value": "jira"
+           }
+          ],
+          "sublist": null
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "type": "table",
+     "header": [
+      [
+       {
+        "type": "text",
+        "value": "Name"
+       }
+      ],
+      [
+       {
+        "type": "emphasis",
+        "children": [
+         {
+          "type": "text",
+          "value": "Score"
+         }
+        ]
+       }
+      ],
+      [
+       {
+        "type": "text",
+        "value": "Note"
+       }
+      ]
+     ],
+     "rows": [
+      [
+       [
+        {
+         "type": "text",
+         "value": "alice"
+        }
+       ],
+       [
+        {
+         "type": "text",
+         "value": "10"
+        }
+       ],
+       [
+        {
+         "type": "code",
+         "value": "ok"
+        }
+       ]
+      ],
+      [
+       [
+        {
+         "type": "text",
+         "value": "bob <b>"
+        }
+       ],
+       [
+        {
+         "type": "text",
+         "value": "7"
+        }
+       ],
+       [
+        {
+         "type": "strong",
+         "children": [
+          {
+           "type": "text",
+           "value": "late"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "value": " again"
+        }
+       ]
+      ],
+      [
+       [
+        {
+         "type": "text",
+         "value": "carol"
+        }
+       ],
+       [
+        {
+         "type": "text",
+         "value": "12"
+        }
+       ],
+       []
+      ]
+     ]
+    },
+    {
+     "type": "quote",
+     "children": [
+      {
+       "type": "paragraph",
+       "children": [
+        {
+         "type": "emphasis",
+         "children": [
+          {
+           "type": "text",
+           "value": "Thanks to everyone who helped."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "code_block",
+     "language": "sh",
+     "code": "pip install docrender==2.0"
+    },
+    {
+     "type": "rule"
+    },
+    {
+     "type": "paragraph",
+     "children": [
+      {
+       "type": "text",
+       "value": "Done."
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "== Release notes\n\nVersion *2.0* is out. See https://example.com/notes[the notes].\n\n=== Changes\n\n. Faster `+render()+`\n. New formats\n** org\n** jira\n\n|===\n| Name | _Score_ | Note\n\n| alice | 10 | `+ok+`\n| bob <b> | 7 | *late* again\n| carol | 12 | \n|===\n\n____\n_Thanks to everyone who helped._\n____\n\n[source,sh]\n----\npip install docrender==2.0\n----\n\n'''\n\nDone.\n"
+ }
+]

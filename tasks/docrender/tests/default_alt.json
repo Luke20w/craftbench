@@ -1,0 +1,686 @@
+[
+ {
+  "id": "html-image",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "<img src=\"img/cat 1.png\" alt=\"cat 1.png\">\n<img src=\"photo.jpg\" alt=\"photo.jpg\">\n"
+ },
+ {
+  "id": "html-figure",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<figure>\n<img src=\"charts/q3.png\" alt=\"q3.png\">\n<figcaption>Third quarter</figcaption>\n</figure>\n"
+ },
+ {
+  "id": "html-mixed",
+  "format": "html",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "<img src=\"a/b/keep.png\" alt=\"Kept alt\">\n<img src=\"plain.gif\" alt=\"plain.gif\">\n"
+ },
+ {
+  "id": "markdown-image",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "![cat 1.png](img/cat%201.png)\n\n![photo.jpg](photo.jpg)\n"
+ },
+ {
+  "id": "markdown-figure",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "![q3.png](charts/q3.png)\n\n*Third quarter*\n"
+ },
+ {
+  "id": "markdown-mixed",
+  "format": "markdown",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "![Kept alt](a/b/keep.png)\n\n![plain.gif](plain.gif)\n"
+ },
+ {
+  "id": "plain-image",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "[image: cat 1.png]\n\n[image: photo.jpg]\n"
+ },
+ {
+  "id": "plain-figure",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[image: q3.png]\nThird quarter\n"
+ },
+ {
+  "id": "plain-mixed",
+  "format": "plain",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "[image: Kept alt]\n\n[image: plain.gif]\n"
+ },
+ {
+  "id": "latex-image",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "\\includegraphics{img/cat 1.png}\n\n\\includegraphics{photo.jpg}\n"
+ },
+ {
+  "id": "latex-figure",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "\\begin{figure}\n\\includegraphics{charts/q3.png}\n\\caption{Third quarter}\n\\end{figure}\n"
+ },
+ {
+  "id": "latex-mixed",
+  "format": "latex",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "\\includegraphics{a/b/keep.png}\n\n\\includegraphics{plain.gif}\n"
+ },
+ {
+  "id": "mediawiki-image",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "[[File:img/cat 1.png|cat 1.png]]\n\n[[File:photo.jpg|photo.jpg]]\n"
+ },
+ {
+  "id": "mediawiki-figure",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[[File:charts/q3.png|thumb|Third quarter]]\n"
+ },
+ {
+  "id": "mediawiki-mixed",
+  "format": "mediawiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "[[File:a/b/keep.png|Kept alt]]\n\n[[File:plain.gif|plain.gif]]\n"
+ },
+ {
+  "id": "bbcode-image",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "[img alt=\"cat 1.png\"]img/cat 1.png[/img]\n\n[img alt=\"photo.jpg\"]photo.jpg[/img]\n"
+ },
+ {
+  "id": "bbcode-figure",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[img alt=\"q3.png\"]charts/q3.png[/img]\n[i]Third quarter[/i]\n"
+ },
+ {
+  "id": "bbcode-mixed",
+  "format": "bbcode",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "[img alt=\"Kept alt\"]a/b/keep.png[/img]\n\n[img alt=\"plain.gif\"]plain.gif[/img]\n"
+ },
+ {
+  "id": "org-image",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "#+CAPTION: cat 1.png\n[[img/cat 1.png]]\n\n#+CAPTION: photo.jpg\n[[photo.jpg]]\n"
+ },
+ {
+  "id": "org-figure",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "#+CAPTION: Third quarter\n[[charts/q3.png]]\n"
+ },
+ {
+  "id": "org-mixed",
+  "format": "org",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "#+CAPTION: Kept alt\n[[a/b/keep.png]]\n\n#+CAPTION: plain.gif\n[[plain.gif]]\n"
+ },
+ {
+  "id": "slack-image",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "<img/cat 1.png|cat 1.png>\n\n<photo.jpg|photo.jpg>\n"
+ },
+ {
+  "id": "slack-figure",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "<charts/q3.png|q3.png>\n_Third quarter_\n"
+ },
+ {
+  "id": "slack-mixed",
+  "format": "slack",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "<a/b/keep.png|Kept alt>\n\n<plain.gif|plain.gif>\n"
+ },
+ {
+  "id": "jira-image",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "!img/cat 1.png|alt=cat 1.png!\n\n!photo.jpg|alt=photo.jpg!\n"
+ },
+ {
+  "id": "jira-figure",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "!charts/q3.png|alt=q3.png!\n_Third quarter_\n"
+ },
+ {
+  "id": "jira-mixed",
+  "format": "jira",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "!a/b/keep.png|alt=Kept alt!\n\n!plain.gif|alt=plain.gif!\n"
+ },
+ {
+  "id": "dokuwiki-image",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "{{img/cat 1.png|cat 1.png}}\n\n{{photo.jpg|photo.jpg}}\n"
+ },
+ {
+  "id": "dokuwiki-figure",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "{{charts/q3.png|Third quarter}}\n"
+ },
+ {
+  "id": "dokuwiki-mixed",
+  "format": "dokuwiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "{{a/b/keep.png|Kept alt}}\n\n{{plain.gif|plain.gif}}\n"
+ },
+ {
+  "id": "creole-image",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "{{img/cat 1.png|cat 1.png}}\n\n{{photo.jpg|photo.jpg}}\n"
+ },
+ {
+  "id": "creole-figure",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "{{charts/q3.png|q3.png}}\n//Third quarter//\n"
+ },
+ {
+  "id": "creole-mixed",
+  "format": "creole",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "{{a/b/keep.png|Kept alt}}\n\n{{plain.gif|plain.gif}}\n"
+ },
+ {
+  "id": "tiddlywiki-image",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "img/cat 1.png"
+    },
+    {
+     "type": "image",
+     "src": "photo.jpg"
+    }
+   ]
+  },
+  "expected": "[img[cat 1.png|img/cat 1.png]]\n\n[img[photo.jpg|photo.jpg]]\n"
+ },
+ {
+  "id": "tiddlywiki-figure",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "figure",
+     "src": "charts/q3.png",
+     "caption": [
+      {
+       "type": "text",
+       "value": "Third quarter"
+      }
+     ]
+    }
+   ]
+  },
+  "expected": "[img[q3.png|charts/q3.png]]\n//Third quarter//\n"
+ },
+ {
+  "id": "tiddlywiki-mixed",
+  "format": "tiddlywiki",
+  "document": {
+   "type": "document",
+   "children": [
+    {
+     "type": "image",
+     "src": "a/b/keep.png",
+     "alt": "Kept alt"
+    },
+    {
+     "type": "image",
+     "src": "plain.gif"
+    }
+   ]
+  },
+  "expected": "[img[Kept alt|a/b/keep.png]]\n\n[img[plain.gif|plain.gif]]\n"
+ }
+]
